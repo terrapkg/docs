@@ -1,0 +1,21 @@
+{
+  "name": "Terra Docs",
+  "image": "ghcr.io/terrapkg/builder:frawhide",
+  "onCreateCommand": "sudo dnf install -y bun nodejs",
+  "postCreateCommand": "bun ci",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "4321": {
+      "label": "Astro Dev Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "astro-build.astro-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+}
