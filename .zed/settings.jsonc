@@ -1,0 +1,7 @@
+// TS support is built into Zed
+{
+  "auto_install_extensions": {
+    "MDX": true,
+    "Astro": true,
+  },
+}
