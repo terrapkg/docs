@@ -8,7 +8,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-types": "wrangler types"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://docs.terrapkg.com",
   "dependencies": {
+    "@astrojs/cloudflare": "^13.2.1",
     "@astrojs/mdx": "^5.0.3",
     "@astrojs/react": "^5.0.4",
     "@astrojs/starlight": "^0.38.3",
@@ -36,6 +38,10 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "sharp": "^0.34.2",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "wrangler": "^4.85.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
