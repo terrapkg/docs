@@ -1,4 +1,5 @@
+// TS support is built into Visual Studio Code
 {
   "recommendations": ["astro-build.astro-vscode"],
-  "unwantedRecommendations": []
+  "unwantedRecommendations": [],
 }
