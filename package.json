@@ -22,7 +22,7 @@
   "homepage": "https://docs.terrapkg.com",
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",
-    "@astrojs/react": "^5.0.3",
+    "@astrojs/react": "^5.0.4",
     "@astrojs/starlight": "^0.38.3",
     "@mermaid-js/layout-elk": "^0.2.1",
     "@tailwindcss/vite": "^4.2.4",
