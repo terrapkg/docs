@@ -42,13 +42,13 @@ Condensed version of guidelines.
 </Aside>
 
 No period at end of `Summary:{:rpmspec}`, but add period at end of `%description{:rpmspec}`.
-[`%changelog`](./guidelines#fixing-packages) only for large changes.
+[`%changelog`](#fixing-packages) only for large changes.
 Prefer patching e.g. `-p1` at `%autosetup` over using `%autopatch`.
 Prefer `%elifarch` over `%endif` + `%ifarch`.
 
 Use [`%pkg_completion`](./srpm#pkg_completion) for shell completions.
 Use [`%pkg_devel_files`](./srpm#pkg_devel_files), [`%pkg_libs_files`](./srpm#pkg_libs_files), [`%pkg_static_files`](./srpm#pkg_static_files).
-See [Development and Shared Libraries](./guidelines#development-and-shared-libraries) section.
+See [Development and Shared Libraries](#development-and-shared-libraries) section.
 
 Install `.desktop` file to `%_appsdir` for graphical apps. [Guide here](./guidelines#providing-your-own-desktop-file).
 Prefer upstream provided ones over manually generating one.
@@ -62,7 +62,7 @@ For [Rust](#rust), use `rust2rpm`, suffix `_online` to `%cargo_prep`, `%cargo_li
 remove `%generate_buildrequires{:rpmspec}` section.
 If no flags to `%cargo_build`, remove it,
 else add flags to it and replace `%cargo_install` with `%crate_install_bin`.
-Also `%rustup_nightly` exists btw, [see our macros](../terra/srpm#rust).
+Also `%rustup_nightly` exists btw, [see our macros](./srpm#rust).
 
 For [Go](#go), use `go2rpm`, rename package name to sensible one,
 remove `%generate_buildrequires{:rpmspec}` section, 

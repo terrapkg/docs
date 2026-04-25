@@ -39,7 +39,7 @@ export default defineConfig({
         },
         {
           label: "General",
-          autogenerate: { directory: "misc" },
+          autogenerate: { directory: "general" },
         },
         {
           label: "Using Terra",
