@@ -46,14 +46,14 @@ No period at end of `Summary:{:rpmspec}`, but add period at end of `%description
 Prefer patching e.g. `-p1` at `%autosetup` over using `%autopatch`.
 Prefer `%elifarch` over `%endif` + `%ifarch`.
 
-Use [`%pkg_completion`](./srpm#pkg_completion) for shell completions.
-Use [`%pkg_devel_files`](./srpm#pkg_devel_files), [`%pkg_libs_files`](./srpm#pkg_libs_files), [`%pkg_static_files`](./srpm#pkg_static_files).
+Use [`%pkg_completion`](../srpm#pkg_completion) for shell completions.
+Use [`%pkg_devel_files`](../srpm#pkg_devel_files), [`%pkg_libs_files`](../srpm#pkg_libs_files), [`%pkg_static_files`](../srpm#pkg_static_files).
 See [Development and Shared Libraries](#development-and-shared-libraries) section.
 
 Install `.desktop` file to `%_appsdir` for graphical apps. [Guide here](./guidelines#providing-your-own-desktop-file).
 Prefer upstream provided ones over manually generating one.
-Use [`%desktop_file_install`](./srpm#desktop_file_install) / [`%desktop_file_validate`](./srpm/#desktop_file_validate).
-See [our macros](./srpm#desktop-file-macros).
+Use [`%desktop_file_install`](../srpm#desktop_file_install) / [`%desktop_file_validate`](../srpm/#desktop_file_validate).
+See [our macros](../srpm#desktop-file-macros).
 
 Follow Fedora guidelines for interpreted (ex. Python/Ruby) & dynamically (ex. C/++) compiled langs.
 Statically compiled lang guidelines follow.
@@ -62,13 +62,13 @@ For [Rust](#rust), use `rust2rpm`, suffix `_online` to `%cargo_prep`, `%cargo_li
 remove `%generate_buildrequires{:rpmspec}` section.
 If no flags to `%cargo_build`, remove it,
 else add flags to it and replace `%cargo_install` with `%crate_install_bin`.
-Also `%rustup_nightly` exists btw, [see our macros](./srpm#rust).
+Also `%rustup_nightly` exists btw, [see our macros](../srpm#rust).
 
 For [Go](#go), use `go2rpm`, rename package name to sensible one,
 remove `%generate_buildrequires{:rpmspec}` section, 
-EITHER add `%global gomodulesmode GO111MODULE=on{:rpmspec}` OR replace `%goprep` with [`%goprep_online`](./srpm#goprep_online).
+EITHER add `%global gomodulesmode GO111MODULE=on{:rpmspec}` OR replace `%goprep` with [`%goprep_online`](../srpm#goprep_online).
 
-For [Nim](#nim), use one of below. Also `%nim_c` = `%nim_build`, [see our macros](./srpm#nim).
+For [Nim](#nim), use one of below. Also `%nim_c` = `%nim_build`, [see our macros](../srpm#nim).
 
 <Split.Root>
   <div>
@@ -172,7 +172,7 @@ In rare cases, you may need to use `%cargo_build{:rpmspec}` and `%crate_install_
 
 If Rust nightly is required, add the `%rustup_nightly{:rpmspec}` macro to `%prep{:rpmspec}`.
 
-Check the [Rust section on the SRPM page](./srpm#rust) for more information on these macros.
+Check the [Rust section on the SRPM page](../srpm#rust) for more information on these macros.
 
 #### Go
 These are guidelines for packaging projects written in [Go](https://go.dev).
@@ -194,7 +194,7 @@ For the official Nim language documentation, [see here](https://nim-lang.org/doc
 - You SHOULD add (at least!) the following build dependencies to your spec file:
   - `BuildRequires: anda-srpm-macros{:rpmspec}`
   - `BuildRequires: nim{:rpmspec}`
-- You SHOULD use our [Nim macros](./srpm#nim).
+- You SHOULD use our [Nim macros](../srpm#nim).
 
 In most cases, use `nimble` to download dependencies in `%prep{:rpmspec}`,
 then `%build{:rpmspec}` with `nim`, e.g.[^1]:
@@ -236,7 +236,7 @@ For the official Zig language documentation, [see here](https://ziglang.org/lear
 - For these reasons, you SHOULD refer to upstream guidance when packaging Zig projects.
 - If any of the scenarios above apply, you MAY use `%zig_build_target` with appropriate flags instead of `%zig_build`. You however SHOULD use `%zig_build` instead if none of the above apply.
   - If using `%zig_build_target`, you SHOULD add `BuildRequires: anda-srpm-macros{:rpmspec}` to your spec.
-  - For more information on `%zig_build_target`, please see its documentation on our [macros page](./srpm#zig_build_target).
+  - For more information on `%zig_build_target`, please see its documentation on our [macros page](../srpm#zig_build_target).
 
 Regardless of build macro in use, they should be used in either the `%build{:rpmspec}` or `%install{:rpmspec}` section depending on how the project is built (as some can be built directly into root by setting the `DESTDIR=%{buildroot}{:rpmspec}` variable).
 
@@ -263,11 +263,11 @@ For projects where dynamic linking of all dependencies is simply not possible (s
 ### Shell Completions
 
 - SHOULD be a subpackage.
-- SHOULD use the [`%pkg_completion` macro](./srpm#pkg_completion).
+- SHOULD use the [`%pkg_completion` macro](../srpm#pkg_completion).
 
 ### Development and Shared Libraries
 
-You SHOULD try to use the [`%pkg_devel_files`, `%pkg_libs_files` and `%pkg_static_files` macros](./srpm#subpackages).
+You SHOULD try to use the [`%pkg_devel_files`, `%pkg_libs_files` and `%pkg_static_files` macros](../srpm#subpackages).
 
 Shared library packages SHOULD be suffixed with `-libs{:rpmspec}`.
 These packages SHOULD NOT contain anything **except**:
@@ -325,9 +325,9 @@ These are guidelines for building [web applications](https://en.wikipedia.org/wi
 These apps embed parts of browser functionality in order to display web content. One of the most recognizable examples is [Discord](https://discord.com).
 
 The general guidelines for building webapps are:
-- Use our [JavaScript package manager macros](./srpm#javascript-package-managers) and/or [webapp build macros](./srpm#webapp-build-macros).
-- Use appropriate [Electron macros](./srpm#electron) for Electron apps.
-- Use appropriate [Tauri macros](./srpm#tauri) for Tauri apps.
+- Use our [JavaScript package manager macros](../srpm#javascript-package-managers) and/or [webapp build macros](../srpm#webapp-build-macros).
+- Use appropriate [Electron macros](../srpm#electron) for Electron apps.
+- Use appropriate [Tauri macros](../srpm#tauri) for Tauri apps.
 - Add the correct JavaScript package manager to your build dependencies.
   - Examples:
   - ```rpmspec
@@ -351,13 +351,13 @@ These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
     - MUST always come after `Name:{:rpmspec}` is defined and before the first `%description{:rpmspec}`.
     - SHOULD come before the `License:{:rpmspec}` field if using [`%{electron_license}`](#electron_license).
     - MAY be used under preambles but before `%description{:rpmspec}` if not using `%{electron_license}{:rpmspec}`.
-    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](./srpm#electronmeta).
+    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](../srpm#electronmeta).
 - You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_excludes}` and `%{__provides_excludes}` using a `%global{:rpmspec}` similar to the below examples.
   - `%global __requires_excludes %{__requires_excludes}|private_library\\.so{:rpmspec}`
   - `%global __provides_excludes %{__provides_excludes}|private_library\\.so{:rpmspec}`
 - You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
   - You can double check what the macro expands to with the command `rpm --eval '%{electron_license}'{:sh}` if you have `anda-srpm-macros` installed.
-- You SHOULD use our [`%electron_install` macro](./srpm#electron_install) for installing Electron apps.
+- You SHOULD use our [`%electron_install` macro](../srpm#electron_install) for installing Electron apps.
 
 #### Tauri
 These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
@@ -377,10 +377,10 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
     BuildRequires generation only works in Mock.
   </Aside>
 - You SHOULD use `%tauri_prep{:rpmspec}` in the `%prep{:rpmspec}` section.
-- You SHOULD use either a [webapp build macro](./srpm#webapp-build-macros) or the [`%tauri_build` macro](./srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
+- You SHOULD use either a [webapp build macro](../srpm#webapp-build-macros) or the [`%tauri_build` macro](../srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
 - You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
 - You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
-- You MAY use the [configurable macros for Tauri builds](./srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
+- You MAY use the [configurable macros for Tauri builds](../srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
 
 ### Miscellaneous
 
@@ -454,7 +454,7 @@ To install the `.desktop` file:
 3. Install it
 4. List it in the `%files{:rpmspec}` section
 
-It is RECOMMENDED to use the [`%_appsdir` macro](./srpm#_appsdir) instead of `%_datadir/applications/`, and to use the [`%desktop_file_install` macro](./srpm#desktop_file_install).
+It is RECOMMENDED to use the [`%_appsdir` macro](../srpm#_appsdir) instead of `%_datadir/applications/`, and to use the [`%desktop_file_install` macro](../srpm#desktop_file_install).
 With [NeoHtop package] as the example:
 
 ```rpmspec
