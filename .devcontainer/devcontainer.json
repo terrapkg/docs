@@ -14,7 +14,8 @@
     "vscode": {
       "extensions": [
         "astro-build.astro-vscode",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "hideoo.starlight-links"
       ]
     }
   }
