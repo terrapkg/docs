@@ -34,28 +34,22 @@ export default defineConfig({
           items: [
             { label: "Introduction", slug: "index" }
           ],
-          label: "General",
-          items: [
-            { label: "Infrastructure", slug: "misc/infrastructure" }
-          ],
-          label: "Using Terra",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Install Terra", slug: "usage/installing" },
-            { label: "Lifecycle", slug: "usage/lifecycle" }
-          ],
-          label: "Contributing",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Contributing", slug: "contributing/contributing" },
-            { label: "Policies", slug: "contributing/policies" },
-            { label: "Guidelines", slug: "contributing/guidelines" },
-            { label: "AppStream Guidelines", slug: "contributing/appstream" }
-          ],
         },
         {
           label: "Reference",
           autogenerate: { directory: "reference" },
+        },
+        {
+          label: "General",
+          autogenerate: { directory: "misc" },
+        },
+        {
+          label: "Using Terra",
+          autogenerate: { directory: "usage" },
+        },
+        {
+          label: "Contributing",
+          autogenerate: { directory: "contributing" },
         },
       ],
     }),
