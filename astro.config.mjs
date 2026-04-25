@@ -33,7 +33,7 @@ export default defineConfig({
           label: "Navigation",
           items: [
             // Each item here is one entry in the navigation menu.
-            { label: "Page Index", slug: "terra" },
+            { label: "Index", slug: "index" },
           ],
         },
         {
