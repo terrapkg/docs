@@ -15,8 +15,9 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  trailingSlash: "never",
   site: "https://docs.terrapkg.com",
+
+  trailingSlash: "never",
 
   integrations: [
     mermaid(),
@@ -27,6 +28,11 @@ export default defineConfig({
           icon: "github",
           label: "GitHub",
           href: "https://github.com/terrapkg",
+        },
+        {
+          icon: "discord",
+          label: "Fyra Labs Discord",
+          href: "https://fyralabs.com/discord",
         },
       ],
       sidebar: [
@@ -66,6 +72,10 @@ export default defineConfig({
           ],
         },
       ],
+      lastUpdated: true,
+      editLink: {
+        baseUrl: "https://github.com/terrapkg/docs",
+      },
     }),
     sitemap(),
     expressiveCode({
