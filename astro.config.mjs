@@ -30,10 +30,11 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "Index",
+          label: "Navigation",
           items: [
             // Each item here is one entry in the navigation menu.
-            { label: "Page Index", slug: "terra" },
+            { label: "Page Index", slug: "terra/index" },
+            { label: "Guidelines", slug: "terra/guidelines" },
           ],
         },
         {
