@@ -34,6 +34,8 @@ export default defineConfig({
           items: [
             // Each item here is one entry in the navigation menu.
             { label: "Index", slug: "index" },
+            { label: "FAQ", slug: "faq" },
+            { label: "Installing", slug: "installing" }
           ],
         },
         {
