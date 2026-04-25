@@ -46,17 +46,17 @@ export default defineConfig({
     expressiveCode(),
     icon(),
     react(),
-    mdx(),
+    mdx({
+      syntaxHighlight: 'shiki',
+      shikiConfig: {
+        langs: [
+          { ...RPMSpec, aliases: ["rpmspec"] },
+          { ...rhai, aliases: ["rhai"] },
+        ],
+      },
+    }),
   ],
 
-  markdown: {
-    shikiConfig: {
-      langs: [
-        { ...RPMSpec, aliases: ["rpmspec"] },
-        { ...rhai, aliases: ["rhai"] },
-      ],
-    },
-  },
 
   vite: {
     plugins: [tailwindcss()],
