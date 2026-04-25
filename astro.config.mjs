@@ -49,7 +49,22 @@ export default defineConfig({
         },
         {
           label: "Contributing",
-          autogenerate: { directory: "contributing" },
+          items: [
+            { label: "Getting Started", slug: "contributing/contributing" },
+            { label: "Policies", slug: "contributing/policies" },
+            {
+              label: "Guidelines",
+              items: [
+                "contributing/guidelines",
+                {
+                  label: "AppStream Guidelines",
+                  items: [
+                    "contributing/appstream"
+                    ],
+                },
+                ],
+            },
+          ],
         },
       ],
     }),
