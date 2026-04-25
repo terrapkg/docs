@@ -21,7 +21,7 @@ Only [submit](#submission-policy) packages legally distributable, proprietary or
 Get sources into most suitable folder in repo, 1 `anda.hcl` & spec file per folder.
 Otherwise PR whatever the heck you want.
 
-Follow upstream [version](#versioning) if stable; prefer `%{unreleased_version}~%{commit_date}git.%{shortcommit}` over `%{latest_stable_version}^%{commit_date}git.%{shortcommit}` otherwise.
+Follow upstream [version](#versioning) if stable; prefer `%{unreleased_version}~%{commit_date}git%{shortcommit}` over `%{latest_stable_version}^%{commit_date}git%{shortcommit}` otherwise.
 
 Only 1 number is allowed in `Release: 1%{?dist}{:rpmspec}` / `1%{?dist}`.
 `Packager: Your name <mail@example.com>{:rpmspec}` is REQUIRED.
@@ -49,15 +49,15 @@ End.
   - The following directories have a higher priority. Categorize your new package in the following order:
     1. `fonts/`
     2. `system/` (bootloaders, kernels, drivers, ...)
-    3. `tools/buildsys/` (software used to build other software)
+    3. `buildsys/` (software used to build other software)
     4. `devs/` (tools for software development)
     5. `games/`
     6. `themes/`
     7. `docker/` (software related to containers)
     8. `desktops/` (applications specific to a Desktop Environment)
-    9. `apps/` (GUI applications)
-    10. `langs/` (software written in/for a specific programming language)
-    11. `stardust/` (packages for the [Stardust XR[(https://stardustxr.org/) stack)
+    9. `desktops/stardust/` (packages for the [Stardust XR[(https://stardustxr.org/) stack)
+    10. `apps/` (GUI applications)
+    11. `langs/` (software written in/for a specific programming language)
 - When there are ambiguous or unspecified parts in our policies/guidelines, you SHOULD refer to [Fedora's packaging guidelines].
 - Low-quality contributions will be declined at the team's discretion.
 - Do not include work-in-progress code or untested patches. See [https://dont-ship.it/](https://web.archive.org/web/20250320104139/https://dont-ship.it/).
@@ -74,7 +74,6 @@ This section describes the guidelines for the preamble items, notably naming and
 
 ## Versioning
 
-{/* https://github.com/terrapkg/packages/issues/1907 */}
 <div style={{ float: "right", margin: "1em" }}>
   | VCS | ID | |------------------|-------| | Git | `git` | | SVN | `svn` | |
   CVS | `cvs` | | Bazaar | `bzr` | | Mercurial | `hg` | | Perforce (Helix) |
@@ -88,9 +87,9 @@ Packages SHOULD follow one of the version formats below:
 ## (Release tag tracking (stable))
 Version:  %{latest_stable_version}
 ## (Commit tacking (nightly off version tag))
-Version:  %{latest_stable_version}^%{commit_date}git.%{shortcommit}
+Version:  %{latest_stable_version}^%{commit_date}git%{shortcommit}
 ## (Commit tacking (no stable version tag))
-Version:  %{unreleased_version}~%{commit_date}git.%{shortcommit}
+Version:  %{unreleased_version}~%{commit_date}git%{shortcommit}
 ```
 
 `git` SHOULD be replaced with the correct _VCS identifier_ for **(b)** and **(c)** as listed on the right.
@@ -165,5 +164,5 @@ Our support lifecycle is documented in the [lifecycle page].
 [Fedora's packaging guidelines]: https://docs.fedoraproject.org/en-US/packaging-guidelines
 [SECURITY.md file]: https://github.com/terrapkg/packages/blob/frawhide/SECURITY.md
 [CODE_OF_CONDUCT.md file]: https://github.com/terrapkg/packages/blob/frawhide/CODE_OF_CONDUCT.md
-[lifecycle page]: [](../usage/lifecycle)
+[lifecycle page]: ../usage/lifecycle
 [andaman]: https://github.com/FyraLabs/anda
