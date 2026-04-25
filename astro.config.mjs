@@ -66,7 +66,9 @@ export default defineConfig({
       ],
     }),
     sitemap(),
-    expressiveCode(),
+    expressiveCode({
+      themes: ['github-dark'],
+    }),
     icon(),
     react(),
     mdx({
