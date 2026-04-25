@@ -15,7 +15,7 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  trailingSlash: "always",
+  trailingSlash: "never",
   site: "https://docs.terrapkg.com",
 
   integrations: [
