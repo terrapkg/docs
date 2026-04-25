@@ -61,6 +61,8 @@ export default defineConfig({
                 },
               ],
             },
+            { label: "Autoupdating Packages", slug: "contributing/autoupdate" },
+            { label: "Custom RPM Macros", slug: "contributing/srpm" }
           ],
         },
       ],
