@@ -84,4 +84,6 @@ export default defineConfig({
   },
 
   adapter: cloudflare(),
+
+  trailingSlash: "never",
 });
