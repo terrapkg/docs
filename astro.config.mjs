@@ -67,7 +67,6 @@ export default defineConfig({
     }),
     sitemap(),
     expressiveCode(),
-    icon(),
     react(),
     mdx({
       syntaxHighlight: "shiki",
