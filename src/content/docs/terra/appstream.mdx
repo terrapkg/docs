@@ -1,10 +1,10 @@
 ---
 title: AppStream
 description: "How to use AppStream MetaInfo in Terra packages."
+import { Code } from 'astro:components';
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import { Code } from 'astro:components';
 
 # Overview
 
@@ -45,7 +45,7 @@ See [here](#installing-your-metainfo-file) to learn how to define the app ID in 
 
 If you do not know what the app ID of the package is, determine it using [reverse domain name notation](https://en.wikipedia.org/wiki/Reverse_domain_name_notation).
 
-- If your package is only hosted on GitHub (no website, not a GitHub mirror), then the app ID MUST be <Code code={com.github.[1;3mAPP-NAME} lang="ansi" />.
+- If your package is only hosted on GitHub (no website, not a GitHub mirror), then the app ID MUST be <Code code={`com.github.[1;3mAPP-NAME`} lang="ansi" />.
 - If your package has its own website, or the organization that creates it does, you MUST use its website in the app ID. Using Microsoft Edit as an example, the app ID will be `com.microsoft.Edit`.
 
 ### metainfo.xml Template
@@ -91,7 +91,7 @@ Again, we highly recommend you read through the entire spec [here](https://www.f
 
 #### Keywords
 
-The <Code code={<keywords/>} lang="xml" /> tag[^2] will make your package easier find when users search these terms:
+The <Code code={`<keywords/>`} lang="xml" /> tag[^2] will make your package easier find when users search these terms:
 
 ```xml
 <keywords>
@@ -108,7 +108,7 @@ The <Code code={<keywords/>} lang="xml" /> tag[^2] will make your package easier
 This tag[^3] is to specify the developer/s of your package. This can be a person or group/organization.
 
 <Aside type="caution">
-  You MUST NOT use the <Code code={<developer_name/>} lang="xml" /> tag.
+  You MUST NOT use the <Code code={`<developer_name/>`} lang="xml" /> tag.
 </Aside>
 
 #### Screenshots
@@ -150,12 +150,12 @@ Freedesktop's example:
 
 #### %terra_appstream
 
-<Code code={%terra_appstream} lang="rpmspec" /> will add more sections to your `metainfo.xml`, or can generate your metainfo.xml file entirely.
+<Code code={`%terra_appstream`} lang="rpmspec" /> will add more sections to your `metainfo.xml`, or can generate your metainfo.xml file entirely.
 You SHOULD use it when installing your own metainfo.xml file.
 Review the [Terra AppStream helper README](https://github.com/terrapkg/appstream-helper/blob/main/README.md) for more.
-You MAY need to add this line to your spec file: <Code code={BuildRequires: terra-appstream-helper} lang="rpmspec" />
+You MAY need to add this line to your spec file: <Code code={`BuildRequires: terra-appstream-helper`} lang="rpmspec" />
 
-<Code code={%appid} lang="rpmspec" /> SHOULD be defined at the top of your spec file (preamble), and used in references to the metainfo file name, for example:
+<Code code={`%appid`} lang="rpmspec" /> SHOULD be defined at the top of your spec file (preamble), and used in references to the metainfo file name, for example:
 
 ```rpmspec
 %{_metainfodir}/%appid.metainfo.xml
