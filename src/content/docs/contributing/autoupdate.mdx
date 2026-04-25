@@ -4,6 +4,8 @@ description: "How automatic updates can be set up for your package."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import { Code } from 'astro:components';
+import RPMSpec from '../../../../components/spec.json';
 
 # Overview
 
@@ -26,7 +28,7 @@ rpm.version(ver); // updates the version in the spec file using `ver`
 
 <Aside type="caution">You MUST have semicolons (`;`)</Aside>
 
-Updates are triggered every 10 minutes using `[1;32manda[97m update{:ansi}`.
+Updates are triggered every 10 minutes using <Code code={`[1;32manda[97m update`} lang="ansi" inline />.
 
 <Aside icon="open-book">
   Actually, the [full
@@ -39,7 +41,7 @@ Updates are triggered every 10 minutes using `[1;32manda[97m update{:ansi}`.
 #### Nightly packages
 
 Nightly packages are updated every 24 hours using
-`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m nightly=1{:ansi}`.
+<Code code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m nightly=1`} lang="ansi" inline />.
 Their `anda.hcl` files should look something like this:
 
 ```hcl
@@ -56,7 +58,7 @@ project pkg {
 #### Per-branch auto-update scripts
 
 Terra supports updating a package for specific branches instead of updating a package for all branches.
-This is achieved using `[0;3;37m--filters[0;97;m updbranch=1 [0;3;37m--labels[0;97;m branch=f41{:ansi}` (`f41` is replaced by the branch name).
+This is achieved using <Code code={`[0;3;37m--filters[0;97;m updbranch=1 [0;3;37m--labels[0;97;m branch=f41`} lang="ansi" inline /> (`f41` is replaced by the branch name).
 The update command is run every 30 minutes.
 
 The `anda.hcl` file should look like this:
@@ -84,7 +86,7 @@ You can obtain the branch name during runtime in Rhai using `labels.branch` (str
 #### Weekly packages
 
 Weekly packages are updated every 7 days using
-`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m weekly=[1;35m$([1;32mdate [1;36m"+%w"[1;35m){:ansi}`.
+<Code code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m weekly=[1;35m$([1;32mdate [1;36m"+%w"[1;35m)`} lang="ansi" inline />.
 Their `anda.hcl` files should look something like this:
 
 ```hcl
@@ -103,11 +105,11 @@ The random number decides which day in the week will the auto-update script run.
 
 #### Functions and Modules
 
-In most cases, `rpm.version(gh("..."));{:ts}` as a one-liner is enough to make it work™.
+In most cases, <Code code={`rpm.version(gh("..."));`} lang="ts" inline /> as a one-liner is enough to make it work™.
 Documentations for more functions are available in the [Andaman
 devdocs](https://developer.fyralabs.com/andaman/andax#custom-functions).
 
-Other functions are available in the `andax/` directory after `import{:ts}`ing.
+Other functions are available in the `andax/` directory after <Code code={`import`} lang="ts" inline />ing.
 
 {/*
 
