@@ -55,7 +55,7 @@ export default defineConfig({
             {
               label: "Guidelines",
               items: [
-                { label: "General Guidelines", "contributing/guidelines" }
+                { label: "General Guidelines", slug: "contributing/guidelines" },
                 {
                   label: "Special Guidelines",
                   items: [
