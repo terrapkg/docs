@@ -43,5 +43,8 @@
   },
   "overrides": {
     "vite": "^7"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }
