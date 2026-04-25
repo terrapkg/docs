@@ -55,9 +55,9 @@ export default defineConfig({
             {
               label: "Guidelines",
               items: [
-                "contributing/guidelines",
+                { label: "General Guidelines", "contributing/guidelines" }
                 {
-                  label: "AppStream Guidelines",
+                  label: "Special Guidelines",
                   items: [
                     "contributing/appstream"
                     ],
