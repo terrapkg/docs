@@ -9,7 +9,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-types": "wrangler types"
+    "generate-types": "wrangler types",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,7 @@
     "vite": "^7"
   },
   "devDependencies": {
+    "oxfmt": "^0.46.0",
     "typescript": "^6.0.3"
   }
 }

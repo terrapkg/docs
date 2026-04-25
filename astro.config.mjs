@@ -31,9 +31,7 @@ export default defineConfig({
       sidebar: [
         {
           label: "Welcome",
-          items: [
-            { label: "Introduction", slug: "index" }
-          ],
+          items: [{ label: "Introduction", slug: "index" }],
         },
         {
           label: "Reference",
@@ -58,11 +56,9 @@ export default defineConfig({
                 { label: "General Guidelines", slug: "contributing/guidelines" },
                 {
                   label: "Special Guidelines",
-                  items: [
-                    "contributing/appstream"
-                    ],
+                  items: ["contributing/appstream"],
                 },
-                ],
+              ],
             },
           ],
         },
@@ -73,7 +69,7 @@ export default defineConfig({
     icon(),
     react(),
     mdx({
-      syntaxHighlight: 'shiki',
+      syntaxHighlight: "shiki",
       shikiConfig: {
         langs: [
           { ...RPMSpec, aliases: ["rpmspec"] },
@@ -82,7 +78,6 @@ export default defineConfig({
       },
     }),
   ],
-
 
   vite: {
     plugins: [tailwindcss()],
