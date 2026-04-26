@@ -6,7 +6,6 @@ description: "Terra-specific guidelines."
 import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
 import { Code } from 'astro:components';
 import RPMSpec from '../../../../components/spec.json';
-import * as Split from '../../../../components/mdx/split';
 
 # Overview
 
@@ -70,31 +69,28 @@ For [Go](#go), use `go2rpm`, rename package name to sensible one,
 remove <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> section,
 EITHER add <Code code={`%global gomodulesmode GO111MODULE=on`} lang={RPMSpec} inline /> OR replace `%goprep` with [`%goprep_online`](../srpm#goprep_online).
 
-For [Nim](#nim), use one of below. Also `%nim_c` = `%nim_build`, [see our macros](../srpm#nim).
+For [Nim](#nim), use one of below. `%nim_c` is also the same in function as `%nim_build`, [see our macros](../srpm#nim) for more information.
 
-<Split.Root>
-  <div>
-    ```rpmspec
-    %prep
-    %autosetup
-    %nim_prep
+<div>
+  ```rpmspec
+  %prep
+  %autosetup
+  %nim_prep
+  %build
+  %nim_c src/dive
+  ```
+ </div>
+<div>
+  ```rpmspec
+  %prep
+  %autosetup -Sgit
 
-    %build
-    %nim_c src/dive
-    ```
-  </div>
-  <div>
-    ```rpmspec
-    %prep
-    %autosetup -Sgit
-
-    %build
-    atlas init
-    atlas rep atlas.lock
-    %nim_c src/netto
-    ```
-  </div>
-</Split.Root>
+  %build
+  atlas init
+  atlas rep atlas.lock
+  %nim_c src/netto
+  ```
+ </div>
 
 For [Zig](#zig), <Code code={`BuildRequires: zig zig-rpm-macros zig-srpm-macros`} lang={RPMSpec} inline />.
 If doesn't build with build arguments provided by Fedora `%zig_build`
