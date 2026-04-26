@@ -4,7 +4,6 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
-import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import mermaid from "astro-mermaid";
 import tailwindcss from "@tailwindcss/vite";
@@ -68,7 +67,7 @@ export default defineConfig({
               ],
             },
             { label: "Autoupdating Packages", slug: "contributing/autoupdate" },
-            { label: "Custom RPM Macros", slug: "contributing/srpm" }
+            { label: "Custom RPM Macros", slug: "contributing/srpm" },
           ],
         },
       ],
@@ -76,22 +75,22 @@ export default defineConfig({
       editLink: {
         baseUrl: "https://github.com/terrapkg/docs",
       },
-    }),
-    sitemap(),
-    expressiveCode({
-      themes: ['github-dark'],
-    }),
-    icon(),
-    react(),
-    mdx({
-      syntaxHighlight: "shiki",
-      shikiConfig: {
-        langs: [
-          { ...RPMSpec, aliases: ["rpmspec"] },
-          { ...rhai, aliases: ["rhai"] },
-        ],
+      expressiveCode: {
+        themes: ["github-dark"],
+        shiki: {
+          langs: [
+            { ...RPMSpec, aliases: ["rpmspec"] },
+            { ...rhai, aliases: ["rhai"] },
+          ],
+          // Shiki desfults to using Oniguruma with WASM in expressive code, but Cloudflare doesn't support this.
+          engine: "javascript",
+        },
       },
     }),
+    sitemap(),
+    icon(),
+    react(),
+    mdx(),
   ],
 
   vite: {
