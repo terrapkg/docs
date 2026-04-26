@@ -90,7 +90,14 @@ export default defineConfig({
     sitemap(),
     icon(),
     react(),
-    mdx(),
+    mdx({
+      shikiConfig: {
+        langs: [
+          { ...RPMSpec, aliases: ["rpmspec"] },
+          { ...rhai, aliases: ["rhai"] },
+        ],
+      },
+    }),
   ],
 
   vite: {
