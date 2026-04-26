@@ -75,6 +75,18 @@ This section describes the guidelines for the preamble items, notably naming and
 
 ## Versioning
 
+Packages SHOULD follow one of the version formats below:
+
+```rpmspec
+## (Release tag tracking (stable))
+Version:  %{latest_stable_version}
+## (Commit tacking (nightly off version tag))
+Version:  %{latest_stable_version}^%{commit_date}git%{shortcommit}
+## (Commit tacking (no stable version tag))
+Version:  %{unreleased_version}~%{commit_date}git%{shortcommit}
+```
+
+`git` SHOULD be replaced with the correct _VCS identifier_ for **(b)** and **(c)** as listed below.
 <div style={{ margin: "1em" }}>
   | VCS              | ID    |
   |:----------------:|:-----:|
@@ -89,19 +101,6 @@ This section describes the guidelines for the preamble items, notably naming and
   | darcs            | `drc` |
   | Fossil           | `fsl` |
 </div>
-
-Packages SHOULD follow one of the version formats below:
-
-```rpmspec
-## (Release tag tracking (stable))
-Version:  %{latest_stable_version}
-## (Commit tacking (nightly off version tag))
-Version:  %{latest_stable_version}^%{commit_date}git%{shortcommit}
-## (Commit tacking (no stable version tag))
-Version:  %{unreleased_version}~%{commit_date}git%{shortcommit}
-```
-
-`git` SHOULD be replaced with the correct _VCS identifier_ for **(b)** and **(c)** as listed on the right.
 
 If either commit tracking option is used, you MUST also include <Code code={`labels { nightly = 1 }`} lang="hcl" inline /> in `anda.hcl` unless there is no `update.rhai`,
 as these two formats rely on the assumption that there is one <Code code={`%shortcommit`} lang={RPMSpec} inline /> for each <Code code={`%commit_date`} lang={RPMSpec} inline /> (and vice versa).
