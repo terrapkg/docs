@@ -105,12 +105,12 @@ Version:  %{unreleased_version}~%{commit_date}git%{shortcommit}
 If either commit tracking option is used, you MUST also include <Code code={`labels { nightly = 1 }`} lang="hcl" inline /> in `anda.hcl` unless there is no `update.rhai`,
 as these two formats rely on the assumption that there is one <Code code={`%shortcommit`} lang={RPMSpec} inline /> for each <Code code={`%commit_date`} lang={RPMSpec} inline /> (and vice versa).
 
-<Code code={`%unreleased_version`} lang={RPMSpec} inline /> refers to the expected version number for the next stable (or a more stable tag than <Code code={`nightly`} lang={RPMSpec} inline />) release,
-while <Code code={`%latest_stable_version`} lang={RPMSpec} inline /> refers to the current latest released version number, preferably stable.
+<Code code={`%{unreleased_version}`} lang={RPMSpec} inline /> refers to the expected version number for the next stable (or a more stable tag than <Code code={`nightly`} lang={RPMSpec} inline />) release,
+while <Code code={`%{latest_stable_version}`} lang={RPMSpec} inline /> refers to the current latest released version number, preferably stable.
 
-`Commit tacking (nightly off version tag)` SHOULD be used when there is a stable and nightly version of a package.
+If there are stable releases but the package is build from a commit, you SHOULD append a commit to the version when there is a stable and nightly version of a package.
 
-If upstream does not provide a version, use `Commit tacking (no stable version tag)` and replace <Code code={`%unreleased_version`} lang={RPMSpec} inline /> as <Code code={`0`} lang={RPMSpec} inline />.
+If upstream does not provide a version, use the commit to `0^` instead.
 
 ## Release Field
 
