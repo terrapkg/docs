@@ -25,7 +25,7 @@ Otherwise PR whatever the heck you want.
 
 Follow upstream [version](#versioning) if stable; prefer `%{unreleased_version}~%{commit_date}git%{shortcommit}` over `%{latest_stable_version}^%{commit_date}git%{shortcommit}` otherwise.
 
-Only 1 number is allowed in <Code code={`Release: 1%{?dist}`} lang={RPMSpec} inline /> / `1%{?dist}`.
+Only one number is allowed in <Code code={`Release: 1%{?dist}`} lang={RPMSpec} inline /> / `1%{?dist}`.
 <Code code={`Packager: Your name <mail@example.com>`} lang={RPMSpec} inline /> is REQUIRED.
 
 If new package affects existing installs, MUST include in [subrepos](#subrepos).
