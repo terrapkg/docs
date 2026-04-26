@@ -4,7 +4,6 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
-import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import mermaid from "astro-mermaid";
 import tailwindcss from "@tailwindcss/vite";
@@ -17,6 +16,8 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: "https://docs.terrapkg.com",
 
+  trailingSlash: "never",
+
   integrations: [
     mermaid(),
     starlight({
@@ -27,36 +28,70 @@ export default defineConfig({
           label: "GitHub",
           href: "https://github.com/terrapkg",
         },
+        {
+          icon: "discord",
+          label: "Fyra Labs Discord",
+          href: "https://fyralabs.com/discord",
+        },
       ],
       sidebar: [
         {
-          label: "Index",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Page Index", slug: "terra" },
-          ],
+          label: "Welcome",
+          items: [{ label: "Introduction", slug: "index" }],
         },
         {
           label: "Reference",
           autogenerate: { directory: "reference" },
         },
+        {
+          label: "General",
+          autogenerate: { directory: "general" },
+        },
+        {
+          label: "Using Terra",
+          autogenerate: { directory: "usage" },
+        },
+        {
+          label: "Contributing",
+          items: [
+            { label: "Getting Started", slug: "contributing/contributing" },
+            { label: "Policies", slug: "contributing/policies" },
+            {
+              label: "Guidelines",
+              items: [
+                { label: "General Guidelines", slug: "contributing/guidelines" },
+                {
+                  label: "Special Guidelines",
+                  items: ["contributing/appstream"],
+                },
+              ],
+            },
+            { label: "Autoupdating Packages", slug: "contributing/autoupdate" },
+            { label: "Custom RPM Macros", slug: "contributing/srpm" },
+          ],
+        },
       ],
+      lastUpdated: true,
+      editLink: {
+        baseUrl: "https://github.com/terrapkg/docs",
+      },
+      expressiveCode: {
+        themes: ["github-dark"],
+        shiki: {
+          langs: [
+            { ...RPMSpec, aliases: ["rpmspec"] },
+            { ...rhai, aliases: ["rhai"] },
+          ],
+          // By default Shiki uses Oniguruma with WASM in Expressive Code, Cloudflare does not support this.
+          engine: "javascript",
+        },
+      },
     }),
     sitemap(),
-    expressiveCode(),
     icon(),
     react(),
     mdx(),
   ],
-
-  markdown: {
-    shikiConfig: {
-      langs: [
-        { ...RPMSpec, aliases: ["rpmspec"] },
-        { ...rhai, aliases: ["rhai"] },
-      ],
-    },
-  },
 
   vite: {
     plugins: [tailwindcss()],

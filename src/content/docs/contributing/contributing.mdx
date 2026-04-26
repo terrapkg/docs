@@ -1,10 +1,11 @@
 ---
-layout: ../../../layouts/Layout.astro
 title: Contributing
 description: "Get started contributing packages to Terra."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import { Code } from 'astro:components';
+import RPMSpec from '../../../../components/spec.json';
 
 # Overview
 
@@ -30,10 +31,10 @@ If you ever need help, hop into [our Discord server](https://fyralabs.com/discor
 
 ## Before you begin...
 
-- Make sure the package is not in the [Fedora repositories](https://packages.fedoraproject.org/), and the package name is not taken.
-- Review our [packaging policies](./policies).
-- Review our [packaging guidelines](../terra/guidelines).
-- Review our custom [SRPM macros](../terra/srpm), as these may be helpful to your package.
+- Make sure the package is not in the [Fedora repositories](https://packages.fedoraproject.org), and the package name is not taken.
+- Review our [packaging policies](../policies).
+- Review our [packaging guidelines](../guidelines).
+- Review our custom [SRPM macros](../srpm), as these may be helpful to your package.
 
 ## Preparation
 
@@ -43,7 +44,7 @@ You'll need a few tools to get started, pick one of these sections, then continu
 
 Install [Andaman](https://developer.fyralabs.com/andaman) and its Mock configs on your system:
 
-`[1;32msudo dnf[97m install [0;97;mterra-mock-configs{:ansi}`
+<Code code={`[1;32msudo dnf[97m install [0;97;mterra-mock-configs`} lang="ansi" inline />
 
 ### Dev Container
 
@@ -57,7 +58,7 @@ You can run this devcontainer from Linux, macOS, or Windows.
    - VSCode users need to install the Dev Containers extension
 
 2. Get the container runtime
-   - On Windows and Mac, install [Docker Desktop](https://docs.docker.com/desktop/)
+   - On Windows and Mac, install [Docker Desktop](https://docs.docker.com/desktop)
 
    - On Linux, install `podman-docker` from your package manager
 
@@ -177,22 +178,22 @@ echo "this will also run when building pkg but for installing it into %{buildroo
 - Description on what you've done
 ```
 
-- Add `Source0:{:rpmspec}` or `Source1:{:rpmspec}` or more.
-  These preambles should link to a compressed file (preferably a tarball) and will be extracted during `%prep{:rpmspec}`.
+- Add <Code code={`Source0:`} lang={RPMSpec} inline /> or <Code code={`Source1:`} lang={RPMSpec} inline /> or more.
+  These preambles should link to a compressed file (preferably a tarball) and will be extracted during <Code code={`%prep`} lang={RPMSpec} inline />.
   You can find this by looking at the GitHub releases page (usually a .tar.gz link).
-- Add a new line `%prep{:rpmspec}`
+- Add a new line <Code code={`%prep`} lang={RPMSpec} inline />
   - The source file will be automatically downloaded and
-    extracted with `%autosetup -n <root dir name in tar file>` inside `%prep{:rpmspec}`.
+    extracted with <Code code={`%autosetup -n <root dir name in tar file>`} lang={RPMSpec} inline /> inside <Code code={`%prep`} lang={RPMSpec} inline />.
   - If it is not a tar archive, extract the file manually with a command.
-- Inside `%build{:rpmspec}`, you might need to build the package.
-  Macros like `%meson{:rpmspec}` and `%cmake{:rpmspec}` are supported.
+- Inside <Code code={`%build`} lang={RPMSpec} inline />, you might need to build the package.
+  Macros like <Code code={`%meson`} lang={RPMSpec} inline /> and <Code code={`%cmake`} lang={RPMSpec} inline /> are supported.
   - If not, manually state the command.
-- List out all the files to be included inside `%files{:rpmspec}`.
-  - Use `%doc{:rpmspec}` to state the README file (if it exists).
-  - Use `%license{:rpmspec}` to state the COPYING or LICENSE file (if it exists).
+- List out all the files to be included inside <Code code={`%files`} lang={RPMSpec} inline />.
+  - Use <Code code={`%doc`} lang={RPMSpec} inline /> to state the README file (if it exists).
+  - Use <Code code={`%license`} lang={RPMSpec} inline /> to state the COPYING or LICENSE file (if it exists).
   - TIP: If you are unsure about the files to install, run the build first.
     `mock` will show you the files not packaged but installed via an error.
-- Add `%changelog{:rpmspec}` (message preferably "Initial Package").
+- Add <Code code={`%changelog`} lang={RPMSpec} inline /> (message preferably "Initial package").
 
 ## Building
 
@@ -204,7 +205,7 @@ Having anda installed (or in the Dev Container) run the following command:
 
 If you would like to use the `rpmbuild` mode instead (which will instead not set
 up a container), add `--rpm-builder=rpmbuild`. Remember to install the build
-dependencies using `[1;32msudo dnf[97m builddep [0;97;mpath/to/pkgname.spec{:ansi}`!
+dependencies using <Code code={`[1;32msudo dnf[97m builddep [0;97;mpath/to/pkgname.spec`} lang="ansi" inline />!
 
 - You don't need to create `pkg`. It's not supposed to exist, just needs to be at the end of the build command
 - Modify the architecture to match your machine (`x86_64`, `i386`, `aarch64`)
@@ -228,7 +229,7 @@ See the "book" (more like guide) for [Rhai].
 
 - Create an `update.rhai` file inside the folder of your package alongside your `.spec` file.
 - See references from other packages.
-- You also need to add `labels { nightly = "1" }{:hcl}` in `anda.hcl` for nightly packages.
+- You also need to add <Code code={`labels { nightly = "1" }`} lang="hcl" inline /> in `anda.hcl` for nightly packages.
 
 <Aside>Remember to add semicolons in Rhai scripts! (`;`)</Aside>
 <Aside>

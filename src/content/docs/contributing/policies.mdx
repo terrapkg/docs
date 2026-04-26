@@ -1,10 +1,11 @@
 ---
-layout: ../../../layouts/Layout.astro
 title: Policies
 description: "One of Terra's main focuses is package quality. Users should be able to install software from Terra in confidence. Our policies reflect that."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import { Code } from 'astro:components';
+import RPMSpec from '../../../../components/spec.json';
 
 <Aside>
   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
@@ -22,10 +23,10 @@ Only [submit](#submission-policy) packages legally distributable, proprietary or
 Get sources into most suitable folder in repo, 1 `anda.hcl` & spec file per folder.
 Otherwise PR whatever the heck you want.
 
-Follow upstream [version](#versioning) if stable; prefer `%{unreleased_version}~%{commit_date}git.%{shortcommit}` over `%{latest_stable_version}^%{commit_date}git.%{shortcommit}` otherwise.
+Follow upstream [version](#versioning) if stable; prefer `%{unreleased_version}~%{commit_date}git%{shortcommit}` over `%{latest_stable_version}^%{commit_date}git%{shortcommit}` otherwise.
 
-Only 1 number is allowed in `Release: 1%{?dist}{:rpmspec}` / `1%{?dist}`.
-`Packager: Your name <mail@example.com>{:rpmspec}` is REQUIRED.
+Only one number is allowed in <Code code={`Release: 1%{?dist}`} lang={RPMSpec} inline /> / `1%{?dist}`.
+<Code code={`Packager: Your name <mail@example.com>`} lang={RPMSpec} inline /> is REQUIRED.
 
 If new package affects existing installs, MUST include in [subrepos](#subrepos).
 
@@ -50,18 +51,17 @@ End.
   - The following directories have a higher priority. Categorize your new package in the following order:
     1. `fonts/`
     2. `system/` (bootloaders, kernels, drivers, ...)
-    3. `tools/buildsys/` (software used to build other software)
+    3. `buildsys/` (software used to build other software)
     4. `devs/` (tools for software development)
     5. `games/`
     6. `themes/`
-    7. `docker/` (software related to containers)
-    8. `desktops/` (applications specific to a Desktop Environment)
+    7. `desktops/` (applications specific to a Desktop Environment)
+    8. `desktops/stardust/` (packages for the [Stardust XR](https://stardustxr.org) stack)
     9. `apps/` (GUI applications)
     10. `langs/` (software written in/for a specific programming language)
-    11. `stardust/` (packages for the [Stardust XR[(https://stardustxr.org/) stack)
 - When there are ambiguous or unspecified parts in our policies/guidelines, you SHOULD refer to [Fedora's packaging guidelines].
 - Low-quality contributions will be declined at the team's discretion.
-- Do not include work-in-progress code or untested patches. See [https://dont-ship.it/](https://web.archive.org/web/20250320104139/https://dont-ship.it/).
+- Do not include work-in-progress code or untested patches. See [https://dont-ship.it](https://web.archive.org/web/20250320104139/https://dont-ship.it).
 
 # Maintenance Policy
 
@@ -75,44 +75,50 @@ This section describes the guidelines for the preamble items, notably naming and
 
 ## Versioning
 
-{/* https://github.com/terrapkg/packages/issues/1907 */}
-<div style={{ float: "right", margin: "1em" }}>
-  | VCS | ID | |------------------|-------| | Git | `git` | | SVN | `svn` | |
-  CVS | `cvs` | | Bazaar | `bzr` | | Mercurial | `hg` | | Perforce (Helix) |
-  `p4` | | Pijul | `pjl` | | Azure DevOps | `tfs` | | darcs | `drc` | | Fossil |
-  `fsl` |
-</div>
-
 Packages SHOULD follow one of the version formats below:
 
 ```rpmspec
 ## (Release tag tracking (stable))
 Version:  %{latest_stable_version}
 ## (Commit tacking (nightly off version tag))
-Version:  %{latest_stable_version}^%{commit_date}git.%{shortcommit}
+Version:  %{latest_stable_version}^%{commit_date}git%{shortcommit}
 ## (Commit tacking (no stable version tag))
-Version:  %{unreleased_version}~%{commit_date}git.%{shortcommit}
+Version:  %{unreleased_version}~%{commit_date}git%{shortcommit}
 ```
 
-`git` SHOULD be replaced with the correct _VCS identifier_ for **(b)** and **(c)** as listed on the right.
+`git` SHOULD be replaced with the correct _VCS identifier_ for **(b)** and **(c)** as listed below.
+<div style={{ margin: "1em" }}>
+  | VCS              | ID    |
+  |:----------------:|:-----:|
+  | Git              | `git` |
+  | SVN              | `svn` |
+  | CVS              | `cvs` |
+  | Bazaar           | `bzr` |
+  | Mercurial        | `hg`  |
+  | Perforce (Helix) | `p4`  |
+  | Pijul            | `pjl` |
+  | Azure DevOps     | `tfs` |
+  | darcs            | `drc` |
+  | Fossil           | `fsl` |
+</div>
 
-If either commit tracking option is used, you MUST also include `labels { nightly = 1 }{:hcl}` in `anda.hcl` unless there is no `update.rhai`,
-as these two formats rely on the assumption that there is one `%shortcommit{:rpmspec}` for each `%commit_date{:rpmspec}` (and vice versa).
+If either commit tracking option is used, you MUST also include <Code code={`labels { nightly = 1 }`} lang="hcl" inline /> in `anda.hcl` unless there is no `update.rhai`,
+as these two formats rely on the assumption that there is one <Code code={`%shortcommit`} lang={RPMSpec} inline /> for each <Code code={`%commit_date`} lang={RPMSpec} inline /> (and vice versa).
 
-`%unreleased_version{:rpmspec}` refers to the expected version number for the next stable (or a more stable tag than `nightly{:rpmspec}`) release,
-while `%latest_stable_version{:rpmspec}` refers to the current latest released version number, preferably stable.
+<Code code={`%{unreleased_version}`} lang={RPMSpec} inline /> refers to the expected version number for the next stable (or a more stable tag than <Code code={`nightly`} lang={RPMSpec} inline />) release,
+while <Code code={`%{latest_stable_version}`} lang={RPMSpec} inline /> refers to the current latest released version number, preferably stable.
 
-`Commit tacking (nightly off version tag)` SHOULD be used when there is a stable and nightly version of a package.
+If there are stable releases but the package is build from a commit, you SHOULD append a commit to the version when there is a stable and nightly version of a package.
 
-If upstream does not provide a version, use `Commit tacking (no stable version tag)` and replace `%unreleased_version{:rpmspec}` as `0{:rpmspec}`.
+If upstream does not provide a version, use the commit to `0^` instead.
 
 ## Release Field
 
-The `Release:{:rpmspec}` preamble MUST NOT contain information regarding upstream versioning,
+The <Code code={`Release:`} lang={RPMSpec} inline /> preamble MUST NOT contain information regarding upstream versioning,
 including but not limited to commit dates, commit hashes, software versions, tags, etc.
-Without approval from the team, packages MUST use the format `Release: 1%{?dist}{:rpmspec}`.
+Without approval from the team, packages MUST use the format <Code code={`Release: 1%{?dist}`} lang={RPMSpec} inline />.
 
-The release number SHOULD be incremented if changes are made to the package, unless the `Version:{:rpmspec}` changes.
+The release number SHOULD be incremented if changes are made to the package, unless the <Code code={`Version:`} lang={RPMSpec} inline /> changes.
 
 ## Naming
 
@@ -126,7 +132,7 @@ Prefix/Suffix the packages in the following order
 
 ## Packager Field
 
-The package maintainer of a package MUST be added to the `Packager:{:rpmspec}` preamble as follows:
+The package maintainer of a package MUST be added to the <Code code={`Packager:`} lang={RPMSpec} inline /> preamble as follows:
 
 ```rpmspec
 Packager: Raboneko <raboneko@fyralabs.com>
@@ -166,5 +172,5 @@ Our support lifecycle is documented in the [lifecycle page].
 [Fedora's packaging guidelines]: https://docs.fedoraproject.org/en-US/packaging-guidelines
 [SECURITY.md file]: https://github.com/terrapkg/packages/blob/frawhide/SECURITY.md
 [CODE_OF_CONDUCT.md file]: https://github.com/terrapkg/packages/blob/frawhide/CODE_OF_CONDUCT.md
-[lifecycle page]: ./lifecycle
+[lifecycle page]: ../../usage/lifecycle
 [andaman]: https://github.com/FyraLabs/anda

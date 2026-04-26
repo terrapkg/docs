@@ -1,5 +1,4 @@
 ---
-layout: ../../../layouts/Layout.astro
 title: Infrastructure
 description: The technical details behind the infrastructure and how different components work together.
 ---
@@ -14,7 +13,7 @@ There are two ways to install Terra:
 
 1. By installing the `terra-release` package (recommended). This makes sure your Terra installation
    won't break even if we have any server migrations, infrastructure changes, etc.
-2. With `.repo` files. We provide `.repo` files at https://github.com/terrapkg/subatomic-repos.
+2. With `.repo` files. We provide `.repo` files at https://github.com/terrapkg/packages/tree/frawhide/anda/terra/release. Replace the `rawhide` in `frawhide` with the release number of your distro.
 
 This document assumes Terra is installed via the first method. You should also look at the "Last
 updated on" footnote (above the next page button; a feature of Nextra that you can see on all
@@ -39,7 +38,7 @@ Anda internally calls [Mock] and `rpmbuild` to build RPM packages.
 A scripting language based on [Rhai](https://rhai.rs) specifically made for writing update scripts.
 
 - GitHub: https://github.com/FyraLabs/anda
-- Our autoupdate docs: ./terra/autoupdate
+- [Our autoupdate docs](../../contributing/autoupdate)
 - Rhai playground: https://rhai.rs/playground/stable
 
 ## Builder
@@ -64,7 +63,7 @@ A monorepo hosted on GitHub with all the packages sources, including `.spec` fil
 the main issue tracker).
 
 - GitHub: https://github.com/terrapkg/packages
-- Devdocs: you are here
+- Docs: You are here
 
 ## Subatomic
 

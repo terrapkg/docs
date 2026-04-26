@@ -1,18 +1,18 @@
 ---
-layout: ../../../layouts/Layout.astro
 title: "SRPM Macros"
 description: "Documentation on the macros included in the anda-srpm-macros package."
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import { Code } from 'astro:components';
 import { SearchTerra } from '../../../../components/mdx/searchterra';
-import * as Split from '../../../../components/mdx/split';
+import RPMSpec from '../../../../components/spec.json';
 
 # Overview
 
 We provide custom Source RPM (SRPM) macros to ease packaging and better integrate our workflow. Please use these macros when possible in Terra.
 
-These are provided in the `anda-srpm-macros` package. If you use them, make sure to add `anda-srpm-macros` as a `BuildRequires:{:rpmspec}` in the spec file.
+These are provided in the `anda-srpm-macros` package. If you use them, make sure to add `anda-srpm-macros` as a <Code code={`BuildRequires:`} lang={RPMSpec} inline /> in the spec file.
 
 You may need to refer to the [Terra packaging guidelines](../guidelines) for non-macro related Terra guidelines.
 If you're looking for documentation on our MetaInfo macros, check that out [here](../appstream).
@@ -40,7 +40,7 @@ For upstream macros available in Fedora/Terra, check out our unofficial [macros 
 These macros define certain system directories, and SHOULD be used in place of the raw directory path.
 
 ### %_appsdir
-Expands to: `%_datadir/applications{:rpmspec}` or `/usr/share/applications{:rpmspec}`
+Expands to: <Code code={`%_datadir/applications`} lang={RPMSpec} inline /> or <Code code={`/usr/share/applications`} lang={RPMSpec} inline />
 
 This may seem like a directory to place the application itself into, but this directory is used for application's `.desktop` files.
 
@@ -49,7 +49,7 @@ This may seem like a directory to place the application itself into, but this di
 ### %_bun_cache_dir
 The directory where Bun cache files are stored in.
 
-Expands to: `%{_bun_home}/install/cache{:rpmspec}`
+Expands to: <Code code={`%{_bun_home}/install/cache`} lang={RPMSpec} inline />
 
 Used for [Bun macros](#bun).
 
@@ -60,7 +60,7 @@ The directory where Bun files are stored in.
 Unfortunately, Bun doesn't actually have a way to enforce this yet.
 However the proposed environment variable is `$BUN_HOME`, so we have this for the future.
 
-Expands to: `%{rpmbuilddir}/.bun{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.bun`} lang={RPMSpec} inline />
 
 Used for [Bun macros](#bun).
 
@@ -71,14 +71,14 @@ Set by our [Cargo prep macros](#rust-macros).
 
 We set this specifically because in online builds if the directory is manually changed as a build step (such as multi Crate repo projects), the Crates could be redownloaded during build and slow down build times. Tools like Tauri also read `.cargo` differently because they change the current working directory.
 
-Expands to: `%{rpmbuilddir}%{?buildsubdir:/%{buildsubdir}}/.cargo{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}%{?buildsubdir:/%{buildsubdir}}/.cargo`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_cargo_home" />
 
 ### %_deno_dir
 The directory that Deno's files and cache are stored in.
 
-Expands to: `%{rpmbuilddir}/.deno{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.deno`} lang={RPMSpec} inline />
 
 Used for [Deno macros](#deno).
 
@@ -87,7 +87,7 @@ Used for [Deno macros](#deno).
 ### %_deno_install_root
 Directory where Deno installs dependency packages.
 
-Expands to: `%{_deno_dir}/bin{:rpmspec}`
+Expands to: <Code code={`%{_deno_dir}/bin`} lang={RPMSpec} inline />
 
 Used for [Deno macros](#deno).
 
@@ -96,19 +96,19 @@ Used for [Deno macros](#deno).
 ### %_dracut_confdir
 The directory where Dracut config provided by system packages should be installed to.
 
-Expands to: `%{_prefix}/lib/dracut/dracut.conf.d{:rpmspec}`
+Expands to: <Code code={`%{_prefix}/lib/dracut/dracut.conf.d`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_dracut_confdir" />
 
 ### %elvish_completions_dir
-Expands to: `%_datadir/elvish/lib/completions{:rpmspec}`
+Expands to: <Code code={`%_datadir/elvish/lib/completions`} lang={RPMSpec} inline />
 
 Used in [`%pkg_completion`](#pkg_completion), or manually when `%pkg_completion` cannot be used.
 
 <SearchTerra macroname="elvish_completions_dir" />
 
 ### %_gnomeextensionsdir
-Expands to: `%{_datadir}/gnome-shell/extensions%{?uuid:/%{uuid}}{:rpmspec}`
+Expands to: <Code code={`%{_datadir}/gnome-shell/extensions%{?uuid:/%{uuid}}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_gnomeextensionsdir" />
 
@@ -119,9 +119,9 @@ Note that you SHOULD then need to add the extension's UUID after this macro.
 </Aside>
 
 ### %_hicolordir
-Expands to: `%_iconsdir/hicolor{:rpmspec}` or `/usr/share/icons/hicolor{:rpmspec}`
+Expands to: <Code code={`%_iconsdir/hicolor`} lang={RPMSpec} inline /> or `/usr/share/icons/hicolor`} lang={RPMSpec} inline />
 
-The directory that SHOULD be used when installing application `.png` files. Note that you then MUST install the (typically app icon) file to the `apps` folder within the fixed-size directory in `%_hicolordir{:rpmspec}`.
+The directory that SHOULD be used when installing application `.png` files. Note that you then MUST install the (typically app icon) file to the `apps` folder within the fixed-size directory in <Code code={`%_hicolordir`} lang={RPMSpec} inline />.
 
 For example:
 
@@ -136,39 +136,39 @@ If the file is an `.svg`, use the [`%_scalableiconsdir`](#_scalableiconsdir).
 <SearchTerra macroname="_hicolordir" />
 
 ### %_npm_cache_dir
-Expands to: `%{rpmbuilddir}/.npm{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.npm`} lang={RPMSpec} inline />
 
 Used with [JavaScript package manager macros](#javascript-runtimes), especially [NPM macros](#npm).
 
 <SearchTerra macroname="_npm_cache_dir" />
 
 ### %nushell_completions_dir
-Expands to: `%_datadir/nushell/vendor/autoload{:rpmspec}`
+Expands to: <Code code={`%_datadir/nushell/vendor/autoload`} lang={RPMSpec} inline />
 
 Used in [`%pkg_completion`](#pkg_completion), or manually when `%pkg_completion` cannot be used.
 
 <SearchTerra macroname="nushell_completions_dir" />
 
 ### %_nvm_dir
-The location in the `%{rpmbuilddir}{:rpmspec}` what will be passed to `$NVM_DIR{:rpmspec}`, which is where vendored Node.js installs and cache are stored.
+The location in the <Code code={`%{rpmbuilddir}`} lang={RPMSpec} inline /> what will be passed to <Code code={`$NVM_DIR`} lang={RPMSpec} inline />, which is where vendored Node.js installs and cache are stored.
 
-Expands to: `%{rpmbuilddir}/.nvm{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.nvm`} lang={RPMSpec} inline />
 
 Only used for for [`%{__nvm}`](#__nvm).
 
 <SearchTerra macroname="_nvm_dir" />
 
 ### %_pkgconfigdir
-Expands to: `%{_libdir}/pkgconfig{:rpmspec}`
+Expands to: <Code code={`%{_libdir}/pkgconfig`} lang={RPMSpec} inline />
 
-Used in the `%files{:rpmspec}` section.
+Used in the <Code code={`%files`} lang={RPMSpec} inline /> section.
 
 <SearchTerra macroname="_pkgconfigdir" />
 
 ### %_pnpm_home
 The directory where PNPM files and cache are stored.
 
-Expands to: `%{rpmbuilddir}/.pnpm{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.pnpm`} lang={RPMSpec} inline />
 
 Used for [PNPM macros](#pnpm).
 
@@ -177,20 +177,20 @@ Used for [PNPM macros](#pnpm).
 ### %_pnpm_store
 The directory where JavaScript modules installed by PNPM usually go. This will usually not be produced when using PNPM as a build tool, but exists for rare builds it may be created in.
 
-Expands to: `%{_pnpm_home}/store{:rpmspec}`
+Expands to: <Code code={`%{_pnpm_home}/store`} lang={RPMSpec} inline />
 
 Used for [PNPM macros](#pnpm).
 
 <SearchTerra macroname="_pnpm_store" />
 
 ### %rpmbuilddir
-This macro exists because Terra supports EL distributions (Red Hat Enterprise Linux, Alma Linux, etc.) which currently have an RPM version from before the `%{builddir}{:rpmspec}` change to address issues [like this](https://github.com/rpm-software-management/rpm/issues/3151).
+This macro exists because Terra supports EL distributions (Red Hat Enterprise Linux, Alma Linux, etc.) which currently have an RPM version from before the <Code code={`%{builddir}`} lang={RPMSpec} inline /> change to address issues [like this](https://github.com/rpm-software-management/rpm/issues/3151).
 
-One, albeit clunky, solution is to define `%{builddir}{:rpmspec}` manually as `%{_builddir}{:rpmspec}` in specs targeting distros with different versions of RPM where one has a version older than 4.20. We have this macro instead to make the process easier without overriding any builtin RPM macros. For more information on this solution, see [these](https://github.com/rpm-software-management/rpm/issues/3151#issuecomment-2154550735) [comments](https://github.com/rpm-software-management/rpm/issues/3151#issuecomment-2154639192) on the issue linked above.
+One, albeit clunky, solution is to define <Code code={`%{builddir}`} lang={RPMSpec} inline /> manually as <Code code={`%{_builddir}`} lang={RPMSpec} inline /> in specs targeting distros with different versions of RPM where one has a version older than 4.20. We have this macro instead to make the process easier without overriding any builtin RPM macros. For more information on this solution, see [these](https://github.com/rpm-software-management/rpm/issues/3151#issuecomment-2154550735) [comments](https://github.com/rpm-software-management/rpm/issues/3151#issuecomment-2154639192) on the issue linked above.
 
 This macro is subject to deprecation once all EL distributions with an RPM version older than 4.20 are end-of-life (likely when EL10 is end-of-life), or in the event we can no longer support EL distributions this old.
 
-Expands to: `%{?builddir}%{?!builddir:%{_builddir}}{:rpmspec}`
+Expands to: <Code code={`%{?builddir}%{?!builddir:%{_builddir}}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="rpmbuilddir" />
 
@@ -199,12 +199,12 @@ This macro is set by `%rustup_nightly`.
 
 It sets a specific location for Rustup install files so the toolchain information is never potentially lost during different build steps and to keep files out of `$HOME`.
 
-Expands to: `%{rpmbuilddir}/.rustup{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.rustup`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_rustup_home" />
 
 ### %_scalableiconsdir
-Expands to: `%_hicolordir/scalable/apps{:rpmspec}` or `/usr/share/icons/hicolor/scalable/apps{:rpmspec}`
+Expands to: <Code code={`%_hicolordir/scalable/apps`} lang={RPMSpec} inline /> or <Code code={`/usr/share/icons/hicolor/scalable/apps`} lang={RPMSpec} inline />
 The directory that SHOULD be used when installing application `.svg` files to.
 You do not need to specify any folders for this macro, the file can be added to the end of this macro.
 For example:
@@ -220,7 +220,7 @@ If the file is a `.png`, use [`%_hicolordir`](#_hicolordir).
 ### %_yarn_cache_dir
 The directory where Yarn cache files are stored in.
 
-Expands to: `%{rpmbuilddir}/.yarn{:rpmspec}`
+Expands to: <Code code={`%{rpmbuilddir}/.yarn`} lang={RPMSpec} inline />
 
 Used for [Yarn macros](#yarn).
 
@@ -230,19 +230,19 @@ Used for [Yarn macros](#yarn).
 These are macros used for working with [.desktop files](https://specifications.freedesktop.org/desktop-entry/latest).
 
 ### %__desktop_file_edit
-Expands to: `/usr/bin/desktop-file-edit{:rpmspec}`
+Expands to: <Code code={`/usr/bin/desktop-file-edit`} lang={RPMSpec} inline />
 Note that this should be used only when [%desktop_file_edit](#desktop_file_edit) can not be used, and that the flags listed for `%desktop_file_edit` will not work.
 
 <SearchTerra macroname="__desktop_file_edit" />
 
 ### %__desktop_file_install
-Expands to: `/usr/bin/desktop-file-install{:rpmspec}`
+Expands to: <Code code={`/usr/bin/desktop-file-install`} lang={RPMSpec} inline />
 Note that this should be used only when [%desktop_file_install](#desktop_file_install) can not be used, and that the flags listed for `%desktop_file_install` will not work.
 
 <SearchTerra macroname="__desktop_file_install" />
 
 ### %__desktop_file_validate
-Expands to: `/usr/bin/desktop-file-validate{:rpmspec}`
+Expands to: <Code code={`/usr/bin/desktop-file-validate`} lang={RPMSpec} inline />
 Note that this should be used only when [%desktop_file_validate](#desktop_file_validate) can not be used, and that the flags listed for `%desktop_file_validate` will not work.
 
 <SearchTerra macroname="__desktop_file_validate" />
@@ -255,7 +255,7 @@ Available flags:
 - `-k <…>`: List the "keys" to change (Exec, Icon, etc.). Comma separated for multiple keys.
 - `-v <…>`: List the "values" to set for keys you are changing. Comma separated for multiple keys. MUST be listed in the same corresponding order the keys are listed in.
 - `-u <…>`  MAY be used to set either `%u` or `%U` in the desktop file. If using this you MUST NOT use `u` as a macro name for any reason.
-  - `%u{:rpmspec}` means that a desktop file can only read one URL at a time, `%U{:rpmspec}` means that it can read multiple at a time. These are what are known as [exec keys](https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html).
+  - <Code code={`%u`} lang={RPMSpec} inline /> means that a desktop file can only read one URL at a time, <Code code={`%U`} lang={RPMSpec} inline /> means that it can read multiple at a time. These are what are known as [exec keys](https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html).
   - Defer to what the desktop file originally contained if you are unsure which to use.
 
 <Aside type="caution">
@@ -279,7 +279,7 @@ Available flags:
 - `-v <…>`: List the "values" to set for keys you are changing. Comma separated for multiple keys. MUST be listed in the same corresponding order the keys are listed in.
   - Example: `%desktop_file_install -k Exec -v /usr/bin/pkg /path/to/filetoedit.desktop`
 - `-u <…>`  MAY be used to set either `%u` or `%U` in the desktop file. If using this you MUST NOT use `u` as a macro name for any reason.
-  - `%u{:rpmspec}` means that a desktop file can only read one URL at a time, `%U{:rpmspec}` means that it can read multiple at a time. These are what are known as [exec keys](https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html).
+  - <Code code={`%u`} lang={RPMSpec} inline /> means that a desktop file can only read one URL at a time, <Code code={`%U`} lang={RPMSpec} inline /> means that it can read multiple at a time. These are what are known as [exec keys](https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html).
   - Defer to what the desktop file originally contained if you are unsure which to use.
 
 <Aside type="caution">
@@ -310,7 +310,7 @@ Example usage:
 ### %update_desktop_database
 A post/postun script to update the .desktop database on install/uninstall of the package. Is most likely not necessary for most things.
 
-Expands to: `%{__update_desktop_database} --quiet || :{:rpmspec}`
+Expands to: <Code code={`%{__update_desktop_database} --quiet || :`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="update_desktop_database" />
 
@@ -318,7 +318,7 @@ Expands to: `%{__update_desktop_database} --quiet || :{:rpmspec}`
 These macros assist with building [Go](https://go.dev) projects.
 
 ### %goprep_online
-MAY be used to prep a Go package for online builds. Replaces `%goprep{:rpmspec}` in `%prep{:rpmspec}`.
+MAY be used to prep a Go package for online builds. Replaces <Code code={`%goprep`} lang={RPMSpec} inline /> in `%prep`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="goprep_online" />
 
@@ -329,9 +329,9 @@ These are macros to assist with the general packaging of applications that are w
 Macros for using [Node.js](https://nodejs.org). These require the use of [Fedora Node.js macros](https://docs.fedoraproject.org/en-US/packaging-guidelines/Node.js/#_macros) in the `nodejs-packaging` package.
 
 #### %__nvm
-Calls NVM (Node Version Manager) while setting `$NVM_DIR{:bash}`. Only used if vendoring Node.js.
+Calls NVM (Node Version Manager) while setting <Code code={`$NVM_DIR`} lang="bash" inline />. Only used if vendoring Node.js.
 
-Expands to: `/usr/bin/env NVM_DIR=%{_nvm_dir} /usr/bin/nvm{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env NVM_DIR=%{_nvm_dir} /usr/bin/nvm`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="__nvm" />
 
@@ -349,15 +349,15 @@ Usecase examples:
 
 For this reason, whatever you are packaging SHOULD be tested locally upon a successful build to see if it has any runtime issues.
 
-What `%vendor_nodejs{:rpmspec}` does:
-1. Installs the desired Node.js version to `%{_nvm_dir}{:rpmspec}`.
-1. Redefines `%{__nodejs}{:rpmspec}` to run the vendored version through NVM.
-1. Sets a `%bcond{:rpmspec}` to `vendored_nodejs{:rpmspec}` so other macros will use the vendored version.
+What <Code code={`%vendor_nodejs`} lang={RPMSpec} inline /> does:
+1. Installs the desired Node.js version to <Code code={`%{_nvm_dir}`} lang={RPMSpec} inline />.
+1. Redefines <Code code={`%{__nodejs}`} lang={RPMSpec} inline /> to run the vendored version through NVM.
+1. Sets a <Code code={`%bcond`} lang={RPMSpec} inline /> to `vendored_nodejs`} lang={RPMSpec} inline /> so other macros will use the vendored version.
 
 Vendored versions of NPM and NPX are subject to limitations in commands as they must be run through `exec`.
 
 <Aside>
-  You MUST add `nvm` as a build as a `BuildRequires:{:rpmspec}` if using this macro.
+  You MUST add `nvm` as a build as a <Code code={`BuildRequires:`} lang={RPMSpec} inline /> if using this macro.
 </Aside>
 
 <SearchTerra macroname="vendor_nodejs" />
@@ -369,17 +369,17 @@ Macros for packaging Node modules.
 Prepare a Node module for build steps.
 
 Available flags:
-- `-n <…>` MUST be used to define `%{npm_name}{:rpmspec}` if it was not defined as a global macro.
+- `-n <…>` MUST be used to define <Code code={`%{npm_name}`} lang={RPMSpec} inline /> if it was not defined as a global macro.
 
 <SearchTerra macroname="npm_prep" />
 
 #### %fetch_node_tests
-Fetch self-tests from a Git repo. MUST include all necessary test files and folders. If used, it SHOULD be placed in the `%prep{:rpmspec}` section.
+Fetch self-tests from a Git repo. MUST include all necessary test files and folders. If used, it SHOULD be placed in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
 
 Available flags:
-- `-u <…>` MUST be used to define the URL if the one listed in the `URL:{:rpmspec}` tag for the package is not detectable as clonable.
+- `-u <…>` MUST be used to define the URL if the one listed in the <Code code={`URL:`} lang={RPMSpec} inline /> tag for the package is not detectable as clonable.
 
-All necessary test files and folders MUST be listed after the macro. Test folders MUST start with `/{:rpmspec}`.
+All necessary test files and folders MUST be listed after the macro. Test folders MUST start with <Code code={`/`} lang={RPMSpec} inline />.
 
 Example usage:
 ```rpmspec
@@ -391,7 +391,7 @@ Example usage:
 <SearchTerra macroname="fetch_node_tests" />
 
 #### %npm_install
-Install a Node module to `%{npm_sitelib}{:rpmspec}` and symlink its executable.
+Install a Node module to <Code code={`%{npm_sitelib}`} lang={RPMSpec} inline /> and symlink its executable.
 
 <Aside type="tip">
   This macro sets the environment variable `$_js`. This environment variable has a very simple purpose: It is defined as `.js` if a Node module's executable ends in a `.js` extension.<br />
@@ -411,11 +411,11 @@ Real package example:
 <SearchTerra macroname="npm_install" />
 
 #### %node_self_test
-Runs self-defined tests on the Node module. This is not applicable for all Node modules. Also, not all tests (that are supported as Node modules) can use a wide variety of testing tools. For use in `%check{:rpmspec}`.
+Runs self-defined tests on the Node module. This is not applicable for all Node modules. Also, not all tests (that are supported as Node modules) can use a wide variety of testing tools. For use in <Code code={`%check`} lang={RPMSpec} inline />.
 
 Available flags:
-- `-R{:rpmspec}`: Direct duplicate of an `-R{:rpmspec}` flag. Project dependent.
-- `-v{:rpmspec}`: Direct duplicate of a `-v{:rpmspec}` flag. Project dependent.
+- <Code code={`-R`} lang={RPMSpec} inline />: Direct duplicate of an <Code code={`-R`} lang={RPMSpec} inline /> flag. Project dependent.
+- <Code code={`-v`} lang={RPMSpec} inline />: Direct duplicate of a `-v`} lang={RPMSpec} inline /> flag. Project dependent.
 
 You MUST use [`%fetch_node_tests`](#fetch_node_tests) first if using this.
 
@@ -447,7 +447,7 @@ Expands to: `/usr/bin/license-checker --limitAttributes licenses`
 This is similar to [`%__npm_license_checker`](#__npm_license_checker), but limits the output to only the license.
 
 Available flags:
-- `-o <…>` MAY be used as a shorthand for `--out{:rpmspec}`.
+- `-o <…>` MAY be used as a shorthand for <Code code={`--out`} lang={RPMSpec} inline />.
 
 Example output:
 
@@ -471,12 +471,12 @@ OR:
 %npm_license -o LICENSE.modules
 ```
 
-The above would create a `LICENSE.modules` file which can then be packaged using `%license LICENSE.modules{:rpmspec}`.
+The above would create a `LICENSE.modules` file which can then be packaged using <Code code={`%license LICENSE.modules`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="npm_license" />
 
 #### %npm_license_summary
-Outputs a summary of the bundled licenses. Useful for determining what to put in the `License:{:rpmspec}` section for Node modules.
+Outputs a summary of the bundled licenses. Useful for determining what to put in the <Code code={`License:`} lang={RPMSpec} inline /> section for Node modules.
 
 Expands to: `%{__npm_license_checker} --summary`
 
@@ -486,14 +486,14 @@ Expands to: `%{__npm_license_checker} --summary`
 These are macros for working with JavaScript package managers.
 
 <Aside>
-The JavaScript package manager cache directories are placed in [`%{rpmbuilddir}`](#rpmbuilddir) because `$HOME{:bash}` can be different depending on if a build is in Mock or RPM Build.
+The JavaScript package manager cache directories are placed in [`%{rpmbuilddir}`](#rpmbuilddir) because <Code code={`$HOME`} lang="bash" inline /> can be different depending on if a build is in Mock or RPM Build.
   - This is very important for consistent macro behavior as well as if the cache must be modified or deleted during build for any reason.
 All macros calling the package managers also call NPM environment variables because most of them are using build dependencies from the NPM Registry, some even wrap NPM commands with their own. This ensures consistent NPM behavior.
 </Aside>
 
 #### NPM
 Macros for using [NPM](https://www.npmjs.com).
-It is REQUIRED to have `BuildRequires: nodejs-npm{:rpmspec}`.
+It is REQUIRED to have <Code code={`BuildRequires: nodejs-npm`} lang={RPMSpec} inline />.
 
 For building webapps with NPM, see [%npm_build](#npm_build).
 
@@ -514,10 +514,10 @@ If desired, it can be redefined to `silent`, `warn`, `notice`, `info`, `verbose`
 Expands to: `NPM_CONFIG_USERCONFIG=%{rpmbuilddir}/.npmrc NPM_CONFIG_GLOBALCONFIG=%{rpmbuilddir}/npmrc NPM_CONFIG_CACHE=%{_npm_cache_dir} NPM_CONFIG_LOGLEVEL=%{__npm_log_level} NPM_CONFIG_FUND=false NPM_CONFIG_UPDATE_NOTIFIER=false NO_UPDATE_NOTIFIER=1 NPM_CONFIG_COLOR=always NPM_CONFIG_INIT_MODULE=%{rpmbuilddir}/.npm-init.js`
 
 What these do:
-- Forces all configuration files into the `%{rpmbuilddir}{:rpmspec}` so they are easily locatable and to prevent attempting to write to the host file system for global config.
+- Forces all configuration files into the <Code code={`%{rpmbuilddir}`} lang={RPMSpec} inline /> so they are easily locatable and to prevent attempting to write to the host file system for global config.
 - Sets the NPM log level to errors (previously `warn` but this included warnings irrelevant to builds or Node modules).
 - Disables funding notifications as this does not make sense to display in an automated build and causes log spam.
-- Disables update notifications since we are using a packaged version of NPM unless using `%vendor_nodejs{:rpmspec}`.
+- Disables update notifications since we are using a packaged version of NPM unless using <Code code={`%vendor_nodejs`} lang={RPMSpec} inline />.
 - Sets color to `always` for more easily readable logs.
 
 <SearchTerra macroname="npm_common_envvars" />
@@ -525,14 +525,14 @@ What these do:
 ##### %npm_config_opts
 Explicit NPM configuration flags of the environment variables set by the Macros.
 
-Expands to: `--userconfig=%{rpmbuilddir}/.npmrc --globalconfig=%{rpmbuilddir}/npmrc --cache=%{_npm_cache_dir} --loglevel=%{__npm_log_level} --fund=false --update-notifier=false --color=always --init-module=%{rpmbuilddir}/.npm-init.js{:rpmspec}`
+Expands to: <Code code={`--userconfig=%{rpmbuilddir}/.npmrc --globalconfig=%{rpmbuilddir}/npmrc --cache=%{_npm_cache_dir} --loglevel=%{__npm_log_level} --fund=false --update-notifier=false --color=always --init-module=%{rpmbuilddir}/.npm-init.js`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="npm_config_opts" />
 
 ##### %__npm
 Macro to call NPM with predetermined enviroment variables.
 
-Expands to: `/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npm --}%{!?with_vendored_nodejs:/usr/bin/npm}{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npm --}%{!?with_vendored_nodejs:/usr/bin/npm}`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `npm` itself.
 
@@ -541,62 +541,62 @@ SHOULD be used in place of calling `npm` itself.
 ##### %__npx
 Remotely run Node modules with NPX.
 
-Expands to: `/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npx --}%{!?with_vendored_nodejs:/usr/bin/npx}{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npx --}%{!?with_vendored_nodejs:/usr/bin/npx}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="__npx" />
 
 ##### %npm_audit
-Audit with NPM if package uses bundled Node module dependencies. For use in the `%check{:rpmspec}` section.
+Audit with NPM if package uses bundled Node module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 Vulnerabilities for Node modules __not bundled in the final package__ SHOULD NOT be fixed. If a vulnerability is found *only* in build dependencies, you are fine to leave it as is.
 
 <SearchTerra macroname="npm_audit" />
 
 ##### %npm_audit_fix
-Fix vulnerabilities found using `%npm_audit{:rpmspec}`. Should be used in `%prep{:rpmspec}` section.
+Fix vulnerabilities found using <Code code={`%npm_audit`} lang={RPMSpec} inline />. Should be used in <Code code={`%prep`} lang={RPMSpec} inline /> section.
 
 Installed packages with fixed dependencies SHOULD be tested first to make sure the applied fix did not cause any issues.
 
 Available flags:
-- `-d{:rpmspec}` will run with `--dry-run{:rpmspec}` so you can check what the fix would do.
-- `-f{:rpmspec}` will run with `--force{:rpmspec}`, ignoring package locks or other requirements set by the module to fix the dependencies. This MUST be tested locally and verified to not cause breakage.
-- `-o <…>` will omit a dependency or group (such as `dev{:rpmspec}`) from being fixed.
+- <Code code={`-d`} lang={RPMSpec} inline /> will run with <Code code={`--dry-run`} lang={RPMSpec} inline /> so you can check what the fix would do.
+- <Code code={`-f`} lang={RPMSpec} inline /> will run with <Code code={`--force`} lang={RPMSpec} inline />, ignoring package locks or other requirements set by the module to fix the dependencies. This MUST be tested locally and verified to not cause breakage.
+- `-o <…>` will omit a dependency or group (such as <Code code={`dev`} lang={RPMSpec} inline />) from being fixed.
 - `-O <…>` will only fix a specified depency or group.
-- `-p{:rpmspec}` will limit the run to the package lock.
+- <Code code={`-p`} lang={RPMSpec} inline /> will limit the run to the package lock.
 
-LIMITATION: Cannot be used on modules installed using the `-g{:rpmspec}` flag (which is done in `%npm_prep{:rpmspec}`) which use a package lock.
+LIMITATION: Cannot be used on modules installed using the <Code code={`-g`} lang={RPMSpec} inline /> flag (which is done in <Code code={`%npm_prep`} lang={RPMSpec} inline />) which use a package lock.
 
 <SearchTerra macroname="npm_audit_fix" />
 
 ##### %npm_test
-Runs NPM tests. This will not be applicable to all projects or Node modules. For use in the `%check{:rpmspec}` section. For some projects it may be necessary to export `NODE_ENV=test` first.
+Runs NPM tests. This will not be applicable to all projects or Node modules. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
-Expands to: `%{__npm} test{:rpmspec}`
+Expands to: <Code code={`%{__npm} test`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="npm_test" />
 
 #### Bun
 Macros for using [Bun](https://bun.com).
-It is REQUIRED to have `BuildRequires: bun-bin{:rpmspec}`.
+It is REQUIRED to have <Code code={`BuildRequires: bun-bin`} lang={RPMSpec} inline />.
 
 For building webapps with Bun, see [%bun_build](#bun_build).
 
 ##### %bun_common_envvars
-Sets the `$BUN_HOME{:bash}` for future use and sets the cache dir.
+Sets the <Code code={`$BUN_HOME`} lang="bash" inline /> for future use and sets the cache dir.
 
-Expands to: `%{npm_common_envvars} BUN_HOME=%{_bun_home} BUN_INSTALL_CACHE_DIR=%{_bun_cache_dir} BUN_RUNTIME_TRANSPILER_CACHE_PATH=%{_bun_cache_dir} FORCE_COLOR=1{:rpmspec}`
+Expands to: <Code code={`%{npm_common_envvars} BUN_HOME=%{_bun_home} BUN_INSTALL_CACHE_DIR=%{_bun_cache_dir} BUN_RUNTIME_TRANSPILER_CACHE_PATH=%{_bun_cache_dir} FORCE_COLOR=1`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="bun_common_envvars" />
 
 ##### %bun_config_opts
 Explicit Bun configuration flags of the environment variables set by the Macros.
 
-Expands to: `--cache-dir=%{_bun_cache_dir}{:rpmspec}`
+Expands to: <Code code={`--cache-dir=%{_bun_cache_dir}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="bun_config_opts" />
 
 ##### %__bun
-Expands to: `/usr/bin/env %{bun_common_envvars} /usr/bin/bun{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{bun_common_envvars} /usr/bin/bun`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `bun` itself.
 
@@ -605,14 +605,14 @@ SHOULD be used in place of calling `bun` itself.
 ##### %__bunx
 Run JavaScript modules (downloading them if necessary) with Bun.
 
-Expands to: `/usr/bin/env %{bun_common_envvars} /usr/bin/bunx{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{bun_common_envvars} /usr/bin/bunx`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `bunx` or `bun x` itself.
 
 <SearchTerra macroname="__bunx" />
 
 ##### %bun_audit
-Audit with Bun if package uses bundled JavaScript module dependencies. For use in the `%check{:rpmspec}` section.
+Audit with Bun if package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 <Aside>
   `bun audit` is currently just a wrapper for NPM audit but lacks the `fix` option; use `%npm_audit_fix` to fix vulnerabilities if they are found in Node modules.
@@ -626,34 +626,34 @@ You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not
 Add JavaScript modules to trusted dependencies so their postinstall scripts can be run. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
-- `-a{:rpmspec}` can be used to trust all dependencies, otherwise simply list the dependencies you want to trust after the command.
+- <Code code={`-a`} lang={RPMSpec} inline /> can be used to trust all dependencies, otherwise simply list the dependencies you want to trust after the command.
 
-Expands to: `%{__bun} pm trust{:rpmspec}`
+Expands to: <Code code={`%{__bun} pm trust`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="bun_pm_trust" />
 
 ##### %bun_test
-Runs Bun tests. This will not be applicable to all projects. For use in the `%check{:rpmspec}` section. For some projects it may be necessary to export `NODE_ENV=test` first.
+Runs Bun tests. This will not be applicable to all projects. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
-Expands to: `%{__bun} test{:rpmspec}`
+Expands to: <Code code={`%{__bun} test`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="bun_test" />
 
 #### Deno
 Macros for using [Deno](https://deno.com).
-It is REQUIRED to have `BuildRequires: deno{:rpmspec}`.
+It is REQUIRED to have <Code code={`BuildRequires: deno`} lang={RPMSpec} inline />.
 
 For building webapps with Deno, see [%deno_build](#deno_build).
 
 ##### %deno_common_envvars
-Sets the `$DENO_DIR{:bash}`, `$DENO_INSTALL_ROOT{:bash}`, limits `$DENO_JOBS{:bash}` to `${RPM_BUILD_NCPUS}{:bash}`, disables update notifications, and forces color.
+Sets the <Code code={`$DENO_DIR`} lang="bash" inline />, <Code code={`$DENO_INSTALL_ROOT`} lang="bash" inline />, limits <Code code={`$DENO_JOBS`} lang="bash" inline /> to <Code code={`$\\{RPM_BUILD_NCPUS\\}`} lang="bash" inline />, disables update notifications, and forces color.
 
-Expands to: `%{npm_common_envvars} DENO_DIR=%{_deno_dir} DENO_INSTALL_ROOT=%{_deno_install_root} DENO_NO_UPDATE_CHECK=1 DENO_JOBS=${RPM_BUILD_NCPUS} FORCE_COLOR=1{:rpmspec}`
+Expands to: <Code code={`%{npm_common_envvars} DENO_DIR=%{_deno_dir} DENO_INSTALL_ROOT=%{_deno_install_root} DENO_NO_UPDATE_CHECK=1 DENO_JOBS=$\\{RPM_BUILD_NCPUS\\} FORCE_COLOR=1`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="deno_common_envvars" />
 
 ##### %__deno
-Expands to: `/usr/bin/env %{deno_common_envvars} /usr/bin/deno{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{deno_common_envvars} /usr/bin/deno`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `deno` itself.
 
@@ -662,16 +662,16 @@ SHOULD be used in place of calling `deno` itself.
 ##### %__dx
 Call modules directly with DX/Deno X.
 
-Expands to: `/usr/bin/env %{deno_common_envvars} /usr/bin/dx{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{deno_common_envvars} /usr/bin/dx`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `dx` or `deno x` itself.
 
 <SearchTerra macroname="__dx" />
 
 ##### %deno_audit
-Audit with Deno if package uses bundled JavaScript module dependencies. For use in the `%check{:rpmspec}` section.
+Audit with Deno if package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
-Expands to: `NPM_CONFIG_AUDIT_LEVEL=low %{__deno} audit --level=low --ignore-unfixable --socket{:rpmspec}`
+Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__deno} audit --level=low --ignore-unfixable --socket`} lang={RPMSpec} inline />
 
 <Aside>
   `deno audit` currently lacks a way to fix vulnerabilities; use you MAY try using `%npm_audit_fix` to fix vulnerabilities.
@@ -683,34 +683,34 @@ Expands to: `NPM_CONFIG_AUDIT_LEVEL=low %{__deno} audit --level=low --ignore-unf
 Approve dependency scripts with Deno if needed. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
-- `-l{:rpmspec}` will limit approval to only dependencies found in the package lock.
+- <Code code={`-l`} lang={RPMSpec} inline /> will limit approval to only dependencies found in the package lock.
 
-Expands to: `%{__deno} approve-scripts{:rpmspec}`
+Expands to: <Code code={`%{__deno} approve-scripts`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="deno_approve_scripts" />
 
 ##### %deno_test
-Runs Deno tests. This will not be applicable to all projects. For use in the `%check{:rpmspec}` section. For some projects it may be necessary to export `NODE_ENV=test` first.
+Runs Deno tests. This will not be applicable to all projects. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
-Expands to: `%{__deno} test --parallel{:rpmspec}`
+Expands to: <Code code={`%{__deno} test --parallel`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="deno_test" />
 
 #### PNPM
 Macros for using [PNPM](https://pnpm.io).
-It is REQUIRED to have `BuildRequires: pnpm{:rpmspec}`.
+It is REQUIRED to have <Code code={`BuildRequires: pnpm`} lang={RPMSpec} inline />.
 
 For building webapps with PNPM, see [%pnpm_build](#pnpm_build).
 
 ##### %pnpm_common_envvars
 Sets the NPM environment variables and the PNPM home directory.
 
-Expands to: `%{npm_common_envvars} PNPM_HOME=%{_pnpm_home}{:rpmspec}`
+Expands to: <Code code={`%{npm_common_envvars} PNPM_HOME=%{_pnpm_home}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="pnpm_common_envvars" />
 
 ##### %__pnpm
-Expands to: `/usr/bin/env %{pnpm_common_envvars} %{?with_vendored_pnpm:%{_pnpm_home}/pnpm}%{!?with_vendored_pnpm:/usr/bin/pnpm}{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{pnpm_common_envvars} %{?with_vendored_pnpm:%{_pnpm_home}/pnpm}%{!?with_vendored_pnpm:/usr/bin/pnpm}`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `pnpm` itself.
 
@@ -719,7 +719,7 @@ SHOULD be used in place of calling `pnpm` itself.
 ##### %__pnpx
 Remotely execute JavaScript modules using PNPX.
 
-Expands to: `/usr/bin/env %{pnpm_common_envvars} /usr/bin/pnpx{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{pnpm_common_envvars} /usr/bin/pnpx`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `pnpx` or `pnpm dlx` itself.
 
@@ -734,7 +734,7 @@ Available flags:
 Usecase examples:
 - Fedora's currently packaged PNPM is too old for the build.
 - You want to make the package build on EL (does not have PNPM).
-  - In this case, you SHOULD wrap `%vendor_pnpm{:rpmspec}` in `%if{:rpmspec}` macros such as:
+  - In this case, you SHOULD wrap <Code code={`%vendor_pnpm`} lang={RPMSpec} inline /> in <Code code={`%if`} lang={RPMSpec} inline /> macros such as:
   - ```rpmspec
      %if %{defined rhel}
      %vendor_pnpm
@@ -744,7 +744,7 @@ Usecase examples:
 <SearchTerra macroname="vendor_pnpm" />
 
 ##### %pnpm_audit
-Audit with PNPM if the package uses bundled JavaScript module dependencies. For use in the `%check{:rpmspec}` section.
+Audit with PNPM if the package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not bundled in the final package__. This means if a vulnerability is found *only* in build dependencies, you are fine to leave them be.
 
@@ -753,7 +753,7 @@ You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not
 ##### %pnpm_audit_fix
 Fix security issues in dependencies using PNPM.
 
-Expands to: `NPM_CONFIG_AUDIT_LEVEL=low %{__pnpm} audit{:rpmspec}`
+Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__pnpm} audit`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="pnpm_audit_fix" />
 
@@ -761,42 +761,42 @@ Expands to: `NPM_CONFIG_AUDIT_LEVEL=low %{__pnpm} audit{:rpmspec}`
 Approve dependency scripts with PNPM if needed. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
-- `-g{:rpmspec}` can be used to trust depdendencies of globally installed packages.
+- <Code code={`-g`} lang={RPMSpec} inline /> can be used to trust depdendencies of globally installed packages.
 
-Expands to: `%{__pnpm} approve-builds{:rpmspec}`
+Expands to: <Code code={`%{__pnpm} approve-builds`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="pnpm_approve_builds" />
 
 ##### %pnpm_test
-Runs PNPM tests. This will not be applicable to all JavaScript modules. For use in the `%check{:rpmspec}` section. For some projects it may be necessary to export `NODE_ENV=test` first.
+Runs PNPM tests. This will not be applicable to all JavaScript modules. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
-Expands to: `%{__pnpm} test{:rpmspec}`
+Expands to: <Code code={`%{__pnpm} test`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="pnpm_test" />
 
 #### Yarn Macros
 Macros for using [Yarn (Yarn Classic/Yarn v1)](https://classic.yarnpkg.com) and [Yarn Berry (Yarn Modern/Yarn v2+)](https://yarnpkg.com).
 
-You SHOULD use `BuildRequires: yarnpkg{:rpmspec}` (Yarn Classic) unless you need `BuildRequires: yarnpkg-berry{:rpmspec}` (Yarn Berry) specifically.
+You SHOULD use <Code code={`BuildRequires: yarnpkg`} lang={RPMSpec} inline /> (Yarn Classic) unless you need <Code code={`BuildRequires: yarnpkg-berry`} lang={RPMSpec} inline /> (Yarn Berry) specifically.
 
 For building webapps with Yarn, see [%yarn_build](#yarn_build).
 
 ##### %yarn_common_envvars
 Sets the NPM evironment variables and Yarn's cache folder.
 
-Expands to: `%{npm_common_envvars} YARN_CACHE_FOLDER=%{_yarn_cache_dir}{:rpmspec}`
+Expands to: <Code code={`%{npm_common_envvars} YARN_CACHE_FOLDER=%{_yarn_cache_dir}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="yarn_common_envvars" />
 
 ##### %yarn_config_opts
 Explicit Yarn configuration flags of the environment variables set by the Macros.
 
-Expands to: `--cache-folder=%{_yarn_cache_dir}{:rpmspec}`
+Expands to: <Code code={`--cache-folder=%{_yarn_cache_dir}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="yarn_config_opts" />
 
 ##### %__yarn
-Expands to: `/usr/bin/env %{yarn_common_envvars} /usr/bin/yarn{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{yarn_common_envvars} /usr/bin/yarn`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `yarn` itself.
 
@@ -805,7 +805,7 @@ SHOULD be used in place of calling `yarn` itself.
 ##### %__yarn_dlx
 Remotely execute a JavaScript module with Yarn DLX.
 
-Expands to: `/usr/bin/env %{yarn_common_envvars} /usr/bin/yarn dlx{:rpmspec}`
+Expands to: <Code code={`/usr/bin/env %{yarn_common_envvars} /usr/bin/yarn dlx`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `yarn dlx` itself.
 
@@ -816,16 +816,16 @@ SHOULD be used in place of calling `yarn dlx` itself.
 <SearchTerra macroname="__yarn_dlx" />
 
 ##### %yarn_audit
-Audit Yarn if the package uses bundled JavaScript module dependencies. For use in the `%check{:rpmspec}` section.
+Audit Yarn if the package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not bundled in the final package__. This means if a vulnerability is found *only* in build dependencies, you are fine to leave them be.
 
 <SearchTerra macroname="yarn_audit" />
 
 ##### %yarn_test
-Runs Yarn tests. This will not be applicable to all projects. For use in the `%check{:rpmspec}` section. For some projects it may be necessary to export `NODE_ENV=test` first.
+Runs Yarn tests. This will not be applicable to all projects. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
-Expands to: `%{__yarn} test{:rpmspec}`
+Expands to: <Code code={`%{__yarn} test`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="yarn_test" />
 
@@ -840,49 +840,49 @@ Set up all basic requirements including build macros for building an Electron ap
 
 <Aside>
   This does NOT install the JavaScript package managers used for builds except for NPM (e.g., `bun`, `deno`, `pnpm`, `yarnpkg`, `yarnpkg-berry`).<br />
-  Specify these `BuildRequires:{:rpmspec}` manually.
+  Specify these Code code={`BuildRequires:`} lang={RPMSpec} inline /> manually.
 </Aside>
 
 Available flags:
-- `-a{:rpmspec}` will pull in additional build dependencies often needed particularly when building with NPM.
+- <Code code={`-a`} lang={RPMSpec} inline /> will pull in additional build dependencies often needed particularly when building with NPM.
   - Currently, this includes `nodejs-devel`, `nodejs-packaging`, and `typescript`.
-- `-D{:rpmspec}` will disable debuginfo package creation. This is necessary for many Electron apps as the bundled libraries often do not contain enough to strip, meaning this step in the build will fail. SHOULD only be used if debug packages cannot be created.
+- <Code code={`-D`} lang={RPMSpec} inline /> will disable debuginfo package creation. This is necessary for many Electron apps as the bundled libraries often do not contain enough to strip, meaning this step in the build will fail. SHOULD only be used if debug packages cannot be created.
 
-Rundown of what all `%electronmeta{:rpmspec}` does:
-- Converts `%_target_cpu{:rpmspec}` (the RPM build architecture) into `%_electron_cpu{:rpmspec}`, the Electron format for compatible architectures. See the table below for conversions. See also: [%electron_arches](#electron_arches)
+Rundown of what all <Code code={`%electronmeta`} lang={RPMSpec} inline /> does:
+- Converts <Code code={`%_target_cpu`} lang={RPMSpec} inline /> (the RPM build architecture) into <Code code={`%_electron_cpu`} lang={RPMSpec} inline />, the Electron format for compatible architectures. See the table below for conversions. See also: [%electron_arches](#electron_arches)
   - These are defined because Electron names the build files and directories after the architecture.
   - The [macros used to build Electron apps](#webapp-build-macros) all require this to be set.
   - In some cases, these architectures are used in the source tarballs for Electron projects.
   - This can also be used to help work with the files if you need to do anything manually.
-- Defines `%__provides_excludes{:rpmspec}` to make sure Electron apps are not flagged as providers of their bundled dependencies, such as FFmpeg libraries.
-- Defines `%__requires_excludes{:rpmspec}` based on architecture to prevent Electron projects' cross-platform builds from causing false dependency positives from RPM.
-- If using the `-D` boolean, sets `%debug_package{:rpmspec}` to `%{nil}{:rpmspec}` to prevent stripping of bundled libraries and/or build failures due to not enough data to strip.
+- Defines <Code code={`%__provides_excludes`} lang={RPMSpec} inline /> to make sure Electron apps are not flagged as providers of their bundled dependencies, such as FFmpeg libraries.
+- Defines <Code code={`%__requires_excludes`} lang={RPMSpec} inline /> based on architecture to prevent Electron projects' cross-platform builds from causing false dependency positives from RPM.
+- If using the `-D` boolean, sets `<Code code={%debug_package`} lang={RPMSpec} inline /> to `%{nil}`} lang={RPMSpec} inline /> to prevent stripping of bundled libraries and/or build failures due to not enough data to strip.
 - Sets the build and runtime dependencies.
-- Sets the `ExclusiveArch:{:rpmspec}` tag to only the architectures Electron supports.
-- Defines a `%bcond{:rpmspec}` for whether or not Electron is bundled for other macros.
+- Sets the <Code code={`ExclusiveArch:`} lang={RPMSpec} inline /> tag to only the architectures Electron supports.
+- Defines a <Code code={`%bcond`} lang={RPMSpec} inline /> for whether or not Electron is bundled for other macros.
 - Defines the bundled dependencies as bundled.
   <Aside type="caution">
     This only defines Electron's bundled dependencies, not any JavaScript modules the app may also bundle.
   </Aside>
 
 <div style={{ margin: "1em 0em 1em 0.5em" }}>
-  | `%_target_cpu`                  | `%_electron_cpu` |
-  |:-------------------------------:|:----------------:|
-  | `x86_64`[^1]                    | `x64`            |
-  | `%{arm64}` (`aarch64`)          | `arm64`          |
-  | `i386`, `i486`, `i586`, `i686`  | `ia32`           |
-  | `armv7l`                        | `armv7l`         |
-  | `mips64el`                      | `mips64el`       |
+  | `%{_target_cpu}`                | `%{_electron_cpu}` |
+  |:-------------------------------:|:------------------:|
+  | `x86_64`[^1]                    | `x64`              |
+  | `%{arm64}` (`aarch64`)          | `arm64`            |
+  | `i386`, `i486`, `i586`, `i686`  | `ia32`             |
+  | `armv7l`                        | `armv7l`           |
+  | `mips64el`                      | `mips64el`         |
 </div>
 
 This ensures packagers don't need to manually set these for every Electron app's spec, hopefully eliminating depsolver problems and helping reduce common build issues.
 
-Like other meta macros (e.g., `%forgemeta{:rpmspec}` from Fedora), you MUST be mindful of where in the spec this macro should be placed.
-- MUST always come after `Name:{:rpmspec}` is defined and before the `%description{:rpmspec}` section.
-- SHOULD come before the `License:{:rpmspec}` field if using [`%{electron_license}`](#electron_license).
-- MAY be used under preambles but before `%description{:rpmspec}` if not using `%{electron_license}{:rpmspec}`.
+Like other meta macros (e.g., <Code code={`%forgemeta`} lang={RPMSpec} inline /> from Fedora), you MUST be mindful of where in the spec this macro should be placed.
+- MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the <Code code={`%description`} lang={RPMSpec} inline /> section.
+- SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](#electron_license).
+- MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
 
-The safest location is under `Name:{:rpmspec}` and above other preambles. When in doubt, place the macro here.
+The safest location is under <Code code={`Name:`} lang={RPMSpec} inline /> and above other preambles. When in doubt, place the macro here.
 
 <Aside>
   `%__provides_exclude` and `%__requires_exclude` can be recursively added to if needed by defining the macro again as a `%global` and appending the needed exclusions using [regex](https://wikipedia.org/wiki/Regular_expression).<br />
@@ -901,7 +901,7 @@ Version: 39.2.7
 <SearchTerra macroname="electronmeta" />
 
 ##### %electron_arches
-The architectures Electron supports. Automatically set as `ExclusiveArch:{:rpmspec}` when using `%electronmeta{:rpmspec}`.
+The architectures Electron supports. Automatically set as <Code code={`ExclusiveArch:`} lang={RPMSpec} inline /> when using <Code code={`%electronmeta`} lang={RPMSpec} inline />.
 
 As written, the macro expands to:
 - `x86_64 i386 i486 i586 i686 %{arm64} armv7l mips64el`
@@ -917,10 +917,10 @@ However, at this time, Terra only supports x86_64, AArch64, and 32-bit x86.
 
 ##### %electron_license
 The license for bundled Electron.
-NOT set by default in `%electronmeta{:rpmspec}` because you cannot set the license field twice.
-MAY be used in combination with manually adding the other relevant licenses (if this is done, a proper license tag would be `License: XXX-x.x AND %{electron_license}{:rpmspec}`).
+NOT set by default in <Code code={`%electronmeta`} lang={RPMSpec} inline /> because you cannot set the license field twice.
+MAY be used in combination with manually adding the other relevant licenses (if this is done, a proper license tag would be <Code code={`License: XXX-x.x AND %{electron_license}`} lang={RPMSpec} inline />).
 
-[`%electronmeta`](#electronmeta) SHOULD be used BEFORE the `License:{:rpmspec}` preamble but AFTER `Name:{:rpmspec}` if using this macro.
+[`%electronmeta`](#electronmeta) SHOULD be used BEFORE the <Code code={`License:`} lang={RPMSpec} inline /> preamble but AFTER `Name:`} lang={RPMSpec} inline /> if using this macro.
 
 <SearchTerra macroname="electron_license" />
 
@@ -931,7 +931,7 @@ Capital letter flags denote use with [desktop file](https://specifications.freed
 
 By default, the install steps are:
 1. Make the install directory.
-  - This will be in the `%{_libdir}{:rpmspec}` (/usr/lib on 32-bit architectures and /usr/lib64 on 64-bit ones).
+  - This will be in the <Code code={`%{_libdir}`} lang={RPMSpec} inline /> (/usr/lib on 32-bit architectures and /usr/lib64 on 64-bit ones).
   - This is done because programs with bundled dependencies (Electron, JavaScript modules, and more) MUST have these dependencies kept together.
 2. Install the app's files.
 3. Symlink the app's binary to the bin directory.
@@ -942,17 +942,17 @@ Available flags:
 - `-d <…>` MAY be used to install the app under a different directory than the name of the package.
 - `-i <…>` MUST be used when the app's desktop file points to an icon name different from the name of the package.
 - `-I […]` MAY be used to handle automatic icon installation. It can be used to point to either the folder icons are in and the icon files themselves. You MUST include the file extension if pointing it to the icon files, otherwise it will assume you are pointing it to a directory.
-- `-l{:rpmspec}` MAY be used to fetch all licenses including the bundled ones and put them in a directory called `bundled_licenses`. You SHOULD then package them in the license directory using `%license bundled_licenses/*` in the `%files` section.
+- <Code code={`-l`} lang={RPMSpec} inline /> MAY be used to fetch all licenses including the bundled ones and put them in a directory called `bundled_licenses`. You SHOULD then package them in the license directory using `%license bundled_licenses/*` in the `%files` section.
   - If using this you MUST make sure there are no duplicate license names. For example, if the main application's license file is `LICENSE`, but one of its bundled license files is *also* `LICENSE`, you SHOULD rename the bundled license to an appropriate name indicating it is the license for a bundled dependency.
   - An appropriate name would be something like `LICENSE.bundleddepname` or `bundleddepname.LICENSE`. Usually, the former is used, but you MAY use either format.
   - This MUST be done because if there are two different files with the same name, the `cp` command used in the `%license` macro for the files section will either fail or overwrite the main software's license, which is not admissible for redistribution.
 - `-s <…>` MAY be used to choose the name of the symlink.
 - `-S <…>` MAY be used to create an additional symlink with a different name. Useful when an app has two interchangeable common names.
-- `-D{:rpmspec}` MAY be used to handle automatic installation of the .desktop file. This ONLY works if Electron Builder builds an AppImage, and should not be used if the source contains a desktop file.
+- <Code code={`-D`} lang={RPMSpec} inline /> MAY be used to handle automatic installation of the .desktop file. This ONLY works if Electron Builder builds an AppImage, and should not be used if the source contains a desktop file.
 - `-E <…>` MAY be used to set the "--enable-features" flag in the desktop file. Features to enable MUST be comma separated without spaces.
 - `-O[…]` MAY be used to set the [Ozone platform](https://chromium.googlesource.com/chromium/src/+/lkgr/docs/ozone_overview.md) the Electron app will run on. If no arguments are supplied, it will fall back to `--ozone-platform-hint=auto`. Accepted arguments are `-Ox11` and `-Owayland`
 - `-U <…>` MAY be used to set either `%u` or `%U` in the desktop file. If using this you MUST NOT use `u` as a macro name for any reason.
-  - `%u{:rpmspec}` means that a desktop file can only read one URL at a time, `%U{:rpmspec}` means that it can read multiple at a time. These are what are known as [exec keys](https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html).
+  - <Code code={`%u`} lang={RPMSpec} inline /> means that a desktop file can only read one URL at a time, <Code code={`%U`} lang={RPMSpec} inline /> means that it can read multiple at a time. These are what are known as [exec keys](https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html).
   - Defer to what the desktop file originally contained if you are unsure which to use.
 
 Example usage:
@@ -981,18 +981,18 @@ Tauri apps always require JavaScript package managers AND Cargo, so for this rea
 </Aside>
 
 ##### %tauri_buildrequires
-MAY be used in a spec by setting `BuildRequires: %{tauri_buildrequires}{:rpmspec}`
+MAY be used in a spec by setting <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
 
 Available flags:
-- `-a{:rpmspec}`: Additional BuildRequires that may be needed for some projects.
+- <Code code={`-a`} lang={RPMSpec} inline />: Additional BuildRequires that may be needed for some projects.
   - Currently, this includes `nodejs-devel`, `nodejs-packaging`, and `typescript`.
-  - This would be used as `BuildRequires: %{tauri_buildrequires -a}{:rpmspec}`.
-- `-t{:rpmspec}`: Pull Tauri itself from the repos.
-  - This would be used as `BuildRequires: %{tauri_buildrequires -t}{:rpmspec}`
+  - This would be used as <Code code={`BuildRequires: %{tauri_buildrequires -a}`} lang={RPMSpec} inline />.
+- <Code code={`-t`} lang={RPMSpec} inline />: Pull Tauri itself from the repos.
+  - This would be used as <Code code={`BuildRequires: %{tauri_buildrequires -t}`} lang={RPMSpec} inline />
 
 <Aside>
   This does NOT install the JavaScript package managers used for builds except for NPM (e.g., `bun`, `deno`, `pnpm`, `yarnpkg`, `yarnpkg-berry`).<br />
-  Specify these `BuildRequires:{:rpmspec}` manually.
+  Specify these <Code code={`BuildRequires:`} lang={RPMSpec} inline /> manually.
 </Aside>
 
 <SearchTerra macroname="tauri_buildrequires" />
@@ -1044,16 +1044,16 @@ A port of `%cargo_vendor_manifest_online` that points to the Tauri app's Cargo.t
 <SearchTerra macroname="tauri_cargo_vendor_manifest" />
 
 ##### %tauri_generate_buildrequires
-Generates `BuildRequires:{:rpmspec}` for a Tauri build.
+Generates <Code code={`BuildRequires:`} lang={RPMSpec} inline /> for a Tauri build.
 
 Supports the same flags as [%tauri_buildrequires](#tauri_buildrequires).
 
 <Aside type="caution">
-  `BuildRequires:{:rpmspec}` generation only works in Mock.
+  <Code code={`BuildRequires:`} lang={RPMSpec} inline /> generation only works in Mock.
 </Aside>
 <Aside>
   This does NOT install the JavaScript package managers used for builds except for NPM (e.g., `bun`, `deno`, `pnpm`, `yarnpkg`, `yarnpkg-berry`).<br />
-  Specify these `BuildRequires:{:rpmspec}` manually.
+  Specify these <Code code={`BuildRequires:`} lang={RPMSpec} inline /> manually.
 </Aside>
 
 <SearchTerra macroname="tauri_generate_buildrequires" />
@@ -1120,14 +1120,14 @@ For more information on each package manager, seethe [NPM macros](#npm), [Bun ma
 SHOULD be used for building Electron or Tauri apps with NPM. Has a great deal of flags to work around NPM specific limitations.
 
 Available flags:
-- `-c{:rpmspec}`: Run `%{__npm} ci{:rpmspec}` instead of `%{__npm} install{:rpmspec}`. May be necessary for projects with stricter build dependencies.
+- <Code code={`-c`} lang={RPMSpec} inline />: Run <Code code={`%{__npm} ci`} lang={RPMSpec} inline /> instead of <Code code={`%{__npm} install`} lang={RPMSpec} inline />. May be necessary for projects with stricter build dependencies.
 - `-e <…>`: Execute commands and modules within the NPM build environment. Some commands may need `--` in between the command itself and the following arguments. Can accept multiple arguments if they are separated using standard shell separators (`;` and `&&`).
 - `-f <…>`: This option is only for Tauri projects. Features to pass to Tauri/Cargo. Features should be comma separated.
-- `-r <…>`: Executes `%{__npm} run{:rpmspec}` for scripts in the `package.json`. Can run multiple scripts if they are comma separated.
-- `-B{:rpmspec}`: Execute the webapp builder (Electron Builder, Electron Forge, or Tauri) directly. Will NOT work for projects that require build steps which use Node.js or executing JavaScript scripts directly.
+- `-r <…>`: Executes <Code code={`%{__npm} run`} lang={RPMSpec} inline /> for scripts in the `package.json`. Can run multiple scripts if they are comma separated.
+- <Code code={`-B`} lang={RPMSpec} inline />: Execute the webapp builder (Electron Builder, Electron Forge, or Tauri) directly. Will NOT work for projects that require build steps which use Node.js or executing JavaScript scripts directly.
 - `-C <…>`: Point NPM to the build config file if it cannot automatically detect it.
 - `-M <…>`: Mode to use in Electron Vite builds. Accepts `production`, `development`, and `staging`. Note that this differs from `$NODE_ENV` so you can run any combination of Vite environment modes and Node.js environment modes.
-- `-V{:rpmspec}`: Execute Electron Vite. Same limitation as with `-B{:rpmspec}`.
+- <Code code={`-V`} lang={RPMSpec} inline />: Execute Electron Vite. Same limitation as with <Code code={`-B`} lang={RPMSpec} inline />.
 
 Example usage:
 ```rpmspec
@@ -1143,14 +1143,14 @@ The above would run the necessary install steps, run script and script2, execute
 SHOULD be used to build Electron or Tauri apps with Bun.
 
 Available flags:
-- `-c{:rpmspec}`: Run `%{__bun} ci{:rpmspec}` instead of `%{__bun} install{:rpmspec}`. Analogous to `%{__bun} install --frozen-lockfile{:rpmspec}`. May be necessary for projects with stricter build dependencies.
+- <Code code={`-c`} lang={RPMSpec} inline />: Run <Code code={`%{__bun} ci`} lang={RPMSpec} inline /> instead of <Code code={`%{__bun} install`} lang={RPMSpec} inline />. Analogous to <Code code={`%{__bun} install --frozen-lockfile`} lang={RPMSpec} inline />. May be necessary for projects with stricter build dependencies.
 - `-e <…>`: Execute commands and modules within the Bun build environment. Can accept multiple arguments if they are separated using standard shell separators (`;` and `&&`).
 - `-f <…>`: This option is only for Tauri projects. Features to pass to Tauri/Cargo. Features should be comma separated.
-- `-v{:rpmspec}`: Run Electron Vite build steps. Not needed for all Electron apps.
-- `-r <…>`: Executes `%{__bun} run{:rpmspec}` for scripts in the `package.json`. Can accept multiple arguments if they are comma separated.
-- `-F{:rpmspec}`: Runs `--force{:rpmspec}` on the `%{__bun} install{:rpmspec}` step. This will assure all dependencies are the latest versions from the registry, reinstalling them if necessary.
-- `-N{:rpmspec}`: Runs `--no-save{:rpmspec}` on the `%{__bun} install{:rpmspec}` step. This prevents updating or (re)creating a lockfile to prevent freezing.
-- `-R{:rpmspec}`: Remove the bun.lock file. SHOULD only be used if the lockfile is causing build issues or upstream builds without a lock file. Built apps using this MUST be carefully tested for problems.
+- <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
+- `-r <…>`: Executes <Code code={`%{__bun} run`} lang={RPMSpec} inline /> for scripts in the `package.json`. Can accept multiple arguments if they are comma separated.
+- <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the <Code code={`%{__bun} install`} lang={RPMSpec} inline /> step. This will assure all dependencies are the latest versions from the registry, reinstalling them if necessary.
+- <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-save`} lang={RPMSpec} inline /> on the `%{__bun} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
+- <Code code={`-R`} lang={RPMSpec} inline />: Remove the bun.lock file. SHOULD only be used if the lockfile is causing build issues or upstream builds without a lock file. Built apps using this MUST be carefully tested for problems.
 
 Example usage:
 ```rpmspec
@@ -1167,12 +1167,12 @@ SHOULD be used to build Electron or Tauri apps with Deno.
 
 Available flags:
 - `-f <…>`: This option is only for Tauri projects. Features to pass to Tauri/Cargo. Features should be comma separated.
-- `-t <…>`: Executes `%{__deno} task{:rpmspec}` for scripts in the `package.json`. Can accept multiple arguments if they are comma separated.
-- `-v{:rpmspec}`: Run Electron Vite build steps. Not needed for all Electron apps.
-- `-r <…>`: Executes files with `%{__deno} run{:rpmspec}`. Can accept multiple arguments if they are comma separated.
+- `-t <…>`: Executes <Code code={`%{__deno} task`} lang={RPMSpec} inline /> for scripts in the `package.json`. Can accept multiple arguments if they are comma separated.
+- <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
+- <Code code={`-r <…>`} lang={RPMSpec} inline />: Executes files with <Code code={`%{__deno} run`} lang={RPMSpec} inline />. Can accept multiple arguments if they are comma separated.
 - `-x <…>`: Execute commands and modules within the Deno build environment. Can accept multiple arguments if they are separated using standard shell separators (`;` and `&&`).
-- `-F{:rpmspec}`: Runs `--force{:rpmspec}` on the `%{__deno} install{:rpmspec}` step. This will overwite the existing dependency installation (if any exists).
-- `-N{:rpmspec}`: Runs `--no-lock{:rpmspec}` on the `%{__deno} install{:rpmspec}` step. This prevents updating or (re)creating a lockfile to prevent freezing.
+- <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the `%{__deno} install`} lang={RPMSpec} inline /> step. This will overwite the existing dependency installation (if any exists).
+- <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-lock`} lang={RPMSpec} inline /> on the `%{__deno} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
 
 Example usage:
 ```rpmspec
@@ -1190,11 +1190,11 @@ SHOULD be used for building Electron or Tauri apps with PNPM.
 Available flags:
 - `-e <…>`: Execute JavaScript modules or installed programs in the PNPM build environment. Can accept multiple arguments if they are separated using standard shell separators (`;` and `&&`).
 - `-f <…>`: This option is only for Tauri projects. Features to pass to Tauri/Cargo. Features should be comma separated.
-- `-r <…>`: Executes `%{__pnpm} run{:rpmspec}` for scripts in the `package.json{:rpmspec}`. Not recommended for Electron Builder/Electron Forge or Electron Vite commands. Can accept multiple arguments if they are comma separated.
-- `-v{:rpmspec}`: Run Electron Vite build steps. Not needed for all Electron apps.
-- `-F{:rpmspec}`: Executes the `%{__pnpm} install{:rpmspec}` step with `--frozen-lockfile{:rpmspec}`. May be necessary for projects expecting very strict build dependencies, but can also override projects that do not enforce a lock.
-- `-N{:rpmspec}`: Executes the `%{__pnpm} install{:rpmspec}` step with `--no-frozen-lockfile{:rpmspec}`. Overrides projects that try to enforce a lockfile.
-- `-R{:rpmspec}`: Makes `%{__pnpm} exec{:rpmspec}` run on every project in the worspace recursively. SHOULD be used only if necessary and with caution.
+- `-r <…>`: Executes <Code code={`%{__pnpm} run`} lang={RPMSpec} inline /> for scripts in the <Code code={`package.json`} lang={RPMSpec} inline />. Not recommended for Electron Builder/Electron Forge or Electron Vite commands. Can accept multiple arguments if they are comma separated.
+- <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
+- <Code code={`-F`} lang={RPMSpec} inline />: Executes the <Code code={`%{__pnpm} install`} lang={RPMSpec} inline /> step with <Code code={`--frozen-lockfile`} lang={RPMSpec} inline />. May be necessary for projects expecting very strict build dependencies, but can also override projects that do not enforce a lock.
+- <Code code={`-N`} lang={RPMSpec} inline />: Executes the <Code code={`%{__pnpm} install`} lang={RPMSpec} inline /> step with <Code code={`--no-frozen-lockfile`} lang={RPMSpec} inline />. Overrides projects that try to enforce a lockfile.
+- <Code code={`-R`} lang={RPMSpec} inline />: Makes <Code code={`%{__pnpm} exec`} lang={RPMSpec} inline /> run on every project in the worspace recursively. SHOULD be used only if necessary and with caution.
 
 Example usage:
 ```rpmspec
@@ -1212,10 +1212,10 @@ SHOULD be used to build Electron or Tauri apps with Yarn or Yarn Berry.
 Available flags:
 - `-e <…>`: Execute JavaScript modules or installed programs in the Yarn build environment.
 - `-f <…>`: This option is only for Tauri projects. Features to pass to Tauri/Cargo. Features should be comma separated.
-- `-r <…>`: Executes `%{__yarn} run{:rpmspec}` for scripts in the `package.json`. Not recommended for Electron Builder, Electron Forge, or Electron Vite commands. Can accept multiple arguments if they are comma separated.
-- `-v{:rpmspec}`: Run Electron Vite build steps. Not needed for all Electron apps.
-- `-F{:rpmspec}`: Executes the `%{__yarn} install{:rpmspec}` step with `--frozen-lockfile{:rpmspec}`. May be necessary for projects expecting very strict build dependencies, but can also override projects that do not enforce a lock.
-- `-N{:rpmspec}`: Executes the `%{__yarn} install{:rpmspec}` step with `--no-lockfile{:rpmspec}`. Makes Yarn not update the lockfile on dependency installation.
+- `-r <…>`: Executes <Code code={`%{__yarn} run`} lang={RPMSpec} inline /> for scripts in the `package.json`. Not recommended for Electron Builder, Electron Forge, or Electron Vite commands. Can accept multiple arguments if they are comma separated.
+- <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
+- <Code code={`-F`} lang={RPMSpec} inline />: Executes the <Code code={`%{__yarn} install`} lang={RPMSpec} inline /> step with <Code code={`--frozen-lockfile`} lang={RPMSpec} inline />. May be necessary for projects expecting very strict build dependencies, but can also override projects that do not enforce a lock.
+- <Code code={`-N`} lang={RPMSpec} inline />: Executes the <Code code={`%{__yarn} install`} lang={RPMSpec} inline /> step with <Code code={`--no-lockfile`} lang={RPMSpec} inline />. Makes Yarn not update the lockfile on dependency installation.
 
 Example usage:
 ```rpmspec
@@ -1259,7 +1259,7 @@ BUN_OPTS="${BUN_OPTS:-%{bun_config_opts} }" ; export BUN_OPTS ; \
 YARN_OPTS="${YARN_OPTS:-%{yarn_config_opts} }" ; export YARN_OPTS
 ```
 
-This ensures the environment variables are explicitly exported and therefor are more likely to be picked up by all shell processes. It also creates environment variables called `$NPM_OPTS{:bash}`, `$BUN_OPTS{:bash}`, and `$YARN_OPTS{:bash}`, which can be passed to NPM in lieu of the macros `%{npm_config_opts}{:rpmspec}`, `%{bun_config_opts}{:rpmspec}`, and `%{yarn_config_opts}{:rpmspec}`, respectively, to force our config if necessary.
+This ensures the environment variables are explicitly exported and therefor are more likely to be picked up by all shell processes. It also creates environment variables called <Code code={`$NPM_OPTS`} lang="bash" inline />, <Code code={`$BUN_OPTS`} lang="bash" inline />, and <Code code={`$YARN_OPTS`} lang="bash" inline />, which can be passed to NPM in lieu of the macros <Code code={`%{npm_config_opts}`} lang={RPMSpec} inline />, <Code code={`%{bun_config_opts}`} lang={RPMSpec} inline />, and <Code code={`%{yarn_config_opts}`} lang={RPMSpec} inline />, respectively, to force our config if necessary.
 
 This should only be needed in the event you are using [%__npx](#__npx), [%__pnpx](#__pnpx), [%__bunx](#__bunx), [%__dx](#__dx), [%__yarn_dlx](#__yarn_dlx), OR the package uses one of these buildsystems (ex. build command uses `wails`).
 
@@ -1267,7 +1267,7 @@ This should only be needed in the event you are using [%__npx](#__npx), [%__pnpx
 
 ## Nim
 These macros assist with building [Nim](https://nim-lang.org) projects.
-Currently `atlas` is not directly supported by the macros, but you can run it directly in `%build{:rpmspec}`:
+Currently `atlas` is not directly supported by the macros, but you can run it directly in <Code code={`%build`} lang={RPMSpec} inline />:
 ```rpmspec
 %build
 atlas init
@@ -1286,17 +1286,17 @@ This also adds the configuration for enabling mold automatically if found in the
 Builds a Nim package.
 Requires an argument to `src/pkgname`.
 
-Note that this does not invoke `nimble`. All dependencies SHOULD be ready before `%build{:rpmspec}`.
+Note that this does not invoke `nimble`. All dependencies SHOULD be ready before <Code code={`%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="nim_build" />
 
 ### %nim_tflags
-C compiler flags used in `%nim_c{:rpmspec}`.
+C compiler flags used in <Code code={`%nim_c`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="nim_tflags" />
 
 ### %nim_lflags
-Linker flags used in `%nim_c{:rpmspec}`.
+Linker flags used in <Code code={`%nim_c`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="nim_lflags" />
 
@@ -1304,13 +1304,13 @@ Linker flags used in `%nim_c{:rpmspec}`.
 These macros assist with building [Rust](https://rust-lang.org) projects.
 
 ### %cargo_prep_online
-Enables internet access for `%cargo_prep{:rpmspec}`. Replaces `%cargo_prep{:rpmspec}` in `%prep{:rpmspec}`.
+Enables internet access for <Code code={`%cargo_prep`} lang={RPMSpec} inline />. Replaces <Code code={`%cargo_prep`} lang={RPMSpec} inline /> in <Code code={`%prep`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_prep_online" />
 
 ### %cargo_license_online
-Enables internet access for `%cargo_license{:rpmspec}`.
-Replaces `%cargo_license{:rpmspec}` in `%build{:rpmspec}`.
+Enables internet access for <Code code={`%cargo_license`} lang={RPMSpec} inline />.
+Replaces <Code code={`%cargo_license`} lang={RPMSpec} inline /> in <Code code={`%build`} lang={RPMSpec} inline />.
 
 <Aside type="caution">
   Cargo license macros MUST be wrapped in `{}` when being used to write a license file.
@@ -1319,25 +1319,25 @@ Replaces `%cargo_license{:rpmspec}` in `%build{:rpmspec}`.
 <SearchTerra macroname="cargo_license_online" />
 
 ### %cargo_license_summary_online
-Enables internet access for `%cargo_license_summary{:rpmspec}`.
-Replaces `%cargo_license_summary{:rpmspec}` in `%build{:rpmspec}`.
+Enables internet access for <Code code={`%cargo_license_summary`} lang={RPMSpec} inline />.
+Replaces <Code code={`%cargo_license_summary`} lang={RPMSpec} inline /> in `%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_license_summary_online" />
 
 ### %cargo_vendor_manifest_online
-Enables internet access for `%cargo_vendor_manifest_online{:rpmspec}`.
-Replaces `%cargo_vendor_manifest{:rpmspec}` in `%build{:rpmspec}`.
+Enables internet access for <Code code={`%cargo_vendor_manifest_online`} lang={RPMSpec} inline />.
+Replaces <Code code={`%cargo_vendor_manifest`} lang={RPMSpec} inline /> in `%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_vendor_manifest_online" />
 
 ### %crate_install_bin
 Used to install crates that build as single binary.
-Can be used instead of `%cargo_install{:rpmspec}` when [this](https://github.com/terrapkg/packages/issues/1169) is applicable.
+Can be used instead of <Code code={`%cargo_install`} lang={RPMSpec} inline /> when [this](https://github.com/terrapkg/packages/issues/1169) is applicable.
 
 <SearchTerra macroname="crate_install_bin" />
 
 ### %rustup_nightly
-Used in the `%prep{:rpmspec}` section for nightly `rustc`/`cargo` from `rustup`.
+Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `rustc`/`cargo` from `rustup`.
 
 <Aside type="caution">
   This macro MUST be used *before* `%cargo_prep_online` (or an equivalent prep macro) if it is used.
@@ -1347,7 +1347,7 @@ Used in the `%prep{:rpmspec}` section for nightly `rustc`/`cargo` from `rustup`.
 
 ## Subpackages
 These macros assist with packages that require certain subpackage types.
-For example, some packages will build application and library files. Using `%pkg_devel_files{:rpmspec}` will greatly help you in making the library files (`-devel`) subpackage.
+For example, some packages will build application and library files. Using <Code code={`%pkg_devel_files`} lang={RPMSpec} inline /> will greatly help you in making the library files (`-devel`) subpackage.
 More information on subpackages can be found on the [Fedora Packaging Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/#_mixed_use_packages).
 
 ### %files_libs
@@ -1464,7 +1464,7 @@ Available flags:
   - For more information on x86_64 microarchitectures, see [here](https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels).
 - `-r <…>`: Used to set the [release/build mode](https://zig.guide/build-system/build-modes). Accepted arguments are `fast`, `small`, `safe`, and `slow`.
   - SHOULD be used if a project would have performance issues if built for `safe` (what Fedora sets by default).
-- `-s{:rpmspec}`: used to allow the project to link statically.
+- <Code code={`-s`} lang={RPMSpec} inline />: used to allow the project to link statically.
   - SHOULD ONLY be used if a project either has no dependencies to link, OR dependencies from the repos either aren't present or are incompatible versions.
   - You SHOULD still dynamically link compatible dependencies using `-fsys=pkgname`.
 
@@ -1475,7 +1475,7 @@ Example:
   -Demit-docs
 ```
 
-More information can be found on our [Zig packaging guidelines](../(guidelines#zig).
+More information can be found on our [Zig packaging guidelines](../guidelines#zig).
 
 <SearchTerra macroname="zig_build_target" />
 
@@ -1483,12 +1483,12 @@ More information can be found on our [Zig packaging guidelines](../(guidelines#z
 General macros that do not fit into a specific category.
 
 ### %evr
-Used for declaring how a package interacts with others, such as, in a `Requires:{:rpmspec}` or `Obsoletes:{:rpmspec}` tag.
-For example, `Requires: %{name} = %evr{:rpmspec}`.
+Used for declaring how a package interacts with others, such as, in a <Code code={`Requires:`} lang={RPMSpec} inline /> or <Code code={`Obsoletes:`} lang={RPMSpec} inline /> tag.
+For example, <Code code={`Requires: %{name} = %{evr}`} lang={RPMSpec} inline />.
 Expands to: `%{?epoch:%{epoch}:}%{version}-%{release}`.
 Real package examples:
 
-`Requires:{:rpmspec}` example:
+<Code code={`Requires:`} lang={RPMSpec} inline /> example:
 
 ```rpmspec
 BuildRequires:  pkgconfig(pkgconf)
@@ -1498,7 +1498,7 @@ BuildRequires:  pkgconfig(libarchive) >= 3.3.3
 Requires:       %name-lib = %evr
 ```
 
-`Recommends:{:rpmspec}` example:
+<Code code={`Recommends:`} lang={RPMSpec} inline /> example:
 
 ```rpmspec
 Name:           rnote
@@ -1506,7 +1506,7 @@ License:        GPL-3.0
 Recommends:     rnote-cli = %evr
 ```
 
-`Provides:{:rpmspec}` example:
+<Code code={`Provides:`} lang={RPMSpec} inline /> example:
 
 ```rpmspec
 %package devel
@@ -1520,7 +1520,7 @@ Conflicts:		%realname-devel
 
 ### %git_clone
 Downloads the source code via `git clone`, and passes useful (in this situation) flags such as`--depth 1`, `-q`, `--recursive-submodules`, and `-j${RPM_BUILD_NCPUS}`.
-A git URL and a `%version{:rpmspec}` or `%commit{:rpmspec}` MAY be passed to this macro.
+A git URL and a <Code code={`%{version}`} lang={RPMSpec} inline /> or <Code code={`%{commit}`} lang={RPMSpec} inline /> MAY be passed to this macro.
 Below is an example of how a spec that tracks version tages from a GitHub repo, and needs to git clone the source could handle this:
 
 ```rpmspec
@@ -1560,30 +1560,30 @@ These macros are ONLY used by other macros in their expansion processes, as prog
 These are documented ONLY for development and completion sake.
 
 ### %__anda_develfiles
-Expands to: `%_anda_srpm_macros_dir/find-develinfo.sh %buildroot > anda-develfiles.list{:rpmspec}`
+Expands to: <Code code={`%_anda_srpm_macros_dir/find-develinfo.sh %buildroot > anda-develfiles.list`} lang={RPMSpec} inline />
 Used as a macro within [`%pkg_devel_files`](#pkg_devel_files).
 
 ### %__anda_libsfiles
-Expands to: `%_anda_srpm_macros_dir/find-libsinfo.sh %buildroot > anda-libsfiles.list{:rpmspec}`
+Expands to: <Code code={`%_anda_srpm_macros_dir/find-libsinfo.sh %buildroot > anda-libsfiles.list`} lang={RPMSpec} inline />
 Used as a macro within [`%pkg_libs_files`](#pkg_libs_files).
 
 ### %_anda_srpm_macros_dir
 Expands to: `/usr/libexec/anda-srpm-macros`
-Anda directory for scripts such as `find-develinfo.sh` used by `%__anda_develfiles{:rpmspec}`, which is used in [`%pkg_devel_files`](#pkg_devel_files).
+Anda directory for scripts such as `find-develinfo.sh` used by `%__anda_develfiles`} lang={RPMSpec} inline />, which is used in [`%pkg_devel_files`](#pkg_devel_files).
 
 ### %__anda_staticfiles
-Expands to: `%_anda_srpm_macros_dir/find-staticinfo.sh %buildroot > anda-staticfiles.list{:rpmspec}`
-Creates anda-staticfiles.list file in `%{buildroot}{:rpmspec}` to be used by [`%pkg_static_files`](#pkg_static_files).
+Expands to: <Code code={`%_anda_srpm_macros_dir/find-staticinfo.sh %buildroot > anda-staticfiles.list`} lang={RPMSpec} inline />
+Creates anda-staticfiles.list file in <Code code={`%{buildroot}`} lang={RPMSpec} inline /> to be used by [`%pkg_static_files`](#pkg_static_files).
 
 ### %__update_desktop_database
-Expands to: `/usr/bin/update-desktop-database{:rpmspec}`
+Expands to: <Code code={`/usr/bin/update-desktop-database`} lang={RPMSpec} inline />
 This is not used as there is no reason not to use `%update_desktop_database`.
 
 ### %desktop_file_args
 This macro is created when using the `-F` option in `%electron_install`. It's used to pass the appropriate Exec arguments to `desktop-file-install` and has no other use.
 
 ### %is_electron_bundled
-Expands to `%bcond bundled_electron %["%{name}" != "electron"]{:rpmspec}`
+Expands to <Code code={`%bcond bundled_electron %["%{name}" != "electron"]`} lang={RPMSpec} inline />
 A functional macro that tells other macros if Electron is bundled or if the package being worked with is Electron itself. Used by [`%electronmeta`](#electronmeta) and [`%electron_license`](#electron_license).
 
 ### %__tauri_common_opts
