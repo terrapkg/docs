@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
+import astroExpressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import mermaid from "astro-mermaid";
 import tailwindcss from "@tailwindcss/vite";
@@ -75,29 +76,24 @@ export default defineConfig({
       editLink: {
         baseUrl: "https://github.com/terrapkg/docs",
       },
-      expressiveCode: {
-        themes: ["github-dark"],
-        shiki: {
-          langs: [
-            { ...RPMSpec, aliases: ["rpmspec"] },
-            { ...rhai, aliases: ["rhai"] },
-          ],
-          // Shiki desfults to using Oniguruma with WASM in expressive code, but Cloudflare doesn't support this.
-          engine: "javascript",
-        },
-      },
     }),
     sitemap(),
-    icon(),
-    react(),
-    mdx({
-      shikiConfig: {
+    // TODO: Starlight's expressiveCode settings are currently not applying
+    astroExpressiveCode({
+      themes: ["github-dark"],
+      shiki: {
         langs: [
           { ...RPMSpec, aliases: ["rpmspec"] },
           { ...rhai, aliases: ["rhai"] },
         ],
+        // By default Shiki uses Oniguruma with WASM in Expressive Code, Cloudflare does not support this.
+        engine: "javascript",
       },
+      frames: false,
     }),
+    icon(),
+    react(),
+    mdx(),
   ],
 
   vite: {
