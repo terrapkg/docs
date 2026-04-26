@@ -78,7 +78,6 @@ export default defineConfig({
       },
     }),
     sitemap(),
-    // TODO: Starlight's expressiveCode settings are currently not applying
     astroExpressiveCode({
       themes: ["github-dark"],
       shiki: {
@@ -89,7 +88,6 @@ export default defineConfig({
         // By default Shiki uses Oniguruma with WASM in Expressive Code, Cloudflare does not support this.
         engine: "javascript",
       },
-      frames: false,
     }),
     icon(),
     react(),
