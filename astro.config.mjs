@@ -9,7 +9,7 @@ import mermaid from "astro-mermaid";
 import tailwindcss from "@tailwindcss/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
-
+import path from "path";
 import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
