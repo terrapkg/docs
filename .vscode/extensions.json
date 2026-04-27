@@ -1,9 +1,9 @@
 // TS support is built into Visual Studio Code
 {
   "recommendations": [
-  "astro-build.astro-vscode",
-  "bradlc.vscode-tailwindcss",
-  "hideoo.starlight-links"
+    "astro-build.astro-vscode",
+    "bradlc.vscode-tailwindcss",
+    "hideoo.starlight-links"
   ],
-  "unwantedRecommendations": [],
+  "unwantedRecommendations": []
 }

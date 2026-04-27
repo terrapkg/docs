@@ -41,17 +41,11 @@ export function Root({ children }: SplitProps) {
       <div className="p-2 split-left" style={{ width: `${leftWidth}%` }}>
         {leftChild}
       </div>
-      <div
-        className="w-1 group cursor-col-resize flex mt-3 mb-7"
-        onMouseDown={handleMouseDown}
-      >
+      <div className="w-1 group cursor-col-resize flex mt-3 mb-7" onMouseDown={handleMouseDown}>
         <div className="flex-1 border-l border-l-white/0 h-full w-0" />
         <div className="flex-1 border-l group-hover:border-l-white border-l-white/50 h-full w-0" />
       </div>
-      <div
-        className="p-2 flex-1 split-right"
-        style={{ width: `${100 - leftWidth}%` }}
-      >
+      <div className="p-2 flex-1 split-right" style={{ width: `${100 - leftWidth}%` }}>
         {rightChild}
       </div>
     </div>

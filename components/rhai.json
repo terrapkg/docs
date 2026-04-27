@@ -4,10 +4,7 @@
   "fileTypes": ["rhai"],
   "uuid": "1e76f176-ee1c-4331-a781-eb21c0da77cf",
   "scopeName": "source.rhai",
-  "information_for_contributors": [
-    "aster: galaster@foxmail.com",
-    "schungx: schungx@live.com"
-  ],
+  "information_for_contributors": ["aster: galaster@foxmail.com", "schungx: schungx@live.com"],
   "patterns": [
     {
       "include": "#core"

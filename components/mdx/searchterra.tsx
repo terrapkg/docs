@@ -3,12 +3,7 @@
 export function SearchTerra({ macroname }: { macroname: string }) {
   const url = `https://github.com/search?q=repo%3Aterrapkg%2Fpackages+%28%25${macroname}+OR+%25%7B${macroname}%7D%29&type=code`;
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="terra-search-btn"
-    >
+    <a href={url} target="_blank" rel="noopener noreferrer" className="terra-search-btn">
       <svg
         width="1em"
         height="1em"
@@ -48,12 +43,7 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             colorInterpolationFilters="sRGB"
           >
             <feFlood floodOpacity="0" result="BackgroundImageFix" />
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -63,15 +53,8 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             <feOffset dx="-25" dy="-25" />
             <feGaussianBlur stdDeviation="20" />
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="shape"
-              result="effect1_innerShadow_1_2"
-            />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1_2" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -81,15 +64,8 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             <feOffset dx="25" dy="25" />
             <feGaussianBlur stdDeviation="20" />
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="effect1_innerShadow_1_2"
-              result="effect2_innerShadow_1_2"
-            />
+            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="effect1_innerShadow_1_2" result="effect2_innerShadow_1_2" />
           </filter>
           <filter
             id="filter1_ii_1_2"
@@ -101,12 +77,7 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             colorInterpolationFilters="sRGB"
           >
             <feFlood floodOpacity="0" result="BackgroundImageFix" />
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -116,15 +87,8 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             <feOffset dx="-15" dy="-15" />
             <feGaussianBlur stdDeviation="10" />
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="shape"
-              result="effect1_innerShadow_1_2"
-            />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1_2" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -134,15 +98,8 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             <feOffset dx="15" dy="15" />
             <feGaussianBlur stdDeviation="10" />
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="effect1_innerShadow_1_2"
-              result="effect2_innerShadow_1_2"
-            />
+            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="effect1_innerShadow_1_2" result="effect2_innerShadow_1_2" />
           </filter>
           <filter
             id="filter2_ii_1_2"
@@ -154,12 +111,7 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             colorInterpolationFilters="sRGB"
           >
             <feFlood floodOpacity="0" result="BackgroundImageFix" />
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -169,15 +121,8 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             <feOffset dx="-15" dy="-15" />
             <feGaussianBlur stdDeviation="10" />
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="shape"
-              result="effect1_innerShadow_1_2"
-            />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1_2" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -187,15 +132,8 @@ export function SearchTerra({ macroname }: { macroname: string }) {
             <feOffset dx="15" dy="15" />
             <feGaussianBlur stdDeviation="10" />
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="effect1_innerShadow_1_2"
-              result="effect2_innerShadow_1_2"
-            />
+            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="effect1_innerShadow_1_2" result="effect2_innerShadow_1_2" />
           </filter>
         </defs>
       </svg>
