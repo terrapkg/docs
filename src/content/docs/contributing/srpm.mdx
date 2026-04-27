@@ -3,10 +3,10 @@ title: "SRPM Macros"
 description: "Documentation on the macros included in the anda-srpm-macros package."
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-import { Code } from 'astro:components';
-import { SearchTerra } from '@/components/mdx/searchterra';
-import RPMSpec from '@/components/spec.json';
+import { Aside } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import { SearchTerra } from "@/components/mdx/searchterra";
+import RPMSpec from "@/components/spec.json";
 
 # Overview
 
@@ -37,9 +37,11 @@ For upstream macros available in Fedora/Terra, check out our unofficial [macros 
 </Aside>
 
 ## Directories
+
 These macros define certain system directories, and SHOULD be used in place of the raw directory path.
 
 ### %_appsdir
+
 Expands to: <Code code={`%_datadir/applications`} lang={RPMSpec} inline /> or <Code code={`/usr/share/applications`} lang={RPMSpec} inline />
 
 This may seem like a directory to place the application itself into, but this directory is used for application's `.desktop` files.
@@ -47,6 +49,7 @@ This may seem like a directory to place the application itself into, but this di
 <SearchTerra macroname="_appsdir" />
 
 ### %_bun_cache_dir
+
 The directory where Bun cache files are stored in.
 
 Expands to: <Code code={`%{_bun_home}/install/cache`} lang={RPMSpec} inline />
@@ -56,6 +59,7 @@ Used for [Bun macros](#bun).
 <SearchTerra macroname="_bun_cache_dir" />
 
 ### %_bun_home
+
 The directory where Bun files are stored in.
 Unfortunately, Bun doesn't actually have a way to enforce this yet.
 However the proposed environment variable is `$BUN_HOME`, so we have this for the future.
@@ -67,6 +71,7 @@ Used for [Bun macros](#bun).
 <SearchTerra macroname="_bun_home" />
 
 ### %_cargo_home
+
 Set by our [Cargo prep macros](#rust-macros).
 
 We set this specifically because in online builds if the directory is manually changed as a build step (such as multi Crate repo projects), the Crates could be redownloaded during build and slow down build times. Tools like Tauri also read `.cargo` differently because they change the current working directory.
@@ -76,6 +81,7 @@ Expands to: <Code code={`%{rpmbuilddir}%{?buildsubdir:/%{buildsubdir}}/.cargo`} 
 <SearchTerra macroname="_cargo_home" />
 
 ### %_deno_dir
+
 The directory that Deno's files and cache are stored in.
 
 Expands to: <Code code={`%{rpmbuilddir}/.deno`} lang={RPMSpec} inline />
@@ -85,6 +91,7 @@ Used for [Deno macros](#deno).
 <SearchTerra macroname="_deno_dir" />
 
 ### %_deno_install_root
+
 Directory where Deno installs dependency packages.
 
 Expands to: <Code code={`%{_deno_dir}/bin`} lang={RPMSpec} inline />
@@ -94,6 +101,7 @@ Used for [Deno macros](#deno).
 <SearchTerra macroname="_deno_install_root" />
 
 ### %_dracut_confdir
+
 The directory where Dracut config provided by system packages should be installed to.
 
 Expands to: <Code code={`%{_prefix}/lib/dracut/dracut.conf.d`} lang={RPMSpec} inline />
@@ -101,6 +109,7 @@ Expands to: <Code code={`%{_prefix}/lib/dracut/dracut.conf.d`} lang={RPMSpec} in
 <SearchTerra macroname="_dracut_confdir" />
 
 ### %elvish_completions_dir
+
 Expands to: <Code code={`%_datadir/elvish/lib/completions`} lang={RPMSpec} inline />
 
 Used in [`%pkg_completion`](#pkg_completion), or manually when `%pkg_completion` cannot be used.
@@ -108,6 +117,7 @@ Used in [`%pkg_completion`](#pkg_completion), or manually when `%pkg_completion`
 <SearchTerra macroname="elvish_completions_dir" />
 
 ### %_gnomeextensionsdir
+
 Expands to: <Code code={`%{_datadir}/gnome-shell/extensions%{?uuid:/%{uuid}}`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_gnomeextensionsdir" />
@@ -119,6 +129,7 @@ Note that you SHOULD then need to add the extension's UUID after this macro.
 </Aside>
 
 ### %_hicolordir
+
 Expands to: <Code code={`%_iconsdir/hicolor`} lang={RPMSpec} inline /> or `/usr/share/icons/hicolor`} lang={RPMSpec} inline />
 
 The directory that SHOULD be used when installing application `.png` files. Note that you then MUST install the (typically app icon) file to the `apps` folder within the fixed-size directory in <Code code={`%_hicolordir`} lang={RPMSpec} inline />.
@@ -136,6 +147,7 @@ If the file is an `.svg`, use the [`%_scalableiconsdir`](#_scalableiconsdir).
 <SearchTerra macroname="_hicolordir" />
 
 ### %_npm_cache_dir
+
 Expands to: <Code code={`%{rpmbuilddir}/.npm`} lang={RPMSpec} inline />
 
 Used with [JavaScript package manager macros](#javascript-runtimes), especially [NPM macros](#npm).
@@ -143,6 +155,7 @@ Used with [JavaScript package manager macros](#javascript-runtimes), especially 
 <SearchTerra macroname="_npm_cache_dir" />
 
 ### %nushell_completions_dir
+
 Expands to: <Code code={`%_datadir/nushell/vendor/autoload`} lang={RPMSpec} inline />
 
 Used in [`%pkg_completion`](#pkg_completion), or manually when `%pkg_completion` cannot be used.
@@ -150,6 +163,7 @@ Used in [`%pkg_completion`](#pkg_completion), or manually when `%pkg_completion`
 <SearchTerra macroname="nushell_completions_dir" />
 
 ### %_nvm_dir
+
 The location in the <Code code={`%{rpmbuilddir}`} lang={RPMSpec} inline /> what will be passed to <Code code={`$NVM_DIR`} lang={RPMSpec} inline />, which is where vendored Node.js installs and cache are stored.
 
 Expands to: <Code code={`%{rpmbuilddir}/.nvm`} lang={RPMSpec} inline />
@@ -159,6 +173,7 @@ Only used for for [`%{__nvm}`](#__nvm).
 <SearchTerra macroname="_nvm_dir" />
 
 ### %_pkgconfigdir
+
 Expands to: <Code code={`%{_libdir}/pkgconfig`} lang={RPMSpec} inline />
 
 Used in the <Code code={`%files`} lang={RPMSpec} inline /> section.
@@ -166,6 +181,7 @@ Used in the <Code code={`%files`} lang={RPMSpec} inline /> section.
 <SearchTerra macroname="_pkgconfigdir" />
 
 ### %_pnpm_home
+
 The directory where PNPM files and cache are stored.
 
 Expands to: <Code code={`%{rpmbuilddir}/.pnpm`} lang={RPMSpec} inline />
@@ -175,6 +191,7 @@ Used for [PNPM macros](#pnpm).
 <SearchTerra macroname="_pnpm_home" />
 
 ### %_pnpm_store
+
 The directory where JavaScript modules installed by PNPM usually go. This will usually not be produced when using PNPM as a build tool, but exists for rare builds it may be created in.
 
 Expands to: <Code code={`%{_pnpm_home}/store`} lang={RPMSpec} inline />
@@ -184,6 +201,7 @@ Used for [PNPM macros](#pnpm).
 <SearchTerra macroname="_pnpm_store" />
 
 ### %rpmbuilddir
+
 This macro exists because Terra supports EL distributions (Red Hat Enterprise Linux, Alma Linux, etc.) which currently have an RPM version from before the <Code code={`%{builddir}`} lang={RPMSpec} inline /> change to address issues [like this](https://github.com/rpm-software-management/rpm/issues/3151).
 
 One, albeit clunky, solution is to define <Code code={`%{builddir}`} lang={RPMSpec} inline /> manually as <Code code={`%{_builddir}`} lang={RPMSpec} inline /> in specs targeting distros with different versions of RPM where one has a version older than 4.20. We have this macro instead to make the process easier without overriding any builtin RPM macros. For more information on this solution, see [these](https://github.com/rpm-software-management/rpm/issues/3151#issuecomment-2154550735) [comments](https://github.com/rpm-software-management/rpm/issues/3151#issuecomment-2154639192) on the issue linked above.
@@ -195,6 +213,7 @@ Expands to: <Code code={`%{?builddir}%{?!builddir:%{_builddir}}`} lang={RPMSpec}
 <SearchTerra macroname="rpmbuilddir" />
 
 ### %_rustup_home
+
 This macro is set by `%rustup_nightly`.
 
 It sets a specific location for Rustup install files so the toolchain information is never potentially lost during different build steps and to keep files out of `$HOME`.
@@ -204,6 +223,7 @@ Expands to: <Code code={`%{rpmbuilddir}/.rustup`} lang={RPMSpec} inline />
 <SearchTerra macroname="_rustup_home" />
 
 ### %_scalableiconsdir
+
 Expands to: <Code code={`%_hicolordir/scalable/apps`} lang={RPMSpec} inline /> or <Code code={`/usr/share/icons/hicolor/scalable/apps`} lang={RPMSpec} inline />
 The directory that SHOULD be used when installing application `.svg` files to.
 You do not need to specify any folders for this macro, the file can be added to the end of this macro.
@@ -218,6 +238,7 @@ If the file is a `.png`, use [`%_hicolordir`](#_hicolordir).
 <SearchTerra macroname="_scalableiconsdir" />
 
 ### %_yarn_cache_dir
+
 The directory where Yarn cache files are stored in.
 
 Expands to: <Code code={`%{rpmbuilddir}/.yarn`} lang={RPMSpec} inline />
@@ -227,27 +248,32 @@ Used for [Yarn macros](#yarn).
 <SearchTerra macroname="_yarn_cache_dir" />
 
 ## Desktop File Macros
+
 These are macros used for working with [.desktop files](https://specifications.freedesktop.org/desktop-entry/latest).
 
 ### %__desktop_file_edit
+
 Expands to: <Code code={`/usr/bin/desktop-file-edit`} lang={RPMSpec} inline />
 Note that this should be used only when [%desktop_file_edit](#desktop_file_edit) can not be used, and that the flags listed for `%desktop_file_edit` will not work.
 
 <SearchTerra macroname="__desktop_file_edit" />
 
 ### %__desktop_file_install
+
 Expands to: <Code code={`/usr/bin/desktop-file-install`} lang={RPMSpec} inline />
 Note that this should be used only when [%desktop_file_install](#desktop_file_install) can not be used, and that the flags listed for `%desktop_file_install` will not work.
 
 <SearchTerra macroname="__desktop_file_install" />
 
 ### %__desktop_file_validate
+
 Expands to: <Code code={`/usr/bin/desktop-file-validate`} lang={RPMSpec} inline />
 Note that this should be used only when [%desktop_file_validate](#desktop_file_validate) can not be used, and that the flags listed for `%desktop_file_validate` will not work.
 
 <SearchTerra macroname="__desktop_file_validate" />
 
 ### %desktop_file_edit
+
 SHOULD be used if you for any reason need to edit a .desktop file a build has already installed.
 
 Available flags:
@@ -271,6 +297,7 @@ Example usage:
 <SearchTerra macroname="__desktop_file_edit" />
 
 ### %desktop_file_install
+
 SHOULD be used to install a .desktop file.
 
 Available flags:
@@ -295,6 +322,7 @@ Example usage:
 <SearchTerra macroname="__desktop_file_install" />
 
 ### %desktop_file_validate
+
 SHOULD be used if you for any reason need to edit a .desktop file a build has already installed.
 
 Available flags:
@@ -308,6 +336,7 @@ Example usage:
 <SearchTerra macroname="__desktop_file_validate" />
 
 ### %update_desktop_database
+
 A post/postun script to update the .desktop database on install/uninstall of the package. Is most likely not necessary for most things.
 
 Expands to: <Code code={`%{__update_desktop_database} --quiet || :`} lang={RPMSpec} inline />
@@ -318,17 +347,21 @@ Expands to: <Code code={`%{__update_desktop_database} --quiet || :`} lang={RPMSp
 These macros assist with building [Go](https://go.dev) projects.
 
 ### %goprep_online
+
 MAY be used to prep a Go package for online builds. Replaces <Code code={`%goprep`} lang={RPMSpec} inline /> in `%prep`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="goprep_online" />
 
 ## JavaScript
+
 These are macros to assist with the general packaging of applications that are written in JavaScript and/or use JavaScript runtimes such as Node.js or Bun.
 
 ### Node.js
+
 Macros for using [Node.js](https://nodejs.org). These require the use of [Fedora Node.js macros](https://docs.fedoraproject.org/en-US/packaging-guidelines/Node.js/#_macros) in the `nodejs-packaging` package.
 
 #### %__nvm
+
 Calls NVM (Node Version Manager) while setting <Code code={`$NVM_DIR`} lang="bash" inline />. Only used if vendoring Node.js.
 
 Expands to: <Code code={`/usr/bin/env NVM_DIR=%{_nvm_dir} /usr/bin/nvm`} lang={RPMSpec} inline />
@@ -336,6 +369,7 @@ Expands to: <Code code={`/usr/bin/env NVM_DIR=%{_nvm_dir} /usr/bin/nvm`} lang={R
 <SearchTerra macroname="__nvm" />
 
 #### %vendor_nodejs
+
 This macro SHOULD only be used if Node.js packages available from the repos are not usable for some reason.
 
 Available flags:
@@ -363,9 +397,11 @@ Vendored versions of NPM and NPX are subject to limitations in commands as they 
 <SearchTerra macroname="vendor_nodejs" />
 
 ### Node Modules
+
 Macros for packaging Node modules.
 
 #### %npm_prep
+
 Prepare a Node module for build steps.
 
 Available flags:
@@ -374,6 +410,7 @@ Available flags:
 <SearchTerra macroname="npm_prep" />
 
 #### %fetch_node_tests
+
 Fetch self-tests from a Git repo. MUST include all necessary test files and folders. If used, it SHOULD be placed in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
 
 Available flags:
@@ -391,6 +428,7 @@ Example usage:
 <SearchTerra macroname="fetch_node_tests" />
 
 #### %npm_install
+
 Install a Node module to <Code code={`%{npm_sitelib}`} lang={RPMSpec} inline /> and symlink its executable.
 
 <Aside type="tip">
@@ -411,6 +449,7 @@ Real package example:
 <SearchTerra macroname="npm_install" />
 
 #### %node_self_test
+
 Runs self-defined tests on the Node module. This is not applicable for all Node modules. Also, not all tests (that are supported as Node modules) can use a wide variety of testing tools. For use in <Code code={`%check`} lang={RPMSpec} inline />.
 
 Available flags:
@@ -422,6 +461,7 @@ You MUST use [`%fetch_node_tests`](#fetch_node_tests) first if using this.
 <SearchTerra macroname="node_self_test" />
 
 #### %__npm_license_checker
+
 Expands to: `/usr/bin/license-checker`
 
 Runs the NPM `license-checker` command, documented [here](https://www.npmjs.com/package/license-checker-rseidelsohn).
@@ -442,6 +482,7 @@ Example output:
 <SearchTerra macroname="__npm_license_checker" />
 
 #### %npm_license
+
 Expands to: `/usr/bin/license-checker --limitAttributes licenses`
 
 This is similar to [`%__npm_license_checker`](#__npm_license_checker), but limits the output to only the license.
@@ -476,6 +517,7 @@ The above would create a `LICENSE.modules` file which can then be packaged using
 <SearchTerra macroname="npm_license" />
 
 #### %npm_license_summary
+
 Outputs a summary of the bundled licenses. Useful for determining what to put in the <Code code={`License:`} lang={RPMSpec} inline /> section for Node modules.
 
 Expands to: `%{__npm_license_checker} --summary`
@@ -483,6 +525,7 @@ Expands to: `%{__npm_license_checker} --summary`
 <SearchTerra macroname="npm_license_summary" />
 
 ### JavaScript Package Managers
+
 These are macros for working with JavaScript package managers.
 
 <Aside>
@@ -492,12 +535,14 @@ All macros calling the package managers also call NPM environment variables beca
 </Aside>
 
 #### NPM
+
 Macros for using [NPM](https://www.npmjs.com).
 It is REQUIRED to have <Code code={`BuildRequires: nodejs-npm`} lang={RPMSpec} inline />.
 
 For building webapps with NPM, see [%npm_build](#npm_build).
 
 ##### %__npm_log_level
+
 Macro that sets the logging level for NPM. Defaults to `error` because NPM logs can fill the terminal quickly.
 
 If desired, it can be redefined to `silent`, `warn`, `notice`, `info`, `verbose`, or `silly`.
@@ -505,6 +550,7 @@ If desired, it can be redefined to `silent`, `warn`, `notice`, `info`, `verbose`
 <SearchTerra macroname="__npm_log_level" />
 
 ##### %npm_common_envvars
+
 <Aside icon="pencil">
   NPM environment variables written in uppercase will be **ignored** if the project sets different ones explicitly. This is intentional behavior which these macros do not override in order to avoid build issues. For more information, please see [this issue](https://github.com/npm/npm/issues/14528) in the original NPM GitHub repository.<br />
   If for any reason you need to hardcode an environment override, use a flag passed to NPM or manually set the environment variable in all lowercase.<br />
@@ -523,6 +569,7 @@ What these do:
 <SearchTerra macroname="npm_common_envvars" />
 
 ##### %npm_config_opts
+
 Explicit NPM configuration flags of the environment variables set by the Macros.
 
 Expands to: <Code code={`--userconfig=%{rpmbuilddir}/.npmrc --globalconfig=%{rpmbuilddir}/npmrc --cache=%{_npm_cache_dir} --loglevel=%{__npm_log_level} --fund=false --update-notifier=false --color=always --init-module=%{rpmbuilddir}/.npm-init.js`} lang={RPMSpec} inline />
@@ -530,6 +577,7 @@ Expands to: <Code code={`--userconfig=%{rpmbuilddir}/.npmrc --globalconfig=%{rpm
 <SearchTerra macroname="npm_config_opts" />
 
 ##### %__npm
+
 Macro to call NPM with predetermined enviroment variables.
 
 Expands to: <Code code={`/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npm --}%{!?with_vendored_nodejs:/usr/bin/npm}`} lang={RPMSpec} inline />
@@ -539,6 +587,7 @@ SHOULD be used in place of calling `npm` itself.
 <SearchTerra macroname="__npm" />
 
 ##### %__npx
+
 Remotely run Node modules with NPX.
 
 Expands to: <Code code={`/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npx --}%{!?with_vendored_nodejs:/usr/bin/npx}`} lang={RPMSpec} inline />
@@ -546,6 +595,7 @@ Expands to: <Code code={`/usr/bin/env %{npm_common_envvars} %{?with_vendored_nod
 <SearchTerra macroname="__npx" />
 
 ##### %npm_audit
+
 Audit with NPM if package uses bundled Node module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 Vulnerabilities for Node modules __not bundled in the final package__ SHOULD NOT be fixed. If a vulnerability is found *only* in build dependencies, you are fine to leave it as is.
@@ -553,6 +603,7 @@ Vulnerabilities for Node modules __not bundled in the final package__ SHOULD NOT
 <SearchTerra macroname="npm_audit" />
 
 ##### %npm_audit_fix
+
 Fix vulnerabilities found using <Code code={`%npm_audit`} lang={RPMSpec} inline />. Should be used in <Code code={`%prep`} lang={RPMSpec} inline /> section.
 
 Installed packages with fixed dependencies SHOULD be tested first to make sure the applied fix did not cause any issues.
@@ -569,6 +620,7 @@ LIMITATION: Cannot be used on modules installed using the <Code code={`-g`} lang
 <SearchTerra macroname="npm_audit_fix" />
 
 ##### %npm_test
+
 Runs NPM tests. This will not be applicable to all projects or Node modules. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
 Expands to: <Code code={`%{__npm} test`} lang={RPMSpec} inline />
@@ -576,12 +628,14 @@ Expands to: <Code code={`%{__npm} test`} lang={RPMSpec} inline />
 <SearchTerra macroname="npm_test" />
 
 #### Bun
+
 Macros for using [Bun](https://bun.com).
 It is REQUIRED to have <Code code={`BuildRequires: bun-bin`} lang={RPMSpec} inline />.
 
 For building webapps with Bun, see [%bun_build](#bun_build).
 
 ##### %bun_common_envvars
+
 Sets the <Code code={`$BUN_HOME`} lang="bash" inline /> for future use and sets the cache dir.
 
 Expands to: <Code code={`%{npm_common_envvars} BUN_HOME=%{_bun_home} BUN_INSTALL_CACHE_DIR=%{_bun_cache_dir} BUN_RUNTIME_TRANSPILER_CACHE_PATH=%{_bun_cache_dir} FORCE_COLOR=1`} lang={RPMSpec} inline />
@@ -589,6 +643,7 @@ Expands to: <Code code={`%{npm_common_envvars} BUN_HOME=%{_bun_home} BUN_INSTALL
 <SearchTerra macroname="bun_common_envvars" />
 
 ##### %bun_config_opts
+
 Explicit Bun configuration flags of the environment variables set by the Macros.
 
 Expands to: <Code code={`--cache-dir=%{_bun_cache_dir}`} lang={RPMSpec} inline />
@@ -596,6 +651,7 @@ Expands to: <Code code={`--cache-dir=%{_bun_cache_dir}`} lang={RPMSpec} inline /
 <SearchTerra macroname="bun_config_opts" />
 
 ##### %__bun
+
 Expands to: <Code code={`/usr/bin/env %{bun_common_envvars} /usr/bin/bun`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `bun` itself.
@@ -603,6 +659,7 @@ SHOULD be used in place of calling `bun` itself.
 <SearchTerra macroname="__bun" />
 
 ##### %__bunx
+
 Run JavaScript modules (downloading them if necessary) with Bun.
 
 Expands to: <Code code={`/usr/bin/env %{bun_common_envvars} /usr/bin/bunx`} lang={RPMSpec} inline />
@@ -612,6 +669,7 @@ SHOULD be used in place of calling `bunx` or `bun x` itself.
 <SearchTerra macroname="__bunx" />
 
 ##### %bun_audit
+
 Audit with Bun if package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 <Aside>
@@ -623,6 +681,7 @@ You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not
 <SearchTerra macroname="bun_audit" />
 
 ##### %bun_pm_trust
+
 Add JavaScript modules to trusted dependencies so their postinstall scripts can be run. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
@@ -633,6 +692,7 @@ Expands to: <Code code={`%{__bun} pm trust`} lang={RPMSpec} inline />
 <SearchTerra macroname="bun_pm_trust" />
 
 ##### %bun_test
+
 Runs Bun tests. This will not be applicable to all projects. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
 Expands to: <Code code={`%{__bun} test`} lang={RPMSpec} inline />
@@ -640,12 +700,14 @@ Expands to: <Code code={`%{__bun} test`} lang={RPMSpec} inline />
 <SearchTerra macroname="bun_test" />
 
 #### Deno
+
 Macros for using [Deno](https://deno.com).
 It is REQUIRED to have <Code code={`BuildRequires: deno`} lang={RPMSpec} inline />.
 
 For building webapps with Deno, see [%deno_build](#deno_build).
 
 ##### %deno_common_envvars
+
 Sets the <Code code={`$DENO_DIR`} lang="bash" inline />, <Code code={`$DENO_INSTALL_ROOT`} lang="bash" inline />, limits <Code code={`$DENO_JOBS`} lang="bash" inline /> to <Code code={`$\\{RPM_BUILD_NCPUS\\}`} lang="bash" inline />, disables update notifications, and forces color.
 
 Expands to: <Code code={`%{npm_common_envvars} DENO_DIR=%{_deno_dir} DENO_INSTALL_ROOT=%{_deno_install_root} DENO_NO_UPDATE_CHECK=1 DENO_JOBS=$\\{RPM_BUILD_NCPUS\\} FORCE_COLOR=1`} lang={RPMSpec} inline />
@@ -653,6 +715,7 @@ Expands to: <Code code={`%{npm_common_envvars} DENO_DIR=%{_deno_dir} DENO_INSTAL
 <SearchTerra macroname="deno_common_envvars" />
 
 ##### %__deno
+
 Expands to: <Code code={`/usr/bin/env %{deno_common_envvars} /usr/bin/deno`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `deno` itself.
@@ -660,6 +723,7 @@ SHOULD be used in place of calling `deno` itself.
 <SearchTerra macroname="__deno" />
 
 ##### %__dx
+
 Call modules directly with DX/Deno X.
 
 Expands to: <Code code={`/usr/bin/env %{deno_common_envvars} /usr/bin/dx`} lang={RPMSpec} inline />
@@ -669,6 +733,7 @@ SHOULD be used in place of calling `dx` or `deno x` itself.
 <SearchTerra macroname="__dx" />
 
 ##### %deno_audit
+
 Audit with Deno if package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__deno} audit --level=low --ignore-unfixable --socket`} lang={RPMSpec} inline />
@@ -680,6 +745,7 @@ Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__deno} audit --level=low 
 <SearchTerra macroname="deno_audit" />
 
 ##### %deno_approve_scripts
+
 Approve dependency scripts with Deno if needed. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
@@ -690,6 +756,7 @@ Expands to: <Code code={`%{__deno} approve-scripts`} lang={RPMSpec} inline />
 <SearchTerra macroname="deno_approve_scripts" />
 
 ##### %deno_test
+
 Runs Deno tests. This will not be applicable to all projects. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
 Expands to: <Code code={`%{__deno} test --parallel`} lang={RPMSpec} inline />
@@ -697,12 +764,14 @@ Expands to: <Code code={`%{__deno} test --parallel`} lang={RPMSpec} inline />
 <SearchTerra macroname="deno_test" />
 
 #### PNPM
+
 Macros for using [PNPM](https://pnpm.io).
 It is REQUIRED to have <Code code={`BuildRequires: pnpm`} lang={RPMSpec} inline />.
 
 For building webapps with PNPM, see [%pnpm_build](#pnpm_build).
 
 ##### %pnpm_common_envvars
+
 Sets the NPM environment variables and the PNPM home directory.
 
 Expands to: <Code code={`%{npm_common_envvars} PNPM_HOME=%{_pnpm_home}`} lang={RPMSpec} inline />
@@ -710,6 +779,7 @@ Expands to: <Code code={`%{npm_common_envvars} PNPM_HOME=%{_pnpm_home}`} lang={R
 <SearchTerra macroname="pnpm_common_envvars" />
 
 ##### %__pnpm
+
 Expands to: <Code code={`/usr/bin/env %{pnpm_common_envvars} %{?with_vendored_pnpm:%{_pnpm_home}/pnpm}%{!?with_vendored_pnpm:/usr/bin/pnpm}`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `pnpm` itself.
@@ -717,6 +787,7 @@ SHOULD be used in place of calling `pnpm` itself.
 <SearchTerra macroname="__pnpm" />
 
 ##### %__pnpx
+
 Remotely execute JavaScript modules using PNPX.
 
 Expands to: <Code code={`/usr/bin/env %{pnpm_common_envvars} /usr/bin/pnpx`} lang={RPMSpec} inline />
@@ -726,6 +797,7 @@ SHOULD be used in place of calling `pnpx` or `pnpm dlx` itself.
 <SearchTerra macroname="__pnpx" />
 
 ##### %vendor_pnpm
+
 This SHOULD only be used if PNPM is not usable/available from the available repositories.
 
 Available flags:
@@ -744,6 +816,7 @@ Usecase examples:
 <SearchTerra macroname="vendor_pnpm" />
 
 ##### %pnpm_audit
+
 Audit with PNPM if the package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not bundled in the final package__. This means if a vulnerability is found *only* in build dependencies, you are fine to leave them be.
@@ -751,6 +824,7 @@ You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not
 <SearchTerra macroname="pnpm_audit" />
 
 ##### %pnpm_audit_fix
+
 Fix security issues in dependencies using PNPM.
 
 Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__pnpm} audit`} lang={RPMSpec} inline />
@@ -758,6 +832,7 @@ Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__pnpm} audit`} lang={RPMS
 <SearchTerra macroname="pnpm_audit_fix" />
 
 ##### %pnpm_approve_builds
+
 Approve dependency scripts with PNPM if needed. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
@@ -768,6 +843,7 @@ Expands to: <Code code={`%{__pnpm} approve-builds`} lang={RPMSpec} inline />
 <SearchTerra macroname="pnpm_approve_builds" />
 
 ##### %pnpm_test
+
 Runs PNPM tests. This will not be applicable to all JavaScript modules. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
 Expands to: <Code code={`%{__pnpm} test`} lang={RPMSpec} inline />
@@ -775,6 +851,7 @@ Expands to: <Code code={`%{__pnpm} test`} lang={RPMSpec} inline />
 <SearchTerra macroname="pnpm_test" />
 
 #### Yarn Macros
+
 Macros for using [Yarn (Yarn Classic/Yarn v1)](https://classic.yarnpkg.com) and [Yarn Berry (Yarn Modern/Yarn v2+)](https://yarnpkg.com).
 
 You SHOULD use <Code code={`BuildRequires: yarnpkg`} lang={RPMSpec} inline /> (Yarn Classic) unless you need <Code code={`BuildRequires: yarnpkg-berry`} lang={RPMSpec} inline /> (Yarn Berry) specifically.
@@ -782,6 +859,7 @@ You SHOULD use <Code code={`BuildRequires: yarnpkg`} lang={RPMSpec} inline /> (Y
 For building webapps with Yarn, see [%yarn_build](#yarn_build).
 
 ##### %yarn_common_envvars
+
 Sets the NPM evironment variables and Yarn's cache folder.
 
 Expands to: <Code code={`%{npm_common_envvars} YARN_CACHE_FOLDER=%{_yarn_cache_dir}`} lang={RPMSpec} inline />
@@ -789,6 +867,7 @@ Expands to: <Code code={`%{npm_common_envvars} YARN_CACHE_FOLDER=%{_yarn_cache_d
 <SearchTerra macroname="yarn_common_envvars" />
 
 ##### %yarn_config_opts
+
 Explicit Yarn configuration flags of the environment variables set by the Macros.
 
 Expands to: <Code code={`--cache-folder=%{_yarn_cache_dir}`} lang={RPMSpec} inline />
@@ -796,6 +875,7 @@ Expands to: <Code code={`--cache-folder=%{_yarn_cache_dir}`} lang={RPMSpec} inli
 <SearchTerra macroname="yarn_config_opts" />
 
 ##### %__yarn
+
 Expands to: <Code code={`/usr/bin/env %{yarn_common_envvars} /usr/bin/yarn`} lang={RPMSpec} inline />
 
 SHOULD be used in place of calling `yarn` itself.
@@ -803,6 +883,7 @@ SHOULD be used in place of calling `yarn` itself.
 <SearchTerra macroname="__yarn" />
 
 ##### %__yarn_dlx
+
 Remotely execute a JavaScript module with Yarn DLX.
 
 Expands to: <Code code={`/usr/bin/env %{yarn_common_envvars} /usr/bin/yarn dlx`} lang={RPMSpec} inline />
@@ -816,6 +897,7 @@ SHOULD be used in place of calling `yarn dlx` itself.
 <SearchTerra macroname="__yarn_dlx" />
 
 ##### %yarn_audit
+
 Audit Yarn if the package uses bundled JavaScript module dependencies. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section.
 
 You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not bundled in the final package__. This means if a vulnerability is found *only* in build dependencies, you are fine to leave them be.
@@ -823,6 +905,7 @@ You SHOULD NOT need to fix vulnerabilities for JavaScript modules that are __not
 <SearchTerra macroname="yarn_audit" />
 
 ##### %yarn_test
+
 Runs Yarn tests. This will not be applicable to all projects. For use in the <Code code={`%check`} lang={RPMSpec} inline /> section. For some projects it may be necessary to export `NODE_ENV=test` first.
 
 Expands to: <Code code={`%{__yarn} test`} lang={RPMSpec} inline />
@@ -830,12 +913,15 @@ Expands to: <Code code={`%{__yarn} test`} lang={RPMSpec} inline />
 <SearchTerra macroname="yarn_test" />
 
 ### Webapp Macros
+
 Macros for building [webapps](https://en.wikipedia.org/wiki/Web_application).
 
 #### Electron
+
 These macros assist with the general packaging of applications that use [Electron](https://www.electronjs.org).
 
 ##### %electronmeta
+
 Set up all basic requirements including build macros for building an Electron app.
 
 <Aside>
@@ -901,6 +987,7 @@ Version: 39.2.7
 <SearchTerra macroname="electronmeta" />
 
 ##### %electron_arches
+
 The architectures Electron supports. Automatically set as <Code code={`ExclusiveArch:`} lang={RPMSpec} inline /> when using <Code code={`%electronmeta`} lang={RPMSpec} inline />.
 
 As written, the macro expands to:
@@ -916,6 +1003,7 @@ However, at this time, Terra only supports x86_64, AArch64, and 32-bit x86.
 <SearchTerra macroname="electron_arches" />
 
 ##### %electron_license
+
 The license for bundled Electron.
 NOT set by default in <Code code={`%electronmeta`} lang={RPMSpec} inline /> because you cannot set the license field twice.
 MAY be used in combination with manually adding the other relevant licenses (if this is done, a proper license tag would be <Code code={`License: XXX-x.x AND %{electron_license}`} lang={RPMSpec} inline />).
@@ -925,6 +1013,7 @@ MAY be used in combination with manually adding the other relevant licenses (if 
 <SearchTerra macroname="electron_license" />
 
 ##### %electron_install
+
 Install files of apps built using Electron Builder or Electron Forge. MUST be used after an appropriate [build macro](#webapp-build-macros).
 
 Capital letter flags denote use with [desktop file](https://specifications.freedesktop.org/desktop-entry/latest) installation.
@@ -969,6 +1058,7 @@ Example usage:
 <SearchTerra macroname="electron_install" />
 
 #### Tauri
+
 Macros for using [Tauri](https://v2.tauri.app).
 
 Tauri apps always require JavaScript package managers AND Cargo, so for this reason the [Rust macros](#rust) are also relevant.
@@ -981,6 +1071,7 @@ Tauri apps always require JavaScript package managers AND Cargo, so for this rea
 </Aside>
 
 ##### %tauri_buildrequires
+
 MAY be used in a spec by setting <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
 
 Available flags:
@@ -998,6 +1089,7 @@ Available flags:
 <SearchTerra macroname="tauri_buildrequires" />
 
 ##### %tauri_prep
+
 Preps a Tauri package. Wrapper for `%cargo_prep_online` that checks that the Tauri subdirectory is correct.
 
 Available flags:
@@ -1006,6 +1098,7 @@ Available flags:
 <SearchTerra macroname="tauri_prep" />
 
 ##### %tauri_install
+
 MAY be used to install a built Tauri package. A port of `%cargo_install`.
 
 Available flags:
@@ -1014,11 +1107,13 @@ Available flags:
 <SearchTerra macroname="tauri_install" />
 
 ##### %tauri_install_bin
+
 A wrapper around [`%crate_install_bin`](#crate_install_bin) for Tauri.
 
 <SearchTerra macroname="tauri_install_bin" />
 
 ##### %tauri_cargo_license
+
 A port of `%cargo_license_online` that points to the Tauri app's Cargo.toml.
 
 Available flags:
@@ -1031,6 +1126,7 @@ Available flags:
 <SearchTerra macroname="tauri_cargo_license" />
 
 ##### %tauri_cargo_license_summary
+
 A port of `%cargo_license_summary_online` that points to the Tauri app's Cargo.toml.
 
 Available flags:
@@ -1044,6 +1140,7 @@ A port of `%cargo_vendor_manifest_online` that points to the Tauri app's Cargo.t
 <SearchTerra macroname="tauri_cargo_vendor_manifest" />
 
 ##### %tauri_generate_buildrequires
+
 Generates <Code code={`BuildRequires:`} lang={RPMSpec} inline /> for a Tauri build.
 
 Supports the same flags as [%tauri_buildrequires](#tauri_buildrequires).
@@ -1061,6 +1158,7 @@ Supports the same flags as [%tauri_buildrequires](#tauri_buildrequires).
 #### Configurable Tauri Macros
 
 ##### %__tauri_bundles
+
 By default, all macros which call Tauri do not build bundles. Set `%global __tauri_bundles` to the bundle(s) you want to change this.
 
 This may be useful for, for example, building an AppImage to extract a .desktop file from.
@@ -1068,6 +1166,7 @@ This may be useful for, for example, building an AppImage to extract a .desktop 
 <SearchTerra macroname="__tauri_bundles" />
 
 ##### %__tauri_ignore_version_mismatches
+
 This macro disables Tauri version mismatch checking. It can be set to anything.
 
 <Aside type="caution">
@@ -1077,9 +1176,11 @@ This macro disables Tauri version mismatch checking. It can be set to anything.
 <SearchTerra macroname="__tauri_ignore_version_mismatches" />
 
 #### System Tauri
+
 These are macros for use with Tauri if installed from the repo. Please note that using Tauri from the repo MAY NOT WORK with all projects unless you override version checking, which is not advisable in most circumstances.
 
 ##### %__tauri
+
 Calls Tauri while setting the Fedora Cargo environment variables.
 
 Expands to: `/usr/bin/env CARGO_HOME=%{_cargo_home}%{!?with_rust_nightly: RUSTC_BOOTSTRAP=1}%{?with_rust_nightly: RUSTUP_HOME=%{_rustup_home}} RUSTFLAGS='%{build_rustflags}' /usr/bin/tauri`
@@ -1087,6 +1188,7 @@ Expands to: `/usr/bin/env CARGO_HOME=%{_cargo_home}%{!?with_rust_nightly: RUSTC_
 <SearchTerra macroname="__tauri" />
 
 ##### %tauri_build
+
 Build with system Tauri.
 
 Available flags:
@@ -1095,6 +1197,7 @@ Available flags:
 <SearchTerra macroname="tauri_build" />
 
 ##### %tauri_build_crate
+
 A port of [%cargo_build_crate](https://codeberg.org/rust2rpm/cargo-rpm-macros/src/commit/754ec0c9a09d8a89990f454c17dc0da07861741f/macros.d/macros.cargo#L280) for Tauri.
 
 Available flags:
@@ -1103,6 +1206,7 @@ Available flags:
 <SearchTerra macroname="tauri_build_crate" />
 
 #### Webapp Build Macros
+
 These are macros used to build webapps using JavaScript package managers and builders such as [Electron Builder](https://www.electron.build), [Electron Forge](https://www.electronforge.io), [Electron Vite](https://electron-vite.github.io), or [Tauri](#tauri).
 
 Capital letter flags generally denote options that SHOULD be used with caution or only if necessary for a build.
@@ -1117,6 +1221,7 @@ For more information on each package manager, seethe [NPM macros](#npm), [Bun ma
 </Aside>
 
 ##### %npm_build
+
 SHOULD be used for building Electron or Tauri apps with NPM. Has a great deal of flags to work around NPM specific limitations.
 
 Available flags:
@@ -1140,6 +1245,7 @@ The above would run the necessary install steps, run script and script2, execute
 <SearchTerra macroname="npm_build" />
 
 ##### %bun_build
+
 SHOULD be used to build Electron or Tauri apps with Bun.
 
 Available flags:
@@ -1163,6 +1269,7 @@ The above would run `%{__bun} ci`, run script and script2, the JavaScript module
 <SearchTerra macroname="bun_build" />
 
 ##### %deno_build
+
 SHOULD be used to build Electron or Tauri apps with Deno.
 
 Available flags:
@@ -1185,6 +1292,7 @@ The above would run run script and script2, then run file1.js and file2.js with 
 <SearchTerra macroname="deno_build" />
 
 ##### %pnpm_build
+
 SHOULD be used for building Electron or Tauri apps with PNPM.
 
 Available flags:
@@ -1207,6 +1315,7 @@ The above would run `%{__pnpm} install --no-frozen-lockfile`, run script and scr
 <SearchTerra macroname="pnpm_build" />
 
 ##### %yarn_build
+
 SHOULD be used to build Electron or Tauri apps with Yarn or Yarn Berry.
 
 Available flags:
@@ -1228,6 +1337,7 @@ The above would run Yarn build steps and execute a Tauri build with the features
 <SearchTerra macroname="yarn_build" />
 
 ### Other
+
 JavaScript related macros that apply to all or do not fit into any of the above categories.
 
 #### %set_javascript_build_flags
@@ -1266,6 +1376,7 @@ This should only be needed in the event you are using [%__npx](#__npx), [%__pnpx
 <SearchTerra macroname="set_javascript_build_flags" />
 
 ## Nim
+
 These macros assist with building [Nim](https://nim-lang.org) projects.
 Currently `atlas` is not directly supported by the macros, but you can run it directly in <Code code={`%build`} lang={RPMSpec} inline />:
 ```rpmspec
@@ -1276,6 +1387,7 @@ atlas rep atlas.lock
 ```
 
 ### %nim_prep
+
 Set up build environment with required packages via `nimble setup`.
 
 This also adds the configuration for enabling mold automatically if found in the build environment.
@@ -1283,6 +1395,7 @@ This also adds the configuration for enabling mold automatically if found in the
 <SearchTerra macroname="nim_prep" />
 
 ### %nim_build (or %nim_c)
+
 Builds a Nim package.
 Requires an argument to `src/pkgname`.
 
@@ -1291,24 +1404,29 @@ Note that this does not invoke `nimble`. All dependencies SHOULD be ready before
 <SearchTerra macroname="nim_build" />
 
 ### %nim_tflags
+
 C compiler flags used in <Code code={`%nim_c`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="nim_tflags" />
 
 ### %nim_lflags
+
 Linker flags used in <Code code={`%nim_c`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="nim_lflags" />
 
 ## Rust
+
 These macros assist with building [Rust](https://rust-lang.org) projects.
 
 ### %cargo_prep_online
+
 Enables internet access for <Code code={`%cargo_prep`} lang={RPMSpec} inline />. Replaces <Code code={`%cargo_prep`} lang={RPMSpec} inline /> in <Code code={`%prep`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_prep_online" />
 
 ### %cargo_license_online
+
 Enables internet access for <Code code={`%cargo_license`} lang={RPMSpec} inline />.
 Replaces <Code code={`%cargo_license`} lang={RPMSpec} inline /> in <Code code={`%build`} lang={RPMSpec} inline />.
 
@@ -1319,24 +1437,28 @@ Replaces <Code code={`%cargo_license`} lang={RPMSpec} inline /> in <Code code={`
 <SearchTerra macroname="cargo_license_online" />
 
 ### %cargo_license_summary_online
+
 Enables internet access for <Code code={`%cargo_license_summary`} lang={RPMSpec} inline />.
 Replaces <Code code={`%cargo_license_summary`} lang={RPMSpec} inline /> in `%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_license_summary_online" />
 
 ### %cargo_vendor_manifest_online
+
 Enables internet access for <Code code={`%cargo_vendor_manifest_online`} lang={RPMSpec} inline />.
 Replaces <Code code={`%cargo_vendor_manifest`} lang={RPMSpec} inline /> in `%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_vendor_manifest_online" />
 
 ### %crate_install_bin
+
 Used to install crates that build as single binary.
 Can be used instead of <Code code={`%cargo_install`} lang={RPMSpec} inline /> when [this](https://github.com/terrapkg/packages/issues/1169) is applicable.
 
 <SearchTerra macroname="crate_install_bin" />
 
 ### %rustup_nightly
+
 Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `rustc`/`cargo` from `rustup`.
 
 <Aside type="caution">
@@ -1346,17 +1468,20 @@ Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `r
 <SearchTerra macroname="rustup_nightly" />
 
 ## Subpackages
+
 These macros assist with packages that require certain subpackage types.
 For example, some packages will build application and library files. Using <Code code={`%pkg_devel_files`} lang={RPMSpec} inline /> will greatly help you in making the library files (`-devel`) subpackage.
 More information on subpackages can be found on the [Fedora Packaging Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/#_mixed_use_packages).
 
 ### %files_libs
+
 This macro creates library subpackages and installs the library files.
 This is only for use in the [`%pkg_devel_files` macro](#pkg_devel_files).
 
 <SearchTerra macroname="files_libs" />
 
 ### %pkg_completion
+
 This macro creates shell completion subpackages and installs the shell completion files.
 This macro SHOULD be used if your package provides shell completion files.
 Use the below flags according to the shell completion files your package uses:
@@ -1395,6 +1520,7 @@ yadm-zsh-completion-x.x.x-x.fcxx.noarch.rpm - contains `/usr/share/zsh/site-func
 <SearchTerra macroname="pkg_completion" />
 
 ### %pkg_devel_files
+
 Set the summary & description, then find development files and install them to a subpackages `%files`.
 SHOULD be used in place of manually creating `-devel` subpackages.
 <Aside type="caution">
@@ -1414,6 +1540,7 @@ For example:
 <SearchTerra macroname="pkg_devel_files" />
 
 ### %pkg_static_files
+
 Set the summary & description, then find static libraries.
 SHOULD be used in place of manually creating `-static` subpackages.
 <Aside type="caution">
@@ -1431,6 +1558,7 @@ For example:
 <SearchTerra macroname="pkg_static_files" />
 
 ### %pkg_libs_files
+
 Set the summary & description, then find dynamic library files (will be placed as `%_libdir/*.so.*`).
 SHOULD be used in place of manually creating `-libs` subpackages.
 <Aside type="caution">
@@ -1451,11 +1579,13 @@ For example:
 These macros assist with building Zig projects.
 
 ### %__zig
+
 This macro is the same as `%zig` but formatted to match how most macros calling binaries are. Use of it is not encouraged *or* discouraged, it only exists because it's an easy mistake to make.
 
 <SearchTerra macroname="__zig" />
 
 ### %zig_build_target
+
 Build Zig projects with a specified architecture and build mode.
 
 Available flags:
@@ -1480,9 +1610,11 @@ More information can be found on our [Zig packaging guidelines](../guidelines#zi
 <SearchTerra macroname="zig_build_target" />
 
 ## Miscellaneous
+
 General macros that do not fit into a specific category.
 
 ### %evr
+
 Used for declaring how a package interacts with others, such as, in a <Code code={`Requires:`} lang={RPMSpec} inline /> or <Code code={`Obsoletes:`} lang={RPMSpec} inline /> tag.
 For example, <Code code={`Requires: %{name} = %{evr}`} lang={RPMSpec} inline />.
 Expands to: `%{?epoch:%{epoch}:}%{version}-%{release}`.
@@ -1519,6 +1651,7 @@ Conflicts:		%realname-devel
 <SearchTerra macroname="evr" />
 
 ### %git_clone
+
 Downloads the source code via `git clone`, and passes useful (in this situation) flags such as`--depth 1`, `-q`, `--recursive-submodules`, and `-j${RPM_BUILD_NCPUS}`.
 A git URL and a <Code code={`%{version}`} lang={RPMSpec} inline /> or <Code code={`%{commit}`} lang={RPMSpec} inline /> MAY be passed to this macro.
 Below is an example of how a spec that tracks version tages from a GitHub repo, and needs to git clone the source could handle this:
@@ -1550,44 +1683,55 @@ It is RECOMMENDED to still fetch and include a source tarball via the spec sourc
 <SearchTerra macroname="git_clone" />
 
 ### %go_task
+
 Expands to: `go-task --parallel --concurrency %{?_smp_build_ncpus} --verbose --yes`
 SHOULD be used in place of `go-task` if using Go Task.
 
 <SearchTerra macroname="go_task" />
 
 ## Unused in Spec Files
+
 These macros are ONLY used by other macros in their expansion processes, as programmed [here](https://github.com/terrapkg/srpm-macros).
 These are documented ONLY for development and completion sake.
 
 ### %__anda_develfiles
+
 Expands to: <Code code={`%_anda_srpm_macros_dir/find-develinfo.sh %buildroot > anda-develfiles.list`} lang={RPMSpec} inline />
 Used as a macro within [`%pkg_devel_files`](#pkg_devel_files).
 
 ### %__anda_libsfiles
+
 Expands to: <Code code={`%_anda_srpm_macros_dir/find-libsinfo.sh %buildroot > anda-libsfiles.list`} lang={RPMSpec} inline />
 Used as a macro within [`%pkg_libs_files`](#pkg_libs_files).
 
 ### %_anda_srpm_macros_dir
+
 Expands to: `/usr/libexec/anda-srpm-macros`
 Anda directory for scripts such as `find-develinfo.sh` used by `%__anda_develfiles`} lang={RPMSpec} inline />, which is used in [`%pkg_devel_files`](#pkg_devel_files).
 
 ### %__anda_staticfiles
+
 Expands to: <Code code={`%_anda_srpm_macros_dir/find-staticinfo.sh %buildroot > anda-staticfiles.list`} lang={RPMSpec} inline />
 Creates anda-staticfiles.list file in <Code code={`%{buildroot}`} lang={RPMSpec} inline /> to be used by [`%pkg_static_files`](#pkg_static_files).
 
 ### %__update_desktop_database
+
 Expands to: <Code code={`/usr/bin/update-desktop-database`} lang={RPMSpec} inline />
 This is not used as there is no reason not to use `%update_desktop_database`.
 
 ### %desktop_file_args
+
 This macro is created when using the `-F` option in `%electron_install`. It's used to pass the appropriate Exec arguments to `desktop-file-install` and has no other use.
 
 ### %is_electron_bundled
+
 Expands to <Code code={`%bcond bundled_electron %["%{name}" != "electron"]`} lang={RPMSpec} inline />
 A functional macro that tells other macros if Electron is bundled or if the package being worked with is Electron itself. Used by [`%electronmeta`](#electronmeta) and [`%electron_license`](#electron_license).
 
 ### %__tauri_common_opts
+
 Common opts passed to Tauri. Used by macros which call Tauri.
 
 ### %terra_rustflags
+
 This macro simply appends the [Mold linker arguments](../guidelines#usage-of-the-mold-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.

@@ -3,9 +3,9 @@ title: Guidelines
 description: "Terra-specific guidelines."
 ---
 
-import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
-import { Code } from 'astro:components';
-import RPMSpec from '@/components/spec.json';
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
 
 # Overview
 
@@ -125,6 +125,7 @@ Terra does not strictly follow Fedora's policies, and we do not want large amoun
 Terra's Mock sandbox has networking enabled, so builders can download the dependencies directly on build time.
 
 #### Rust
+
 These are guidelines for packaging projects written in [Rust](https://rust-lang.org).
 
 For the official Rust language documentation, [see here](https://rust-lang.org/learn).
@@ -173,6 +174,7 @@ If Rust nightly is required, add the <Code code={`%rustup_nightly`} lang={RPMSpe
 Check the [Rust section on the SRPM page](../srpm#rust) for more information on these macros.
 
 #### Go
+
 These are guidelines for packaging projects written in [Go](https://go.dev).
 
 For the official Go language documentation, [see here](https://go.dev/doc).
@@ -185,6 +187,7 @@ For the official Go language documentation, [see here](https://go.dev/doc).
   - You SHOULD add <Code code={`BuildRequires: anda-srpm-macros`} lang={RPMSpec} inline /> to your spec if using <Code code={`%goprep_online`} lang={RPMSpec} inline />.
 
 #### Nim
+
 These are guidelines for packaging projects written in [Nim](https://nim-lang.org).
 
 For the official Nim language documentation, [see here](https://nim-lang.org/documentation.html).
@@ -222,6 +225,7 @@ atlas rep atlas.lock
 ```
 
 #### Zig
+
 These are guidelines for packaging projects written in [Zig](https://ziglang.org).
 
 For the official Zig language documentation, [see here](https://ziglang.org/learn).
@@ -294,11 +298,13 @@ These packages SHOULD NOT contain anything **except**:
 # and other development files (.vapi, .typelib, .gir, etc.).
 ```
 ### JavaScript
+
 These are guidelines for packaging projects written in or which utilize [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 These guidelines also often cover things written in or which utilize [TypeScript](https://www.typescriptlang.org).
 
 #### Node Modules
+
 Guidelines for packaging Node modules in Terra.
 
 <Aside>
@@ -318,6 +324,7 @@ Guidelines for packaging Node modules in Terra.
 - You MAY opt instead to follow Fedora's Node.js packaging methods but keep in mind this is very difficult to maintain and may not work on all modules.
 
 ### Web Applications
+
 These are guidelines for building [web applications](https://en.wikipedia.org/wiki/Web_application) (hereafter referred to as "webapps"), which refers to apps built using technologies such as Electron or Tauri.
 
 These apps embed parts of browser functionality in order to display web content. One of the most recognizable examples is [Discord](https://discord.com).
@@ -336,6 +343,7 @@ The general guidelines for building webapps are:
     ```
 
 #### Electron
+
 These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
 
 <Aside>
@@ -358,6 +366,7 @@ These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
 - You SHOULD use our [`%electron_install` macro](../srpm#electron_install) for installing Electron apps.
 
 #### Tauri
+
 These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
 
 Tauri builds webapps using Cargo and the system WebKit. For these reasons some of the [Rust](#rust) guidelines also apply to Tauri. Most relevant Cargo macros have been ported into Tauri compatible ones, however it will likely still be helpful to make yourself familiar with the original macros.
@@ -399,7 +408,7 @@ You MAY specify which repo it has been ported from.
 
 ##### Modifying Changelog Entries
 
-This *should* not need to be done, the only reasons are if there was a formatting error, date error, or updated name/emails.
+This _should_ not need to be done, the only reasons are if there was a formatting error, date error, or updated name/emails.
 It is also acceptable to add more to previous changelogs (for example, adding missing emails/version), but there has to be a reason to do this.
 
 #### Fixing Packages
@@ -409,7 +418,7 @@ It is also acceptable to add more to previous changelogs (for example, adding mi
     - Installing a missing file.
     - Adding any build or non-build, hard or soft, forward or backward dependencies.
     - Changing any user-facing tags (<Code code={`URL:`} lang={RPMSpec} inline />, <Code code={`License:`} lang={RPMSpec} inline />, <Code code={`Summary:`} lang={RPMSpec} inline />, etc.).
-- If a package fix PR is *not* fixing/changing anything build-facing, the <Code code={`Release:`} lang={RPMSpec} inline /> tag SHOULD NOT need to be bumped.
+- If a package fix PR is _not_ fixing/changing anything build-facing, the <Code code={`Release:`} lang={RPMSpec} inline /> tag SHOULD NOT need to be bumped.
   - Some (not all!) examples of changes which **don't** require a <Code code={`Release:`} lang={RPMSpec} inline /> bump:
     - Fixing a package that failed to build when the <Code code={`Version:`} lang={RPMSpec} inline /> tag is bumped.
     - Any changes that do not affect the final package.
