@@ -1,4 +1,4 @@
-╔═══════════════════╗                                               Website: https://terra.fyralabs.com/
+╔═══════════════════╗                                               Website: https://terrapkg.com
 ║ Client (dnf/dnf5) ║                                               ────────────────────────────────────
 ║                   ║  from  ╭───────────────────────────────╮
 ║ 1. fetch metalink ╫────────┤ Tetsudou (Metalink generator) │🭮──╴repodata hashes ──┐
