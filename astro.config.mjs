@@ -17,11 +17,6 @@ export default defineConfig({
 
   trailingSlash: "never",
 
-  // Cloudflare doesn't support Astro's built in image processing
-  image: {
-    service: passthroughImageService(),
-  },
-
   integrations: [
     mermaid(),
     starlight({
@@ -102,6 +97,6 @@ export default defineConfig({
   },
 
   adapter: cloudflare({
-    imageService: "cloudflare",
+    imageService: "compile",
   }),
 });
