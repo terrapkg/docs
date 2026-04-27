@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -16,6 +16,11 @@ export default defineConfig({
   site: "https://docs.terrapkg.com",
 
   trailingSlash: "never",
+
+  // Cloudflare doesn't support Astro's built in image processing
+  image: {
+    service: passthroughImageService(),
+  },
 
   integrations: [
     mermaid(),
