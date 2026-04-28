@@ -8,9 +8,7 @@ updates:
       astro:
         patterns: ["astro", "@astrojs*"]
       react:
-        patterns: ["react", "react-dom"]
-      react-types:
-        patterns: ["@types/react", "@types/react-dom"]
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
