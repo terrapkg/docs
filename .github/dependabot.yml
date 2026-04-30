@@ -7,8 +7,12 @@ updates:
     groups:
       astro:
         patterns: ["astro", "@astrojs*"]
+      mermaid:
+        patterns: ["*mermaid*"]
       react:
         patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
+      tailwindcss:
+        patterns: ["tailwindcss", "@tailwindcss*]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
