@@ -15,9 +15,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "astro": "astro",
     "generate-types": "wrangler types",
     "fmt": "oxfmt",
