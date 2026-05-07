@@ -78,7 +78,9 @@ export default defineConfig({
         themes: ["github-dark"],
         shiki: {
           langs: [
+            // @ts-expect-error TypeScript wants you use JSON.parse(), despite this working perfectly fine.
             { ...RPMSpec, aliases: ["rpmspec"] },
+            // @ts-expect-error TypeScript wants you use JSON.parse(), despite this working perfectly fine.
             { ...rhai, aliases: ["rhai"] },
           ],
           // By default Shiki uses Oniguruma with WASM in Expressive Code, Cloudflare does not support this.
