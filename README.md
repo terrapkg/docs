@@ -29,6 +29,6 @@ Below are some commands to either build the site to test your changes or to help
 
 To learn more about Starlight and Astro, check out the below:
 
-- [Starlight documentation](https://starlight.astro.build)
+- [Starlight documentation](https://starlight.astro.build/getting-started)
 - [Astro documentation](https://docs.astro.build)
 - [Astro Discord server](https://astro.build/chat)
