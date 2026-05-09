@@ -33,7 +33,7 @@
     "@lunariajs/core": "^0.1.1",
     "@lunariajs/starlight": "^0.1.1",
     "@mermaid-js/layout-elk": "^0.2.1",
-    "@tailwindcss/vite": "^4.2.4",
+    "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.1",
     "astro-icon": "^1.1.5",
     "astro-mermaid": "^2.0.1",
@@ -43,7 +43,7 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "sharp": "^0.34.2",
-    "tailwindcss": "^4.2.4",
+    "tailwindcss": "^4.3.0",
     "wrangler": "^4.90.0"
   },
   "devDependencies": {
