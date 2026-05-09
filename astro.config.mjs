@@ -40,15 +40,15 @@ export default defineConfig({
         },
         {
           label: "Reference",
-          autogenerate: { directory: "reference" },
+          items: [{ autogenerate: { directory: "reference" } }],
         },
         {
           label: "General",
-          autogenerate: { directory: "general" },
+          items: [{ autogenerate: { directory: "general" } }],
         },
         {
           label: "Using Terra",
-          autogenerate: { directory: "usage" },
+          items: [{ autogenerate: { directory: "usage" } }],
         },
         {
           label: "Contributing",
