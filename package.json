@@ -19,6 +19,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
+    "lunaria:build": "lunaria build",
+    "lunaria:preview": "lunaria preview",
     "generate-types": "wrangler types",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
@@ -28,6 +30,8 @@
     "@astrojs/mdx": "^5.0.4",
     "@astrojs/react": "^5.0.4",
     "@astrojs/starlight": "^0.39.2",
+    "@lunariajs/core": "^0.1.1",
+    "@lunariajs/starlight": "^0.1.1",
     "@mermaid-js/layout-elk": "^0.2.1",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.3.1",

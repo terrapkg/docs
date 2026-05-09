@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/@lunariajs/core/config.schema.json",
+  "repository": {
+    "name": "terrapkg/docs",
+    "rootDir": "src/content/docs"
+  },
+  "defaultLocale": {
+    "label": "English",
+    "lang": "en"
+  },
+  "files": [
+    {
+      "location": "src/content/docs/**/*.{md,mdx}",
+      "pattern": "src/content/docs/@lang/@path",
+      "type": "universal"
+    }
+  ]
+}
