@@ -562,7 +562,7 @@ You MUST NOT have a period at the end of any <Code code={`Summary:`} lang={RPMSp
 To make specs easier to read, you SHOULD use <Code code={`%ifarch`} lang={RPMSpec} inline /> followed by <Code code={`%elifarch`} lang={RPMSpec} inline /> before <Code code={`%endif`} lang={RPMSpec} inline /> in specs where build steps are arch dependent.
 
 <CardGrid>
-  <Card title="Incorrect:" icon="error">
+  <Card title="Incorrect:" icon="close">
     ```rpmspec
     %ifarch x86_64
     %define arch %{nil}
@@ -572,7 +572,7 @@ To make specs easier to read, you SHOULD use <Code code={`%ifarch`} lang={RPMSpe
     %endif
     ```
   </Card>
-  <Card title="Correct:" icon="approve-check-circle">
+  <Card title="Correct:" icon="approve-check">
     ```rpmspec
     %ifarch x86_64
     %define arch %{nil}
