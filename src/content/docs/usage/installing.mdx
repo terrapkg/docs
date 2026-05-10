@@ -50,7 +50,7 @@ On Atomic editions of Fedora, run the following command:
 
 ```
 curl -fsSL https://raw.githubusercontent.com/terrapkg/packages/f$(rpm --eval '%{fedora}')/anda/terra/release/terra.repo | pkexec tee /etc/yum.repos.d/terra.repo
-sudo rpm-ostree install terra-release
+sudo rpm-ostree install terra-release terra-gpg-keys
 ```
 
 ### Bazzite and Aurora
@@ -97,7 +97,7 @@ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.no
 Now you can install Terra!
 
 ```sh
-sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terrael$releasever' terra-release
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terrael$releasever' terra-release terra-gpg-keys
 ```
 
 #### AlmaLinux, CentOS Stream, and RockyLinux
@@ -117,7 +117,7 @@ sudo dnf install epel-release
 Now you can install Terra!
 
 ```sh
-sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terrael$releasever' terra-release
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terrael$releasever' terra-release terra-gpg-keys
 ```
 
 ## Subrepos
@@ -164,6 +164,10 @@ sudo dnf install terra-release-nvidia
 ```
 
 ### Multimedia
+
+<Aside type="danger">
+The Terra Multimedia subrepo is currently considered unstable and a work in progress. At this time packages on this repo will often cause package manager conflicts, be out of date, or have broken functionality. This is because multimedia packages can have different packaging approaches, legality/licensing concerns, and very complex dependency chains. There will be continued work until this repository is ready, but there is no current estimated date for when it will be considered stable.
+</Aside>
 
 The multimedia subrepo is only available on Fedora 43 and newer. It provides multimedia codecs and related software, like `gstreamer1` packages and `ffmpeg`.
 
