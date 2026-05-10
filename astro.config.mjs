@@ -32,6 +32,22 @@ export default defineConfig({
           label: "Fyra Labs Discord",
           href: "https://fyralabs.com/discord",
         },
+        {
+          icon: "blueSky",
+          label: "Bluesky",
+          href: "https://bsky.app/profile/terrapkg.bsky.social",
+        },
+        {
+          // It's Misskey but Starlight doesn't currently have an icon for this.
+          icon: "mastodon",
+          label: "Fyra Labs Misskey",
+          href: "https://fedi.fyralabs.com/@terra",
+        },
+        {
+          icon: "twitter",
+          label: "Twitter",
+          href: "https://twitter.com/terra_repo",
+        },
       ],
       sidebar: [
         {
