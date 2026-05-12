@@ -6,8 +6,8 @@ import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import cloudflare from "@astrojs/cloudflare";
 import d2 from "astro-d2";
-import Icons from "unplugin-icons/vite";
 import tailwindcss from "@tailwindcss/vite";
+import Icons from "unplugin-icons/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
 
@@ -43,7 +43,7 @@ export default defineConfig({
         },
         {
           // It's Misskey but Starlight doesn't currently have an icon for this.
-          icon: "mastodon",
+          icon: "~icons/simple-icons/misskey",
           label: "Fyra Labs Misskey",
           href: "https://fedi.fyralabs.com/@terra",
         },
