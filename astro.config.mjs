@@ -1,10 +1,10 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import react from "@astrojs/react";
+import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
-import cloudflare from "@astrojs/cloudflare";
 import d2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
@@ -43,8 +43,8 @@ export default defineConfig({
         },
         {
           // It's Misskey but Starlight doesn't currently have an icon for this.
-          icon: "~icons/simple-icons/misskey",
-          label: "Fyra Labs Misskey",
+          icon: "mastodon",
+          label: "Misskey",
           href: "https://fedi.fyralabs.com/@terra",
         },
         {
