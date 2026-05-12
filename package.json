@@ -23,7 +23,9 @@
     "lunaria:preview": "lunaria preview",
     "generate-types": "wrangler types",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint --type-aware",
+    "lint:ci": "oxlint --type-aware --format=github"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.0",
@@ -53,6 +55,8 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "oxfmt": "^0.48.0",
+    "oxlint": "^1.64.0",
+    "oxlint-tsgolint": "^0.22.1",
     "typescript": "^6.0.3"
   },
   "overrides": {
