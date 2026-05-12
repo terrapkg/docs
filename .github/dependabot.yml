@@ -7,10 +7,10 @@ updates:
     groups:
       astro:
         patterns: ["astro", "@astrojs*"]
+      d2:
+        patterns: ["astro-d2", "@terrastruct/d2"]
       lunaria:
         patterns: ["@lunariajs*"]
-      mermaid:
-        patterns: ["*mermaid*"]
       oxc:
         patterns: ["oxfmt", "oxlint*"]
       react:
