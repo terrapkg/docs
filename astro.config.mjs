@@ -5,8 +5,8 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import cloudflare from "@astrojs/cloudflare";
-import icon from "astro-icon";
 import d2 from "astro-d2";
+import Icons from "unplugin-icons/vite";
 import tailwindcss from "@tailwindcss/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
@@ -109,13 +109,17 @@ export default defineConfig({
       },
     }),
     sitemap(),
-    icon(),
     react(),
     mdx(),
   ],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      Icons({
+        compiler: "astro",
+      }),
+      tailwindcss(),
+    ],
   },
 
   adapter: cloudflare({
