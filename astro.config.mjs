@@ -5,7 +5,7 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
-import d2 from "astro-d2";
+import astroD2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
 import RPMSpec from "./components/spec.json";
@@ -18,7 +18,7 @@ export default defineConfig({
   trailingSlash: "never",
 
   integrations: [
-    d2({
+    astroD2({
       experimental: {
         useD2js: true,
       },
@@ -108,9 +108,9 @@ export default defineConfig({
         },
       },
     }),
-    sitemap(),
-    react(),
     mdx(),
+    react(),
+    sitemap(),
   ],
 
   vite: {
