@@ -23,5 +23,3 @@ jobs:
 
       - name: Run Oxfmt
         uses: oxc-project/oxfmt-action@5f25fc2dccfa7335bc29ceceecc610d8b5c93d64 # v0.0.1
-        with:
-          config: oxfmt.config.ts
