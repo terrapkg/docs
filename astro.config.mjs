@@ -4,12 +4,12 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
+import cloudflare from "@astrojs/cloudflare";
 import icon from "astro-icon";
-import mermaid from "astro-mermaid";
+import d2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
-import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,7 +18,11 @@ export default defineConfig({
   trailingSlash: "never",
 
   integrations: [
-    mermaid(),
+    d2({
+      experimental: {
+        useD2js: true,
+      },
+    }),
     starlight({
       title: "Terra Documentation",
       social: [
