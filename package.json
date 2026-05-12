@@ -25,7 +25,7 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint --type-aware",
-    "lint:ci": "oxlint --type-aware --format=github"
+    "lint:ci": "oxlint --type-aware --format github"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.0",
