@@ -2,17 +2,7 @@
 
 import { use, useEffect, useId, useState } from 'react';
 
-const themeMap = {
-    'light': 'default',
-    'dark': 'dark'
-};
-
-let currentTheme = '';
-
-const htmlTheme = document.documentElement.getAttribute('data-theme');
-const bodyTheme = document.body.getAttribute('data-theme');
-const dataTheme = htmlTheme || bodyTheme;
-currentTheme = themeMap[dataTheme];
+import mermaid from "astro-mermaid";
 
 export function Mermaid({ chart }: { chart: string }) {
     const [mounted, setMounted] = useState(false);
@@ -38,6 +28,7 @@ function cachePromise<T>(key: string, setPromise: () => Promise<T>): Promise<T> 
 
 function MermaidContent({ chart }: { chart: string }) {
     const id = useId();
+    const mermaidTheme = mermaid().options
     const { default: mermaid } = use(cachePromise('mermaid', () => import('mermaid')));
 
     mermaid.initialize({
@@ -45,11 +36,11 @@ function MermaidContent({ chart }: { chart: string }) {
         securityLevel: 'loose',
         fontFamily: 'inherit',
         themeCSS: 'margin: 1.5rem auto 0;',
-        theme: currentTheme === 'dark' ? 'dark' : 'default',
+        theme: mermaidTheme === 'dark' ? 'dark' : 'default',
     });
 
     const { svg, bindFunctions } = use(
-        cachePromise(`${chart}-${currentTheme}`, () => {
+        cachePromise(`${chart}-${mermaidTheme}`, () => {
             return mermaid.render(id, chart.replaceAll('\\n', '\n'));
         }),
     );
