@@ -942,7 +942,7 @@ Rundown of what all <Code code={`%electronmeta`} lang={RPMSpec} inline /> does:
   - This can also be used to help work with the files if you need to do anything manually.
 - Defines <Code code={`%__provides_excludes`} lang={RPMSpec} inline /> to make sure Electron apps are not flagged as providers of their bundled dependencies, such as FFmpeg libraries.
 - Defines <Code code={`%__requires_excludes`} lang={RPMSpec} inline /> based on architecture to prevent Electron projects' cross-platform builds from causing false dependency positives from RPM.
-- If using the `-D` boolean, sets `<Code code={%debug_package`} lang={RPMSpec} inline /> to `%{nil}`} lang={RPMSpec} inline /> to prevent stripping of bundled libraries and/or build failures due to not enough data to strip.
+- If using the `-D` boolean, sets <Code code={`%debug_package`} lang={RPMSpec} inline /> to <Code code={`%{nil}`} lang={RPMSpec} inline /> to prevent stripping of bundled libraries and/or build failures due to not enough data to strip.
 - Sets the build and runtime dependencies.
 - Sets the <Code code={`ExclusiveArch:`} lang={RPMSpec} inline /> tag to only the architectures Electron supports.
 - Defines a <Code code={`%bcond`} lang={RPMSpec} inline /> for whether or not Electron is bundled for other macros.
