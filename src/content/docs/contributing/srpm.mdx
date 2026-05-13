@@ -130,7 +130,7 @@ Note that you SHOULD then need to add the extension's UUID after this macro.
 
 ### %_hicolordir
 
-Expands to: <Code code={`%_iconsdir/hicolor`} lang={RPMSpec} inline /> or `/usr/share/icons/hicolor`} lang={RPMSpec} inline />
+Expands to: <Code code={`%_iconsdir/hicolor`} lang={RPMSpec} inline /> or <Code code={`/usr/share/icons/hicolor`} lang={RPMSpec} inline />
 
 The directory that SHOULD be used when installing application `.png` files. Note that you then MUST install the (typically app icon) file to the `apps` folder within the fixed-size directory in <Code code={`%_hicolordir`} lang={RPMSpec} inline />.
 
@@ -348,7 +348,7 @@ These macros assist with building [Go](https://go.dev) projects.
 
 ### %goprep_online
 
-MAY be used to prep a Go package for online builds. Replaces <Code code={`%goprep`} lang={RPMSpec} inline /> in `%prep`} lang={RPMSpec} inline />.
+MAY be used to prep a Go package for online builds. Replaces <Code code={`%goprep`} lang={RPMSpec} inline /> in <Code code={`%prep`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="goprep_online" />
 
@@ -386,7 +386,7 @@ For this reason, whatever you are packaging SHOULD be tested locally upon a succ
 What <Code code={`%vendor_nodejs`} lang={RPMSpec} inline /> does:
 1. Installs the desired Node.js version to <Code code={`%{_nvm_dir}`} lang={RPMSpec} inline />.
 1. Redefines <Code code={`%{__nodejs}`} lang={RPMSpec} inline /> to run the vendored version through NVM.
-1. Sets a <Code code={`%bcond`} lang={RPMSpec} inline /> to `vendored_nodejs`} lang={RPMSpec} inline /> so other macros will use the vendored version.
+1. Sets a <Code code={`%bcond`} lang={RPMSpec} inline /> to <Code code={`vendored_nodejs`} lang={RPMSpec} inline /> so other macros will use the vendored version.
 
 Vendored versions of NPM and NPX are subject to limitations in commands as they must be run through `exec`.
 
@@ -454,7 +454,7 @@ Runs self-defined tests on the Node module. This is not applicable for all Node 
 
 Available flags:
 - <Code code={`-R`} lang={RPMSpec} inline />: Direct duplicate of an <Code code={`-R`} lang={RPMSpec} inline /> flag. Project dependent.
-- <Code code={`-v`} lang={RPMSpec} inline />: Direct duplicate of a `-v`} lang={RPMSpec} inline /> flag. Project dependent.
+- <Code code={`-v`} lang={RPMSpec} inline />: Direct duplicate of a <Code code={`-v`} lang={RPMSpec} inline /> flag. Project dependent.
 
 You MUST use [`%fetch_node_tests`](#fetch_node_tests) first if using this.
 
@@ -926,7 +926,7 @@ Set up all basic requirements including build macros for building an Electron ap
 
 <Aside>
   This does NOT install the JavaScript package managers used for builds except for NPM (e.g., `bun`, `deno`, `pnpm`, `yarnpkg`, `yarnpkg-berry`).<br />
-  Specify these Code code={`BuildRequires:`} lang={RPMSpec} inline /> manually.
+  Specify these <Code code={`BuildRequires:`} lang={RPMSpec} inline /> manually.
 </Aside>
 
 Available flags:
@@ -1255,7 +1255,7 @@ Available flags:
 - <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
 - `-r <…>`: Executes <Code code={`%{__bun} run`} lang={RPMSpec} inline /> for scripts in the `package.json`. Can accept multiple arguments if they are comma separated.
 - <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the <Code code={`%{__bun} install`} lang={RPMSpec} inline /> step. This will assure all dependencies are the latest versions from the registry, reinstalling them if necessary.
-- <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-save`} lang={RPMSpec} inline /> on the `%{__bun} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
+- <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-save`} lang={RPMSpec} inline /> on the <Code code={`%{__bun} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
 - <Code code={`-R`} lang={RPMSpec} inline />: Remove the bun.lock file. SHOULD only be used if the lockfile is causing build issues or upstream builds without a lock file. Built apps using this MUST be carefully tested for problems.
 
 Example usage:
@@ -1278,8 +1278,8 @@ Available flags:
 - <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
 - <Code code={`-r <…>`} lang={RPMSpec} inline />: Executes files with <Code code={`%{__deno} run`} lang={RPMSpec} inline />. Can accept multiple arguments if they are comma separated.
 - `-x <…>`: Execute commands and modules within the Deno build environment. Can accept multiple arguments if they are separated using standard shell separators (`;` and `&&`).
-- <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the `%{__deno} install`} lang={RPMSpec} inline /> step. This will overwite the existing dependency installation (if any exists).
-- <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-lock`} lang={RPMSpec} inline /> on the `%{__deno} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
+- <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the <Code code={`%{__deno} install`} lang={RPMSpec} inline /> step. This will overwite the existing dependency installation (if any exists).
+- <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-lock`} lang={RPMSpec} inline /> on the <Code code={`%{__deno} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
 
 Example usage:
 ```rpmspec
@@ -1439,14 +1439,14 @@ Replaces <Code code={`%cargo_license`} lang={RPMSpec} inline /> in <Code code={`
 ### %cargo_license_summary_online
 
 Enables internet access for <Code code={`%cargo_license_summary`} lang={RPMSpec} inline />.
-Replaces <Code code={`%cargo_license_summary`} lang={RPMSpec} inline /> in `%build`} lang={RPMSpec} inline />.
+Replaces <Code code={`%cargo_license_summary`} lang={RPMSpec} inline /> in <Code code={`%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_license_summary_online" />
 
 ### %cargo_vendor_manifest_online
 
 Enables internet access for <Code code={`%cargo_vendor_manifest_online`} lang={RPMSpec} inline />.
-Replaces <Code code={`%cargo_vendor_manifest`} lang={RPMSpec} inline /> in `%build`} lang={RPMSpec} inline />.
+Replaces <Code code={`%cargo_vendor_manifest`} lang={RPMSpec} inline /> in <Code code={`%build`} lang={RPMSpec} inline />.
 
 <SearchTerra macroname="cargo_vendor_manifest_online" />
 
@@ -1702,7 +1702,7 @@ Used as a macro within [`%pkg_libs_files`](#pkg_libs_files).
 ### %_anda_srpm_macros_dir
 
 Expands to: `/usr/libexec/anda-srpm-macros`
-Anda directory for scripts such as `find-develinfo.sh` used by `%__anda_develfiles`} lang={RPMSpec} inline />, which is used in [`%pkg_devel_files`](#pkg_devel_files).
+Anda directory for scripts such as `find-develinfo.sh` used by <Code code={`%__anda_develfiles`} lang={RPMSpec} inline />, which is used in [`%pkg_devel_files`](#pkg_devel_files).
 
 ### %__anda_staticfiles
 
