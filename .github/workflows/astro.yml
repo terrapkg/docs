@@ -27,8 +27,19 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Cache build
+        id: cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.bun/install/cache
+            ${{ github.workspace }}/node_modules/.astro
+          key: ${{ runner.os }}-production-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+           ${{ runner.os }}-production-${{ hashFiles('**/bun.lock') }}-
+
       - name: Install dependencies
-        run: bun install --frozen-lockfile --production
+        run: bun ci --production
 
       - name: Build with Astro
         run: bun run build
@@ -49,8 +60,19 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Cache build
+        id: cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.bun/install/cache
+            ${{ github.workspace }}/node_modules/.astro
+          key: ${{ runner.os }}-dev-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+           ${{ runner.os }}-dev-${{ hashFiles('**/bun.lock') }}-
+
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci
 
       - name: Run checks with Astro
         run: bun run check
