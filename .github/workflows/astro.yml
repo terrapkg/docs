@@ -34,7 +34,7 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/node_modules/.astro
-          key: ${{ runner.os }}-production-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          key: ${{ runner.os }}-production-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.astro', '**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-production-${{ hashFiles('**/bun.lock') }}-
 
@@ -67,7 +67,7 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/node_modules/.astro
-          key: ${{ runner.os }}-dev-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          key: ${{ runner.os }}-dev-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.astro', '**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-dev-${{ hashFiles('**/bun.lock') }}-
 
