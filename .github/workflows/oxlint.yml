@@ -8,9 +8,11 @@ on:
       - next
 permissions:
   contents: read
+  
 
 jobs:
   lint:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
