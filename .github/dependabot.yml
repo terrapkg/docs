@@ -9,6 +9,8 @@ updates:
         patterns: ["astro", "@astrojs*"]
       d2:
         patterns: ["astro-d2", "@terrastruct/d2"]
+      icons:
+        patterns: ["unplugin-icons", "@iconify*"]
       lunaria:
         patterns: ["@lunariajs*"]
       oxc:
