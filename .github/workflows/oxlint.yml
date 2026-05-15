@@ -14,7 +14,6 @@ on:
       - "*.json"
 permissions:
   contents: read
-  
 
 jobs:
   lint:
