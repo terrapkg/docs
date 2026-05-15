@@ -2,17 +2,22 @@ name: Oxlint
 
 on:
   pull_request:
+    paths-ignore:
+      - "*.md"
+      - "*.json"
   push:
     branches:
       - main
       - next
+    paths-ignore:
+      - "*.md"
+      - "*.json"
 permissions:
   contents: read
   
 
 jobs:
   lint:
-    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
