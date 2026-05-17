@@ -32,9 +32,9 @@ jobs:
         with:
           path: |
             ~/.bun/install/cache
-          key: ${{ runner.os }}-oxc-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/oxfmt.config.ts', '**/oxlint.config.ts') }}
+          key: ${{ runner.os }}-oxfmt-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/oxfmt.config.ts') }}
           restore-keys: |
-            ${{ runner.os }}-oxc-${{ hashFiles('**/bun.lock') }}-
+            ${{ runner.os }}-oxfmt-${{ hashFiles('**/bun.lock') }}-
 
       - name: Install dependencies
         run: bun ci
