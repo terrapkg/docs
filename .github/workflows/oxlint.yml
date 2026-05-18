@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
       - "*.md"
+      - "*.mdx"
       - "*.json"
   push:
     branches:
@@ -11,6 +12,7 @@ on:
       - next
     paths-ignore:
       - "*.md"
+      - "*.mdx"
       - "*.json"
 permissions:
   contents: read
