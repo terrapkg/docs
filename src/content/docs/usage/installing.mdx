@@ -76,11 +76,11 @@ To enable layering, edit `/etc/rpm-ostreed.conf` and set `LockLayering` to `fals
 
 Then follow the installation instructions for Fedora Atomic.
 
-### Enterprise Linux
+## Enterprise Linux
 
 Terra EL contains a subset of packages for RHEL 10 and its derivatives.
 
-#### RHEL
+### RHEL
 
 Terra EL requires EPEL, which requires CodeReady Builder, let's start by enabling that:
 
@@ -100,7 +100,7 @@ Now you can install Terra!
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terrael$releasever' terra-release terra-gpg-keys
 ```
 
-#### AlmaLinux, CentOS Stream, and RockyLinux
+### AlmaLinux, CentOS Stream, and RockyLinux
 
 Start by enabling CodeReady Builder:
 
