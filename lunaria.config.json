@@ -8,7 +8,12 @@
     "label": "English",
     "lang": "en"
   },
-  "locales": [],
+  "locales": [
+    {
+      "label": "Deutsch",
+      "lang": "de"
+    }
+  ],
   "files": [
     {
       "location": "src/content/docs/**/*.{md,mdx}",

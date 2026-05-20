@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   overview:
-    name: Generate Lunaria Overview
     permissions:
       contents: read
       pull-requests: write
@@ -45,6 +44,6 @@ jobs:
       - name: Install Dependencies
         run: bun ci
 
-      - name: Overview
+      - name: Generate Lunaria Overview
         # TODO: Swap to lunariajs/action once it has releases. Note that this action is still from the dev of Lunaria so it's still official.
         uses: yanthomasdev/lunaria-action@06ad5ab2704d030708baf3b279ca0446b418e853 # v0.1.0
