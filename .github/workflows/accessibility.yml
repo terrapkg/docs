@@ -1,4 +1,4 @@
-Name: Accessibility
+name: Accessibility
 
 on:
   pull_request:
