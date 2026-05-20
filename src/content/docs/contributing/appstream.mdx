@@ -92,7 +92,7 @@ Again, we highly recommend you read through the entire spec [here](https://www.f
 
 #### Keywords
 
-The <Code code={`<keywords/>`} lang="xml" inline /> tag[^2] will make your package easier find when users search these terms:
+The <Code code={`<keywords/>`} lang="xml" inline /> tag[^1] will make your package easier find when users search these terms:
 
 ```xml
 <keywords>
@@ -106,7 +106,7 @@ The <Code code={`<keywords/>`} lang="xml" inline /> tag[^2] will make your packa
 
 #### Developer
 
-This tag[^3] is to specify the developer/s of your package. This can be a person or group/organization.
+This tag[^2] is to specify the developer/s of your package. This can be a person or group/organization.
 
 <Aside type="caution">
   You MUST NOT use the <Code code={`<developer_name/>`} lang="xml" inline /> tag.
@@ -114,7 +114,7 @@ This tag[^3] is to specify the developer/s of your package. This can be a person
 
 #### Screenshots
 
-This tag[^4] can be either a video or a picture, and is used to showcase the package in software stores.
+This tag[^3] can be either a video or a picture, and is used to showcase the package in software stores.
 You can (and should) use full URLs to screenshots.
 
 Freedesktop's example:
@@ -202,7 +202,6 @@ I: com.mojang.Minecraft:50: nonstandard-gnome-extension metadata
 I: com.mojang.Minecraft:~: developer-info-missing
 ``` 
 
-[^1]: libraries are also supported, see Freedesktop docs for tag provides: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-provides
-[^2]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-keywords
-[^3]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-developer
-[^4]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-screenshots
+[^1]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-keywords
+[^2]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-developer
+[^3]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-screenshots

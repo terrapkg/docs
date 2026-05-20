@@ -315,7 +315,7 @@ Available flags:
 </Aside>
 
 Example usage:
-```rpmspec
+```rpmspec wrap=true
 %desktop_file_install -k Exec,Icon -v pkg,pkgicon -u %u -f path/to/file.desktop
 ```
 
@@ -1235,6 +1235,7 @@ Available flags:
 - <Code code={`-V`} lang={RPMSpec} inline />: Execute Electron Vite. Same limitation as with <Code code={`-B`} lang={RPMSpec} inline />.
 
 Example usage:
+
 ```rpmspec
 %build
 %npm_build -r script,script2 -e %{__nodejs} tasks/task1.js && %{__nodejs} tasks/tasks2.js -B
@@ -1510,7 +1511,7 @@ Example using all flags:
 A good example spec that uses this macro is [yadm](https://github.com/terrapkg/packages/blob/d861164790b3d77f5ee094d303de2dfc3299ef8b/anda/devs/yadm/yadm.spec#L22).
 This spec creates these packages:
 
-```
+```bash
 yadm-x.x.x-x.fcxx.noarch.rpm - contains all core package files.
 yadm-bash-completion-x.x.x-x.fcxx.noarch.rpm - contains `/usr/share/bash-completion/completions/yadm`
 yadm-fish-completion-x.x.x-x.fcxx.noarch.rpm - contains `/usr/share/fish/vendor_completions.d/yadm.fish`

@@ -115,7 +115,10 @@ export default defineConfig({
         },
       },
     }),
-    mdx(),
+    mdx({
+      // Force footnotes to render as text for better accessibility.
+      remarkRehype: { footnoteBackContent: "↩️ Back to reference" },
+    }),
     react(),
     sitemap(),
   ],
