@@ -73,7 +73,7 @@ export default defineConfig({
         {
           label: "Contributing",
           items: [
-            { label: "Getting Started", slug: "contributing/contributing" },
+            { label: "Getting Started", slug: "contributing/getting-started" },
             { label: "Policies", slug: "contributing/policies" },
             {
               label: "Guidelines",
