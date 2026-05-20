@@ -25,6 +25,13 @@ export default defineConfig({
     }),
     starlight({
       title: "Terra Documentation",
+      defaultLocale: "en",
+      locales: {
+        root: {
+          label: "English",
+          lang: "en",
+        },
+      },
       social: [
         {
           icon: "github",

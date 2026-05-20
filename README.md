@@ -27,8 +27,62 @@ Below are some commands to either build the site to test your changes or to help
 | `bun run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `bun run astro -- --help` | Get help using the Astro CLI                     |
 
-To learn more about Starlight and Astro, check out the below:
+### Translation
+
+<!-- TODO: Make a docs contributor guide page. -->
+
+The Terra docs use [Lunaria](https://lunaria.dev) to help with translation. If you would like to help translate them into your language, please do!
+
+First, add your desired translation language to `lunaria.config.json` inside of `"locales": []`. The format is as follows:
+
+```json
+"locales": [
+  {
+    "label": "Language",
+    "lang": "lang"
+  },
+  {
+    "label": "Language With Dialect",
+    "lang": "lang-co"
+  },
+]
+```
+
+<!-- TODO: Host a key for this ourselves in the contributor guide page. -->
+
+Please see [this page](https://www.andiamo.co.uk/resources/iso-language-codes) for the format of the short form aliases, which are a combination of the ISO 639 language codes and the ISO 3166 country codes.
+
+Then, add your locale to the `locales` config in `astro.config.mjs` like this:
+
+```js
+locales: {
+  lang: {
+    label: "Language",
+    lang: "lang",
+  },
+},
+```
+
+Afterwards, add a `lang.json` file to `src/content/i18n`. You can then customize the translated UI strings (recommended) following [this guide](https://starlight.astro.build/guides/i18n/#translate-starlights-ui). If you want to opt out of translating UI strings and use the fallback strings, simply use `{}` as the contents of the file.
+
+Finally, add a translation for the page title to `astro.config.mjs`. The format is as follows:
+
+```js
+{
+  label: "Page",
+  translations: {
+    lang: "Translated Title",
+  }
+}
+```
+
+The path translated pages must go in is `src/content/docs/<language>/<path>` with `<language>` being the shorthand of the language and `<path>` being the original path of the file. For example, the file `src/content/docs/reference/faq.mdx` translated into German would have to go into `src/content/docs/de/reference/faq.mdx`.
+
+## Reference
+
+To learn more about the tools this site is built on, check out the below:
 
 - [Starlight documentation](https://starlight.astro.build/getting-started)
 - [Astro documentation](https://docs.astro.build)
 - [Astro Discord server](https://astro.build/chat)
+- [Lunaria documentation](https://lunaria.dev/getting-started)
