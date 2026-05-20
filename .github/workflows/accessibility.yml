@@ -7,12 +7,14 @@ on:
       - next
     paths:
       - "**/*.mdx"
+      - "bun.lock"
   push:
     branches:
       - main
       - next
     paths:
       - "**/*.mdx"
+      - "bun.lock"
   workflow_dispatch:
 permissions:
   contents: read
