@@ -19,7 +19,7 @@ export default defineConfig({
     },
   ],
   reporter: [["./tests/reporter.ts"]],
-  testMatch: "tests/**/*.test.ts",
+  testMatch: "tests/*.test.ts",
   // The timeout for the accessibility tests only.
   timeout: 180 * 1_000,
   webServer: [
