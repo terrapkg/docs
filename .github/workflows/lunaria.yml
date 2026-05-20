@@ -5,11 +5,14 @@ on:
     branches:
       - main
       - next
+    paths:
+      - "src/content/docs/*/**/*.mdx"
 permissions:
   contents: read
 
 jobs:
   overview:
+    name: Overview
     permissions:
       contents: read
       pull-requests: write

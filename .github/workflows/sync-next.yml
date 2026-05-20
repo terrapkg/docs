@@ -1,4 +1,4 @@
-name: Sync next with main
+name: Sync next With main
 permissions:
   contents: read
 
@@ -14,21 +14,21 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout next branch
+      - name: Checkout next Branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.SSH_AUTHENTICATION_KEY }}
           ref: next
 
-      - name: Install SSH signing key
+      - name: Install SSH Signing Key
         run: |
           mkdir -p ${{ runner.temp }}
           echo "${{ secrets.SSH_SIGNING_KEY }}" > ${{ runner.temp }}/signing_key
           chmod 0700 ${{ runner.temp }}/signing_key
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Set up Git config
+      - name: Set Up Git Config
         run: |
           git config user.name "Raboneko"
           git config user.email "raboneko@fyralabs.com"
@@ -37,7 +37,7 @@ jobs:
           git config --global merge.ours.driver true
           git config --global commit.gpgsign true
 
-      - name: Merge main into next
+      - name: Merge main Into next
         env:
           GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
         run: |
