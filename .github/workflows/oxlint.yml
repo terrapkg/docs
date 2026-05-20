@@ -51,4 +51,4 @@ jobs:
         uses: oxc-project/oxlint-action@92eec2c4d5dbbb882c926478438aa4b7f20ffe2d # v3.0.0
         with:
           config: oxlint.config.ts
-          plugins: node react react-perf typescript unicorn
+          plugins: node react react-perf unicorn
