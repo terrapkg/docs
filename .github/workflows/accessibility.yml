@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   test:
-    Name: Test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
