@@ -28,11 +28,7 @@ const config: Config = {
     // By default, all slugs for the default locale are included.
     exclude: [],
     // Locale-specific included slugs (non-default locale slugs are excluded by default).
-    //		locales: {
-    // N.B. If adding more locales here, also update the changed files filters in
-    // `.github/workflows/accessibility.yml` to ensure tests run when files for those locales change.
-    //			ja: [],
-    //		},
+    locales: {},
   },
   // A list of violation to ignore.
   ignore: [{ id: "landmark-unique", nodeMatcher: landmarkUniqueNodeMatcher }],
