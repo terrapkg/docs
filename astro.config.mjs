@@ -11,6 +11,29 @@ import Icons from "unplugin-icons/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
 
+// Only import this module in CI.
+if (process.env.CHECK_LINKS === "true") {
+  const checkLinks = await import("starlight-links-validator");
+
+  // Get list of TSconfig aliases. These are currently misread as relative links so we exclude them.
+  const tsConfig = await import("./tsconfig.json", { with: { type: "json" } });
+  const configString = JSON.stringify(tsConfig);
+  const paths = JSON.parse(configString).compilerOptions.paths;
+
+  // Create an array from TSconfig aliases to be used as a list of exlusions.
+  let excludeLinks = Object.keys(paths);
+  let len = excludeLinks.length;
+
+  // Add one "*" to each alias so that the full path is matched.
+  for (let i = 0; i < len; i++) {
+    excludeLinks[i] += "*";
+  }
+  var starlightLinksValidator = checkLinks.default({
+    errorOnFallbackPages: false,
+    exclude: excludeLinks,
+  });
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://docs.terrapkg.com",
@@ -114,6 +137,7 @@ export default defineConfig({
           engine: "javascript",
         },
       },
+      plugins: process.env.CHECK_LINKS === "true" ? [starlightLinksValidator] : [],
     }),
     mdx({
       // Force footnotes to render as text for better accessibility.

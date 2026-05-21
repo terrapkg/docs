@@ -12,6 +12,9 @@ node_modules/
 # Playwright test results
 test-results/
 
+# Links validator results
+.starlight-links-validator/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

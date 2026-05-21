@@ -14,8 +14,8 @@ We provide custom Source RPM (SRPM) macros to ease packaging and better integrat
 
 These are provided in the `anda-srpm-macros` package. If you use them, make sure to add `anda-srpm-macros` as a <Code code={`BuildRequires:`} lang={RPMSpec} inline /> in the spec file.
 
-You may need to refer to the [Terra packaging guidelines](../guidelines) for non-macro related Terra guidelines.
-If you're looking for documentation on our MetaInfo macros, check that out [here](../appstream).
+You may need to refer to the [Terra packaging guidelines](@docs/contributing/guidelines) for non-macro related Terra guidelines.
+If you're looking for documentation on our MetaInfo macros, check that out [here](@docs/contributing/appstream).
 
 If you would like to contribute to these macros, check out the [SRPM macros repository](https://github.com/terrapkg/srpm-macros).
 
@@ -72,7 +72,7 @@ Used for [Bun macros](#bun).
 
 ### %_cargo_home
 
-Set by our [Cargo prep macros](#rust-macros).
+Set by our [Cargo prep macros](#rust).
 
 We set this specifically because in online builds if the directory is manually changed as a build step (such as multi Crate repo projects), the Crates could be redownloaded during build and slow down build times. Tools like Tauri also read `.cargo` differently because they change the current working directory.
 
@@ -150,7 +150,7 @@ If the file is an `.svg`, use the [`%_scalableiconsdir`](#_scalableiconsdir).
 
 Expands to: <Code code={`%{rpmbuilddir}/.npm`} lang={RPMSpec} inline />
 
-Used with [JavaScript package manager macros](#javascript-runtimes), especially [NPM macros](#npm).
+Used with [JavaScript package manager macros](#javascript-package-managers), especially [NPM macros](#npm).
 
 <SearchTerra macroname="_npm_cache_dir" />
 
@@ -850,7 +850,7 @@ Expands to: <Code code={`%{__pnpm} test`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="pnpm_test" />
 
-#### Yarn Macros
+#### Yarn
 
 Macros for using [Yarn (Yarn Classic/Yarn v1)](https://classic.yarnpkg.com) and [Yarn Berry (Yarn Modern/Yarn v2+)](https://yarnpkg.com).
 
@@ -974,7 +974,7 @@ The safest location is under <Code code={`Name:`} lang={RPMSpec} inline /> and a
   `%__provides_exclude` and `%__requires_exclude` can be recursively added to if needed by defining the macro again as a `%global` and appending the needed exclusions using [regex](https://wikipedia.org/wiki/Regular_expression).<br />
   Example: `%global __provides_exclude %{__provides_exclude}|libcurl\\.so`<br />
   MUST be done after setting `%electronmeta`.<br />
-  You SHOULD double check [the notes for regex in macros](/rpm/macro#escaping-regex-in-rpm-macros) on our macro syntax page for more information as RPM has some notable quirks with regex.
+  You SHOULD double check [the notes for regex in macros](https://developer.fyralabs.com/rpm/macro#escaping-regex-in-rpm-macros) on our macro syntax page for more information as RPM has some notable quirks with regex.
 </Aside>
 
 Example usage:
@@ -1601,7 +1601,7 @@ Example:
   -Demit-docs
 ```
 
-More information can be found on our [Zig packaging guidelines](../guidelines#zig).
+More information can be found on our [Zig packaging guidelines](@docs/contributing/guidelines#zig).
 
 <SearchTerra macroname="zig_build_target" />
 
@@ -1730,4 +1730,4 @@ Common opts passed to Tauri. Used by macros which call Tauri.
 
 ### %terra_rustflags
 
-This macro simply appends the [Mold linker arguments](../guidelines#usage-of-the-mold-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
+This macro simply appends the [Mold linker arguments](@docs/contributing/guidelines#usage-of-the-mold-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
