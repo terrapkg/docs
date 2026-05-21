@@ -3,7 +3,7 @@
   "image": "ghcr.io/terrapkg/builder:frawhide",
   "onCreateCommand": "sudo dnf install -y bun nodejs",
   "postCreateCommand": "bun ci",
-  "forwardPorts": [3000],
+  "forwardPorts": [4321],
   "portsAttributes": {
     "4321": {
       "label": "Astro Dev Server",
