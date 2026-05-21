@@ -137,6 +137,7 @@ export default defineConfig({
           engine: "javascript",
         },
       },
+      // @ts-ignore
       plugins: process.env.CHECK_LINKS === "true" ? [starlightLinksValidator] : [],
     }),
     mdx({
