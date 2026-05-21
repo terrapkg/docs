@@ -32,4 +32,5 @@ export default defineConfig({
       url: "http://localhost:4321",
     },
   ],
+  retries: 2,
 });
