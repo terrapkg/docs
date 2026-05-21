@@ -11,28 +11,17 @@ import { Aside } from "@astrojs/starlight/components";
 
 Directly install `terra-release`:
 
+<Aside >
+  The below command uses `--nogpgcheck` because it must fetch the package repo from the origin server. Once the keys are installed all further packages installed from Terra will be verified against the key. If preferable, you can download and inspect the RPMs yourself first.
+</Aside>
+
 ```sh
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
 ```
 
-
-There is also a fancy install script:
-
-{" "}
-
 <Aside type="caution">
   Practice caution before running any commands on your system.
 </Aside>
-
-```sh
-sh <(curl https://terra.fyralabs.com/get.sh)
-```
-
-If you doubt the safety of the script (which you should), curl the script to stdout first:
-
-```sh
-curl https://terra.fyralabs.com/get.sh
-```
 
 ### Ultramarine Linux
 
