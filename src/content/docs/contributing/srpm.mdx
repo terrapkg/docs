@@ -14,8 +14,8 @@ We provide custom Source RPM (SRPM) macros to ease packaging and better integrat
 
 These are provided in the `anda-srpm-macros` package. If you use them, make sure to add `anda-srpm-macros` as a <Code code={`BuildRequires:`} lang={RPMSpec} inline /> in the spec file.
 
-You may need to refer to the [Terra packaging guidelines](@docs/contributing/guidelines) for non-macro related Terra guidelines.
-If you're looking for documentation on our MetaInfo macros, check that out [here](@docs/contributing/appstream).
+You may need to refer to the [Terra packaging guidelines](/contributing/guidelines) for non-macro related Terra guidelines.
+If you're looking for documentation on our MetaInfo macros, check that out [here](/contributing/appstream).
 
 If you would like to contribute to these macros, check out the [SRPM macros repository](https://github.com/terrapkg/srpm-macros).
 
@@ -1601,7 +1601,7 @@ Example:
   -Demit-docs
 ```
 
-More information can be found on our [Zig packaging guidelines](@docs/contributing/guidelines#zig).
+More information can be found on our [Zig packaging guidelines](/contributing/guidelines#zig).
 
 <SearchTerra macroname="zig_build_target" />
 
@@ -1730,4 +1730,4 @@ Common opts passed to Tauri. Used by macros which call Tauri.
 
 ### %terra_rustflags
 
-This macro simply appends the [Mold linker arguments](@docs/contributing/guidelines#usage-of-the-mold-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
+This macro simply appends the [Mold linker arguments](/contributing/guidelines#usage-of-the-mold-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.

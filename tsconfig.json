@@ -6,7 +6,6 @@
     "paths": {
       "@/*": ["./*"],
       "~/*": ["./src/*"],
-      "@docs/*": ["./src/content/docs/*"]
     },
     "types": ["unplugin-icons/types/astro"]
   }

@@ -47,14 +47,14 @@ No period at end of <Code code={`Summary:`} lang={RPMSpec} inline />, but add pe
 Prefer patching e.g. `-p1` at `%autosetup` over using `%autopatch`.
 Prefer `%elifarch` over `%endif` + `%ifarch`.
 
-Use [`%pkg_completion`](@docs/contributing/srpm#pkg_completion) for shell completions.
-Use [`%pkg_devel_files`](@docs/contributing/srpm#pkg_devel_files), [`%pkg_libs_files`](@docs/contributing/srpm#pkg_libs_files), [`%pkg_static_files`](@docs/contributing/srpm#pkg_static_files).
+Use [`%pkg_completion`](/contributing/srpm#pkg_completion) for shell completions.
+Use [`%pkg_devel_files`](/contributing/srpm#pkg_devel_files), [`%pkg_libs_files`](/contributing/srpm#pkg_libs_files), [`%pkg_static_files`](/contributing/srpm#pkg_static_files).
 See [Development and Shared Libraries](#development-and-shared-libraries) section.
 
 Install `.desktop` file to `%_appsdir` for graphical apps. [Guide here](#providing-your-own-desktop-file).
 Prefer upstream provided ones over manually generating one.
-Use [`%desktop_file_install`](@docs/contributing/srpm#desktop_file_install) / [`%desktop_file_validate`](@docs/contributing/srpm/#desktop_file_validate).
-See [our macros](@docs/contributing/srpm#desktop-file-macros).
+Use [`%desktop_file_install`](/contributing/srpm#desktop_file_install) / [`%desktop_file_validate`](/contributing/srpm#desktop_file_validate).
+See [our macros](/contributing/srpm#desktop-file-macros).
 
 Follow Fedora guidelines for interpreted (ex. Python/Ruby) & dynamically (ex. C/++) compiled langs.
 Statically compiled lang guidelines follow.
@@ -63,13 +63,13 @@ For [Rust](#rust), use `rust2rpm`, suffix `_online` to `%cargo_prep`, `%cargo_li
 remove <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> section.
 If no flags to `%cargo_build`, remove it,
 else add flags to it and replace `%cargo_install` with `%crate_install_bin`.
-Also `%rustup_nightly` exists btw, [see our macros](@docs/contributing/srpm#rust).
+Also `%rustup_nightly` exists btw, [see our macros](/contributing/srpm#rust).
 
 For [Go](#go), use `go2rpm`, rename package name to sensible one,
 remove <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> section,
-EITHER add <Code code={`%global gomodulesmode GO111MODULE=on`} lang={RPMSpec} inline /> OR replace `%goprep` with [`%goprep_online`](@docs/contributing/srpm#goprep_online).
+EITHER add <Code code={`%global gomodulesmode GO111MODULE=on`} lang={RPMSpec} inline /> OR replace `%goprep` with [`%goprep_online`](/contributing/srpm#goprep_online).
 
-For [Nim](#nim), use one of below. `%nim_c` is also the same in function as `%nim_build`, [see our macros](@docs/contributing/srpm#nim) for more information.
+For [Nim](#nim), use one of below. `%nim_c` is also the same in function as `%nim_build`, [see our macros](/contributing/srpm#nim) for more information.
 
 <div>
   ```rpmspec
@@ -94,7 +94,7 @@ For [Nim](#nim), use one of below. `%nim_c` is also the same in function as `%ni
 
 For [Zig](#zig), <Code code={`BuildRequires: zig zig-rpm-macros zig-srpm-macros`} lang={RPMSpec} inline />.
 If doesn't build with build arguments provided by Fedora `%zig_build`
-(e.g. `ReleaseFast` required, microarchitectures), try [`%zig_build_target`](@docs/contributing/#zig_build_target).
+(e.g. `ReleaseFast` required, microarchitectures), try [`%zig_build_target`](/contributing/srpm#zig_build_target).
 Remember to try e.g. `-Dstrip=false`. If still no debug info, <Code code={`%global debug_package %{nil}`} lang={RPMSpec} inline />.
 If can't dynamically link all deps / no deps to link, `%zig_build_target` with `-s`, then `-fsys=pkgname` for things dyn-linkable.
 
@@ -171,7 +171,7 @@ In rare cases, you may need to use <Code code={`%cargo_build`} lang={RPMSpec} in
 
 If Rust nightly is required, add the <Code code={`%rustup_nightly`} lang={RPMSpec} inline /> macro to <Code code={`%prep`} lang={RPMSpec} inline />.
 
-Check the [Rust section on the SRPM page](@docs/contributing/srpm#rust) for more information on these macros.
+Check the [Rust section on the SRPM page](/contributing/srpm#rust) for more information on these macros.
 
 #### Go
 
@@ -195,7 +195,7 @@ For the official Nim language documentation, [see here](https://nim-lang.org/doc
 - You SHOULD add (at least!) the following build dependencies to your spec file:
   - <Code code={`BuildRequires: anda-srpm-macros`} lang={RPMSpec} inline />
   - <Code code={`BuildRequires: nim`} lang={RPMSpec} inline />
-- You SHOULD use our [Nim macros](@docs/contributing/srpm#nim).
+- You SHOULD use our [Nim macros](/contributing/srpm#nim).
 
 In most cases, use `nimble` to download dependencies in <Code code={`%prep`} lang={RPMSpec} inline />,
 then <Code code={`%build`} lang={RPMSpec} inline /> with `nim`, e.g.[^1]:
@@ -238,7 +238,7 @@ For the official Zig language documentation, [see here](https://ziglang.org/lear
 - For these reasons, you SHOULD refer to upstream guidance when packaging Zig projects.
 - If any of the scenarios above apply, you MAY use `%zig_build_target` with appropriate flags instead of `%zig_build`. You however SHOULD use `%zig_build` instead if none of the above apply.
   - If using <Code code={`%zig_build_target`} lang={RPMSpec} inline />, you SHOULD add <Code code={`BuildRequires: anda-srpm-macros`} lang={RPMSpec} inline /> to your spec.
-  - For more information on `%zig_build_target`, please see its documentation on our [macros page](@docs/contributing/srpm#zig_build_target).
+  - For more information on `%zig_build_target`, please see its documentation on our [macros page](/contributing/srpm#zig_build_target).
 
 Regardless of build macro in use, they should be used in either the <Code code={`%build`} lang={RPMSpec} inline /> or <Code code={`%install`} lang={RPMSpec} inline /> section depending on how the project is built (as some can be built directly into root by setting the <Code code={`DESTDIR=%{buildroot}`} lang={RPMSpec} inline /> variable).
 
@@ -265,11 +265,11 @@ For projects where dynamic linking of all dependencies is simply not possible (s
 ### Shell Completions
 
 - SHOULD be a subpackage.
-- SHOULD use the [`%pkg_completion` macro](@docs/contributing/srpm#pkg_completion).
+- SHOULD use the [`%pkg_completion` macro](/contributing/srpm#pkg_completion).
 
 ### Development and Shared Libraries
 
-You SHOULD try to use the [`%pkg_devel_files`, `%pkg_libs_files` and `%pkg_static_files` macros](@docs/contributing/srpm#subpackages).
+You SHOULD try to use the [`%pkg_devel_files`, `%pkg_libs_files` and `%pkg_static_files` macros](/contributing/srpm#subpackages).
 
 Shared library packages SHOULD be suffixed with <Code code={`-libs`} lang={RPMSpec} inline />.
 These packages SHOULD NOT contain anything **except**:
@@ -330,9 +330,9 @@ These are guidelines for building [web applications](https://en.wikipedia.org/wi
 These apps embed parts of browser functionality in order to display web content. One of the most recognizable examples is [Discord](https://discord.com).
 
 The general guidelines for building webapps are:
-- Use our [JavaScript package manager macros](@docs/contributing/srpm#javascript-package-managers) and/or [webapp build macros](@docs/contributing/srpm#webapp-build-macros).
-- Use appropriate [Electron macros](@docs/contributing/srpm#electron) for Electron apps.
-- Use appropriate [Tauri macros](@docs/contributing/srpm#tauri) for Tauri apps.
+- Use our [JavaScript package manager macros](/contributing/srpm#javascript-package-managers) and/or [webapp build macros](/contributing/srpm#webapp-build-macros).
+- Use appropriate [Electron macros](/contributing/srpm#electron) for Electron apps.
+- Use appropriate [Tauri macros](/contributing/srpm#tauri) for Tauri apps.
 - Add the correct JavaScript package manager to your build dependencies.
   - Examples:
   - ```rpmspec
@@ -355,15 +355,15 @@ These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
   - It also pulls all basic build dependencies for Electron apps.
   - Like all meta macros, must be placed carefully:
     - MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the first <Code code={`%description`} lang={RPMSpec} inline />.
-    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](@docs/contributing/srpm#electron_license).
+    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
     - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
-    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](@docs/contributing/srpm#electronmeta).
+    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
 - You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_excludes}` and `%{__provides_excludes}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
   - <Code code={`%global __requires_excludes %{__requires_excludes}|private_library\\.so`} lang={RPMSpec} inline />
   - <Code code={`%global __provides_excludes %{__provides_excludes}|private_library\\.so`} lang={RPMSpec} inline />
 - You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
   - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
-- You SHOULD use our [`%electron_install` macro](@docs/contributing/srpm#electron_install) for installing Electron apps.
+- You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
 
 #### Tauri
 
@@ -384,10 +384,10 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
     BuildRequires generation only works in Mock.
   </Aside>
 - You SHOULD use <Code code={`%tauri_prep`} lang={RPMSpec} inline /> in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
-- You SHOULD use either a [webapp build macro](@docs/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](@docs/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
+- You SHOULD use either a [webapp build macro](/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
 - You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
 - You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
-- You MAY use the [configurable macros for Tauri builds](@docs/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
+- You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
 
 ### Miscellaneous
 
@@ -461,7 +461,7 @@ To install the `.desktop` file:
 3. Install it
 4. List it in the <Code code={`%files`} lang={RPMSpec} inline /> section
 
-It is RECOMMENDED to use the [`%_appsdir` macro](@docs/contributing/srpm#_appsdir) instead of `%_datadir/applications/`, and to use the [`%desktop_file_install` macro](@docs/contributing/srpm#desktop_file_install).
+It is RECOMMENDED to use the [`%_appsdir` macro](/contributing/srpm#_appsdir) instead of `%_datadir/applications/`, and to use the [`%desktop_file_install` macro](/contributing/srpm#desktop_file_install).
 With [NeoHtop package] as the example:
 
 ```rpmspec
