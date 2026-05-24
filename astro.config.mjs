@@ -120,10 +120,10 @@ export default defineConfig({
           engine: "javascript",
         },
       },
-      // @ts-expect-error
       plugins:
         process.env.CHECK_LINKS === "true"
           ? [
+              // @ts-expect-error
               starlightLinksValidator({
                 errorOnFallbackPages: false,
               }),
