@@ -1216,7 +1216,7 @@ For more information on each package manager, seethe [NPM macros](#npm), [Bun ma
 <Aside>
   All of the following macros set the environment variable `$WEBAPP_BUILD_TOOL` to `electron-builder`, `electron-forge`, or `tauri` depending on which the app is built with. SHOULD NOT need to be used manually, but MAY be if needed for any reason.
 </Aside>
-<Aside icon="pencil">
+<Aside type="tip">
   All webapp build macros run the `install` (or `ci` for applicable package managers) step for dependencies as part of their build process, this is never manually required when using them *unless* some other step in the build process prior to the build step requires the dependencies to be installed first.
 </Aside>
 
