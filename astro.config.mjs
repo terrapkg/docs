@@ -10,10 +10,17 @@ import Icons from "unplugin-icons/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
 
+let starlightLinksValidator;
 // Only import this module in CI.
 if (process.env.CHECK_LINKS === "true") {
   const checkLinks = await import("starlight-links-validator");
-  var starlightLinksValidator = checkLinks.default;
+  starlightLinksValidator = [
+    checkLinks.default({
+      errorOnFallbackPages: false,
+    }),
+  ];
+} else {
+  starlightLinksValidator = undefined;
 }
 
 // https://astro.build/config
@@ -119,15 +126,7 @@ export default defineConfig({
           engine: "javascript",
         },
       },
-      plugins:
-        process.env.CHECK_LINKS === "true"
-          ? [
-              // @ts-expect-error
-              starlightLinksValidator({
-                errorOnFallbackPages: false,
-              }),
-            ]
-          : [],
+      plugins: starlightLinksValidator ?? [],
     }),
     mdx({
       // Force footnotes to render as text for better accessibility.
