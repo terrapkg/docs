@@ -3,7 +3,6 @@ import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
-import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import astroD2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
@@ -135,7 +134,6 @@ export default defineConfig({
       remarkRehype: { footnoteBackContent: "↩️ Back to reference" },
     }),
     react(),
-    sitemap(),
   ],
 
   vite: {
