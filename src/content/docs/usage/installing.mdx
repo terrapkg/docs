@@ -3,7 +3,7 @@ title: Installing
 description: "Get access to the 1000+ packages that Fedora doesn't ship."
 ---
 
-import { Aside } from "@astrojs/starlight/components";
+import { Aside, Badge } from "@astrojs/starlight/components";
 
 # Adding Terra
 
@@ -11,9 +11,7 @@ import { Aside } from "@astrojs/starlight/components";
 
 Directly install `terra-release`:
 
-<Aside >
-  The below command uses `--nogpgcheck` because it must fetch the package repo from the origin server. Once the keys are installed all further packages installed from Terra will be verified against the key. If preferable, you can download and inspect the RPMs yourself first.
-</Aside>
+<Badge text="Note" type="note" /> The below command uses `--nogpgcheck` because it must fetch the package repo from the origin server. Once the keys are installed all further packages installed from Terra will be verified against the key. If preferable, you can download and inspect the RPMs yourself first.
 
 ```sh
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
@@ -35,7 +33,7 @@ Nobara already comes with Terra out of the box, simply use one of their graphica
 
 On Atomic editions of Fedora, run the following command:
 
-```
+```sh
 curl -fsSL https://raw.githubusercontent.com/terrapkg/packages/f$(rpm --eval '%{fedora}')/anda/terra/release/terra.repo | pkexec tee /etc/yum.repos.d/terra.repo
 sudo rpm-ostree install terra-release terra-gpg-keys
 ```

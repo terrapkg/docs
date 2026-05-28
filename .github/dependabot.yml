@@ -7,8 +7,6 @@ updates:
     groups:
       astro:
         patterns: ["astro", "@astrojs*"]
-      axe:
-        patterns: ["@axe-core*", "axe-*"]
       d2:
         patterns: ["astro-d2", "@terrastruct/d2"]
       icons:
@@ -17,6 +15,8 @@ updates:
         patterns: ["@lunariajs*"]
       oxc:
         patterns: ["oxfmt", "oxlint*"]
+      playwright:
+        patterns: ["*playwright*"]
       react:
         patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
       tailwindcss:
