@@ -11,8 +11,6 @@ updates:
         patterns: ["astro-d2", "@terrastruct/d2"]
       icons:
         patterns: ["lucide-react", "unplugin-icons", "@iconify*"]
-      lunaria:
-        patterns: ["@lunariajs*"]
       oxc:
         patterns: ["oxfmt", "oxlint*"]
       playwright:
