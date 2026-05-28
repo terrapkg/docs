@@ -1,5 +1,3 @@
-// Based off of the official Astro accessibility tests.
-
 import { defineConfig, devices } from "@playwright/test";
 
 const isCI = !!process.env["CI"];
@@ -9,16 +7,16 @@ export default defineConfig({
   fullyParallel: true,
   projects: [
     {
-      name: "Chrome Stable",
+      name: "Chrome",
       use: {
         ...devices["Desktop Chrome"],
-        // Re-use system Chrome on CI to avoid re-installing it on every run.
+        // Reuse pre-installed Chrome on CI.
         channel: isCI ? "chrome" : undefined,
         headless: true,
       },
     },
   ],
-  reporter: [["./tests/reporter.ts"]],
+  reporter: "list",
   testMatch: "tests/*.test.ts",
   // The timeout for the accessibility tests only.
   timeout: 180 * 1_000,
@@ -26,11 +24,9 @@ export default defineConfig({
     {
       command: "bun run build && bun run preview",
       reuseExistingServer: !isCI,
-      stdout: "pipe",
       // The timeout of the single build step ran before the accessibility tests.
       timeout: 120 * 1_000,
       url: "http://localhost:4321",
     },
   ],
-  retries: 2,
 });
