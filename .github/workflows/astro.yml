@@ -38,12 +38,12 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-production-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-build-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-production-${{ hashFiles('**/bun.lock') }}-
+            astro-build-${{ hashFiles('**/bun.lock') }}-
 
       - name: Install Dependencies
-        run: bun ci --production
+        run: bun ci
 
       - name: Build With Astro
         run: bun run build
@@ -72,9 +72,9 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-dev-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-check-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-dev-${{ hashFiles('**/bun.lock') }}-
+            astro-check-${{ hashFiles('**/bun.lock') }}-
 
       - name: Install Dependencies
         run: bun ci
@@ -109,9 +109,9 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-dev-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-build-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-dev-${{ hashFiles('**/bun.lock') }}-
+            astro-build-${{ hashFiles('**/bun.lock') }}-
 
       - name: Install Dependencies
         run: bun ci

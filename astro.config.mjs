@@ -4,24 +4,12 @@ import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
+import starlightLinksValidator from "starlight-links-validator";
 import astroD2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
-
-let starlightLinksValidator;
-// Only import this module in CI.
-if (process.env.CHECK_LINKS === "true") {
-  const checkLinks = await import("starlight-links-validator");
-  starlightLinksValidator = [
-    checkLinks.default({
-      errorOnFallbackPages: false,
-    }),
-  ];
-} else {
-  starlightLinksValidator = undefined;
-}
 
 // https://astro.build/config
 export default defineConfig({
@@ -126,7 +114,10 @@ export default defineConfig({
           engine: "javascript",
         },
       },
-      plugins: starlightLinksValidator ?? [],
+      plugins:
+        process.env.CHECK_LINKS === "true"
+          ? [starlightLinksValidator({ errorOnFallbackPages: false })]
+          : [],
     }),
     mdx({
       // Force footnotes to render as text for better accessibility.

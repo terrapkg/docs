@@ -56,9 +56,9 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-dev-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-build-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-dev-${{ hashFiles('**/bun.lock') }}-
+            astro-build-${{ hashFiles('**/bun.lock') }}-
 
       - name: Install Dependencies
         run: bun ci
