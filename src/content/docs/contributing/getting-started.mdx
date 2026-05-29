@@ -1,104 +1,111 @@
 ---
-title: Contributing
-description: "Get started contributing packages to Terra."
+title: Getting Started
+description: "Get started in contributing packages to Terra."
 ---
 
-import { Aside } from "@astrojs/starlight/components";
+import { Aside, Tabs, TabItem } from "@astrojs/starlight/components";
 import { Code } from "astro:components";
 import RPMSpec from "@/components/spec.json";
 
-# Overview
-
-Thanks for contributing to Terra!
+**Thanks for contributing to Terra!**
 
 Terra is specifically designed to be as _package-maintainer-friendly_ as possible — you
 don't need to know everything about the infrastructure to create a package for Terra!
 See the following guide for creating a new package yourself. Quick and easy.
 
-It's also ok to **suggest packages** to include into Terra by raising a [GitHub issue](https://github.com/terrapkg/packages/issues), though it might take a while. (We're busy!)
+It's also ok to **suggest packages** to include into Terra by raising a [GitHub issue](https://github.com/terrapkg/packages/issues), though it might take a while (we're busy!)
 
 It takes effort to create a package, and as always, there is a learning curve.
 If you ever need help, hop into [our Discord server](https://fyralabs.com/discord) and we will try to help you.
 
-<Aside>
+<Aside type="note">
   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
   "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
   interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)
   and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174).
 </Aside>
 
-# Creating a package
+## Creating a package
 
-## Before you begin...
+### Before you begin...
 
 - Make sure the package is not in the [Fedora repositories](https://packages.fedoraproject.org), and the package name is not taken.
 - Review our [packaging policies](/contributing/policies).
 - Review our [packaging guidelines](/contributing/guidelines).
 - Review our custom [SRPM macros](/contributing/srpm), as these may be helpful to your package.
 
-## Preparation
+### Preparation
 
 You'll need a few tools to get started, pick one of these sections, then continue to [Writing Sources](#writing-sources).
 
-### Fedora/Ultramarine
+<Tabs>
+  <TabItem label="Fedora/Ultramarine">
+    Make sure that you have Terra [installed](/usage/installing).
 
-Install [Andaman](https://developer.fyralabs.com/andaman) and its Mock configs on your system:
+    If not then add it with:
 
-<Code code={`[1;32msudo dnf[97m install [0;97;mterra-mock-configs`} lang="ansi" inline />
+    ```sh
+    sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
+    ```
 
-### Dev Container
+    Once enabled, install [Andaman](https://developer.fyralabs.com/andaman) and its [Mock](https://fedoraproject.org/wiki/Using_Mock_to_test_package_builds) configs on your system:
 
-You can create, build, and push a package all from within our Dev Container.
-This means you do NOT need to be running Fedora/Ultramarine to create a package.
-You can run this devcontainer from Linux, macOS, or Windows.
+    ```sh
+    sudo dnf install anda mterra-mock-configs
+    ```
 
-1. Install the Dev Containers extension in your IDE
-   - Zed comes with Dev Containers, see [this documentation](https://zed.dev/docs/dev-containers)
+    If preferred, Andaman can also be installed via [Cargo](https://crates.io/crates/anda)
 
-   - VSCode users need to install the Dev Containers extension
+    ```sh
+    cargo install anda
+    ```
 
-2. Get the container runtime
-   - On Windows and Mac, install [Docker Desktop](https://docs.docker.com/desktop)
+  </TabItem>
+  <TabItem label="Dev Container">
+    You can create, build, and push a package all from within our Dev Container.
+    This means you do NOT need to be running Fedora/Ultramarine to create a package.
+    You can run this devcontainer from Linux, macOS, or Windows.
 
-   - On Linux, install `podman-docker` from your package manager
+    - Install the Dev Containers extension in your IDE
+      - Zed comes with Dev Containers, see [this documentation](https://zed.dev/docs/dev-containers)
+      - VSCode users need to install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+    - Get the container runtime
+      - On Linux, install [podman-docker](https://podman.io/) from your package manager
+      - On Windows and Mac, install [Docker Desktop](https://docs.docker.com/desktop)
+    - Fork [terrapkg/packages](https://github.com/terrapkg/packages), and `git clone` your fork
+    - Open the folder you cloned in your editor
+    - It should prompt you to `reopen in Dev Container`, click this and wait for the Dev Container to open.
 
-3. Fork [terrapkg/packages](https://github.com/terrapkg/packages), and `git clone` your fork
-4. Open the folder you cloned in your editor
-5. It should prompt you to `reopen in Dev Container`, click this and wait for the Dev Container to open.
+    <Aside type="tip">
+    If your editor doesn't prompt you, press `Ctrl` + `Shift` + `P`, and select
+    the "Reopen in Dev Container" (VSCode) or "Project: Open Remote" (Zed) option.
+    </Aside>
 
-<Aside type="tip">
-  If your editor doesn't prompt you, press `Ctrl` + `Shift` + `P`, and select
-  the "Reopen in Dev Container" (VSCode) or "Project: Open Remote" (Zed) option.
+    You are now in the Terra Dev Container, and have all the packages and
+    configuration necessary to start building packages!
+  </TabItem>
+  <TabItem label="Pet Container">
+    If you're on atomic system, or otherwise prefer to work with containers, you can run the Terra build container as your development environment.
+
+    Simply run:
+
+    ```sh
+    podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:frawhide anda
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="Tip: Language Support in Editors">
+  The most common languages you will see:
+
+  - [RPMSPEC](https://rpm-software-management.github.io/rpm/manual/spec.html) (`.spec`), for the package build scripts
+  - [Rhai](https://rhai.rs/), for the auto-update scripts
+  - [HCL](https://github.com/hashicorp/hcl#readme), for informing `anda` of the package
+  - [XML](https://en.wikipedia.org/wiki/XML), for AppStream MetaInfo on some packages
+
+  VSCode should prompt you to install these extensions, and Zed should auto-install them.
+  If not/using a different IDE, we suggest installing language support where possible.
 </Aside>
-
-You are now in the Terra Dev Container, and have all the packages and
-configuration necessary to start building packages!
-
-### Pet Container
-
-If you're on atomic system, or otherwise prefer to work with containers, you can run the Terra build container as your development environment.
-
-Simply run:
-
-```shell
-podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:frawhide anda
-```
-
-### Cargo
-
-Anda is also available via [Cargo](https://crates.io/crates/anda).
-
-### Language Support in Editors
-
-The most common languages you will see:
-
-- RPMSPEC (`.spec`), for the package build scripts
-- rhai, for the auto-update scripts
-- hcl, for informing `anda` of the package
-- xml, for AppStream MetaInfo on some packages
-
-VSCode should prompt you to install these extensions, and Zed should auto-install them.
-If not/using a different IDE, we suggest installing language support for each of these.
 
 ### Writing sources
 
