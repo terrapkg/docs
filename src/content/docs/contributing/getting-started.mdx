@@ -3,7 +3,7 @@ title: Getting Started
 description: "Get started with contributing packages to Terra."
 ---
 
-import { Aside, Badge, Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside, Badge, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
 import { Code } from "astro:components";
 import RPMSpec from "@/components/spec.json";
 
@@ -67,15 +67,25 @@ You'll need a few tools to get started, pick one of these sections, then continu
     This means you do NOT need to be running Fedora/Ultramarine to create a package.
     You can run this devcontainer from Linux, macOS, or Windows.
 
-    - Install the Dev Containers extension in your IDE
-      - Zed comes with Dev Containers, see [this documentation](https://zed.dev/docs/dev-containers)
-      - VSCode users need to install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-    - Get the container runtime
-      - On Linux, install [podman-docker](https://podman.io/) from your package manager
-      - On Windows and Mac, install [Docker Desktop](https://docs.docker.com/desktop)
-    - Fork [terrapkg/packages](https://github.com/terrapkg/packages), and `git clone` your fork
-    - Open the folder you cloned in your editor
-    - It should prompt you to `reopen in Dev Container`, click this and wait for the Dev Container to open.
+    <Steps>
+    1. Install a Dev Containers extension in your IDE:
+
+       - Zed comes with Dev Containers, see [this documentation](https://zed.dev/docs/dev-containers)
+
+       - VSCode users need to install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+    1. Get the container runtime:
+
+       - On Linux, install [podman-docker](https://podman.io/) from your package manager
+
+       - On Windows and Mac, install [Docker Desktop](https://docs.docker.com/desktop)
+
+    1. Fork [terrapkg/packages](https://github.com/terrapkg/packages), and `git clone` your fork
+
+    1. Open the folder you cloned in your editor
+
+    1. It should prompt you to `reopen in Dev Container`, click this and wait for the Dev Container to open.
+    </Steps>
 
     <Aside type="tip">
     If your editor doesn't prompt you, press `Ctrl` + `Shift` + `P`, and select
