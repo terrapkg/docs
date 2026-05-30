@@ -1,19 +1,20 @@
 ---
 title: Getting Started
-description: "Get started in contributing packages to Terra."
+description: "Get started with contributing packages to Terra."
 ---
 
-import { Aside, Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside, Badge, Tabs, TabItem } from "@astrojs/starlight/components";
 import { Code } from "astro:components";
 import RPMSpec from "@/components/spec.json";
 
-**Thanks for contributing to Terra!**
+<Badge size="large" text="💙 Thanks for contributing to Terra!" />
+<hr />
 
 Terra is specifically designed to be as _package-maintainer-friendly_ as possible — you
 don't need to know everything about the infrastructure to create a package for Terra!
 See the following guide for creating a new package yourself. Quick and easy.
 
-It's also ok to **suggest packages** to include into Terra by raising a [GitHub issue](https://github.com/terrapkg/packages/issues), though it might take a while (we're busy!)
+It's also ok to **suggest packages** to include into Terra by raising a [GitHub issue](https://github.com/terrapkg/packages/issues), though it might take a while. (We're busy!)
 
 It takes effort to create a package, and as always, there is a learning curve.
 If you ever need help, hop into [our Discord server](https://fyralabs.com/discord) and we will try to help you.
@@ -42,7 +43,7 @@ You'll need a few tools to get started, pick one of these sections, then continu
   <TabItem label="Fedora/Ultramarine">
     Make sure that you have Terra [installed](/usage/installing).
 
-    If not then add it with:
+    If not, then add it with:
 
     ```sh
     sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
@@ -51,7 +52,7 @@ You'll need a few tools to get started, pick one of these sections, then continu
     Once enabled, install [Andaman](https://developer.fyralabs.com/andaman) and its [Mock](https://fedoraproject.org/wiki/Using_Mock_to_test_package_builds) configs on your system:
 
     ```sh
-    sudo dnf install anda mterra-mock-configs
+    sudo dnf install anda terra-mock-configs
     ```
 
     If preferred, Andaman can also be installed via [Cargo](https://crates.io/crates/anda)
