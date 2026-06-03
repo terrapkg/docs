@@ -34,7 +34,7 @@ Nobara already comes with Terra out of the box, simply use one of their graphica
 On Atomic editions of Fedora, run the following command:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/terrapkg/packages/f$(rpm --eval '%{fedora}')/anda/terra/release/terra.repo | run0 tee /etc/yum.repos.d/terra.repo
+curl -fsSL https://raw.githubusercontent.com/terrapkg/packages/f$(rpm --eval '%{fedora}')/anda/terra/release/terra.repo | pkexec tee /etc/yum.repos.d/terra.repo
 rpm-ostree install terra-release terra-gpg-keys
 ```
 
@@ -60,6 +60,10 @@ To enable layering, edit `/etc/rpm-ostreed.conf` and set `LockLayering` to `fals
 </Aside>
 
 Then follow the installation instructions for Fedora Atomic.
+
+### SecureBlue
+
+Follow the installation instructions for Fedora Atomic, but replace `pkexec` in the curl script with `run0`.
 
 ## Enterprise Linux
 
