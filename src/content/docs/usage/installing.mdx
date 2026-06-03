@@ -50,7 +50,7 @@ Then you can simply `rpm-ostree` away!
 
 ### Bluefin and Aurora
 
-Bluefin and Aurora no longer come with Terra, and disable package layering by default.
+Bluefin and Aurora no longer come with Terra, and heavily discourage package layering as it can halt system updates
 
 To enable layering, edit `/etc/rpm-ostreed.conf` and set `LockLayering` to `false`.
 
