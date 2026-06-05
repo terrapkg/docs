@@ -39,7 +39,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "@terrastruct/d2": "^0.1.33",
     "astro": "^6.3.8",
-    "astro-d2": "^0.10.0",
+    "astro-d2": "^0.11.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
