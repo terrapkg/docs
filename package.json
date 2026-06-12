@@ -46,7 +46,7 @@
     "sharp": "^0.35.1",
     "tailwindcss": "^4.3.0",
     "unplugin-icons": "^23.0.1",
-    "wrangler": "^4.99.0"
+    "wrangler": "^4.100.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
