@@ -52,7 +52,7 @@ jobs:
         run: bun ci
 
       - name: Run Oxlint
-        uses: oxc-project/oxlint-action@92eec2c4d5dbbb882c926478438aa4b7f20ffe2d # v3.0.0
+        uses: oxc-project/oxlint-action@b78c21302e4bc637e83927135c35a6684de1053e # v3.1.0
         with:
           config: oxlint.config.ts
           plugins: node react react-perf
