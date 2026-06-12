@@ -35,12 +35,12 @@ On Atomic editions of Fedora, run the following command:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/terrapkg/packages/f$(rpm --eval '%{fedora}')/anda/terra/release/terra.repo | pkexec tee /etc/yum.repos.d/terra.repo
-sudo rpm-ostree install terra-release terra-gpg-keys
+rpm-ostree install terra-release terra-gpg-keys
 ```
 
-### Bazzite and Aurora
+### Bazzite
 
-Bazzite and Aurora come with Terra, but disable it.
+Bazzite comes with Terra, but disables it.
 
 Edit `/etc/yum.repos.d/terra.repo` and change `enabled=0` to `enabled=1`
 
@@ -48,18 +48,9 @@ Do this again for `/etc/yum.repos.d/terra-extras.repo`
 
 Then you can simply `rpm-ostree` away!
 
-### Bluefin
+### SecureBlue
 
-Bluefin no longer comes with Terra, and disables package layering by default.
-
-To enable layering, edit `/etc/rpm-ostreed.conf` and set `LockLayering` to `false`.
-
-<Aside type="caution">
-  Bluefin doesn't officially support this. If you're getting support, make sure
-  to mention layering is on.
-</Aside>
-
-Then follow the installation instructions for Fedora Atomic.
+Follow the installation instructions for Fedora Atomic, but replace `pkexec` in the curl script with `run0`.
 
 ## Enterprise Linux
 
