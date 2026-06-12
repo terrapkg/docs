@@ -48,19 +48,6 @@ Do this again for `/etc/yum.repos.d/terra-extras.repo`
 
 Then you can simply `rpm-ostree` away!
 
-### Bluefin and Aurora
-
-Bluefin and Aurora no longer come with Terra, and heavily discourage package layering as it can halt system updates
-
-To enable layering, edit `/etc/rpm-ostreed.conf` and set `LockLayering` to `false`.
-
-<Aside type="caution">
-  Bluefin and Aurora don't officially support this. If you're getting support, make sure
-  to mention layering is on.
-</Aside>
-
-Then follow the installation instructions for Fedora Atomic.
-
 ### SecureBlue
 
 Follow the installation instructions for Fedora Atomic, but replace `pkexec` in the curl script with `run0`.
