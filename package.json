@@ -61,7 +61,7 @@
     "oxlint": "^1.69.0",
     "oxlint-tsgolint": "^0.23.0",
     "sitemapper": "^4.1.6",
-    "starlight-links-validator": "^0.24.0"
+    "starlight-links-validator": "^0.24.1"
   },
   "overrides": {
     "vite": "^7"
