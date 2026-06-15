@@ -30,7 +30,7 @@
     "test:ci": "playwright test"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.5.5",
+    "@astrojs/cloudflare": "~13.5.0",
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/react": "^5.0.5",
     "@astrojs/starlight": "^0.39.2",
@@ -38,7 +38,7 @@
     "@lunariajs/core": "^0.1.1",
     "@tailwindcss/vite": "^4.3.0",
     "@terrastruct/d2": "^0.1.33",
-    "astro": "^6.3.8",
+    "astro": "~6.3.8",
     "astro-d2": "^0.11.0",
     "lucide-react": "^1.18.0",
     "react": "^19.2.7",

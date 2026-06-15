@@ -9,7 +9,7 @@ on:
       - "astro.config.*"
       - "playwright.config.*"
       - "tailwind.config.*"
-      - "bun.lock"
+      - "pnpm-lock.yaml"
       - "**/*.astro"
       - "**/*.css"
       - "**/*.mdx"
@@ -22,7 +22,7 @@ on:
       - "astro.config.*"
       - "playwright.config.*"
       - "tailwind.config.*"
-      - "bun.lock"
+      - "pnpm-lock.yaml"
       - "**/*.astro"
       - "**/*.css"
       - "**/*.mdx"
@@ -39,27 +39,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
-      - name: Set Up Deno
-        uses: denoland/setup-deno@ff4860f9d7236f320afa0f82b7e6457384805d05 # v2.0.4
-        with:
-          cache: true
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
 
       - name: Cache Build
         id: cache
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
-            ~/.cache/deno
+            ~/.local/share/pnpm
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-build-${{ hashFiles('**/deno.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-build-${{ hashFiles('**/deno.lock') }}-
+            astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install Dependencies
-        run: deno ci
+        run: pnpm ci
 
       - name: Run Accessibility Audit
         env:
           FORCE_COLOR: 1
         shell: bash
-        run: deno run test:ci
+        run: pnpm run --allow-all npm:playwright test
