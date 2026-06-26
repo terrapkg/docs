@@ -39,15 +39,6 @@ jobs:
           node-version: lts/*
           cache: "pnpm"
 
-      - name: Cache Dependencies
-        id: cache
-        uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
-        with:
-          path: |
-          key: pnpm-ci-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            pnpm-ci-${{ hashFiles('**/pnpm-lock.yaml') }}
-
       - name: Install Dependencies
         run: pnpm ci
 
