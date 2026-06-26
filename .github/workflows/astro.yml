@@ -37,9 +37,9 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-build-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-build-${{ hashFiles('**/bun.lock') }}-
+            astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install Dependencies
         run: pnpm ci
@@ -70,9 +70,9 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-check-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-check-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-check-${{ hashFiles('**/bun.lock') }}-
+            astro-check-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install Dependencies
         run: pnpm ci
@@ -106,9 +106,9 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/node_modules/.astro
-          key: astro-build-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
+          key: astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
-            astro-build-${{ hashFiles('**/bun.lock') }}-
+            astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install Dependencies
         run: pnpm ci
