@@ -40,7 +40,7 @@
     "@terrastruct/d2": "^0.1.33",
     "astro": "^6.3.8",
     "astro-d2": "^0.11.0",
-    "lucide-react": "^1.18.0",
+    "lucide-react": "^1.21.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "sharp": "^0.35.1",
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@axe-core/playwright": "^4.11.3",
-    "@iconify/json": "^2.2.485",
+    "@iconify/json": "^2.2.491",
     "@playwright/test": "^1.60.0",
     "@types/bun": "^1.3.14",
     "@types/mdx": "^2.0.14",
