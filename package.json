@@ -65,5 +65,8 @@
   },
   "overrides": {
     "vite": "^7"
-  }
+  },
+  "workspaces": [
+    "."
+  ]
 }
