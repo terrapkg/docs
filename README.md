@@ -12,20 +12,20 @@ Steps to contributing or building the site found below.
 
 ### Dependencies
 
-To start, you will need [Bun](https://bun.com). Install it via any means of your choosing, and luckily, it's in Terra!
+To start, you will need [PNPM](https://pnpm.io/). Install it via any means of your choosing.
 
 ### Building
 
 Below are some commands to either build the site to test your changes or to help you out.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun ci`                  | Installs dependencies                            |
-| `bun run dev`             | Starts a local dev server at `localhost:4321`    |
-| `bun run build`           | Build the production site to `./dist/`           |
-| `bun run preview`         | Preview your build locally                       |
-| `bun run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun run astro -- --help` | Get help using the Astro CLI                     |
+| Command                    | Action                                           |
+| :------------------------- | :----------------------------------------------- |
+| `pnpm ci`                  | Installs dependencies                            |
+| `pnpm run dev`             | Starts a local dev server at `localhost:4321`    |
+| `pnpm run build`           | Build the production site to `./dist/`           |
+| `pnpm run preview`         | Preview your build locally                       |
+| `pnpm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `pnpm run astro -- --help` | Get help using the Astro CLI                     |
 
 ### Translation
 
