@@ -2,26 +2,26 @@ schema-version = "1.10.0"
 
 [install]
 nodejs.pkg-path = "nodejs"
-bun.pkg-path = "bun"
+pnpm.pkg-path = "pnpm"
 
 [hook]
 on-activate = """
 
-  bun ci
+  pnpm ci
   echo ""
-  echo "run 'flox services start dev' to start the dev server at localhost:3000"
+  echo "run 'flox services start dev' to start the dev server at localhost:4321"
   echo ""
-  echo "run 'flox services start dev-host' to start the dev server and expose to the LAN/Tailnet at hostname:300"
+  echo "run 'flox services start dev-host' to start the dev server and expose to the LAN/Tailnet at hostname:4321"
   echo ""
   echo "Contact Jaiden for help with Flox @ Fyra"
   echo ""
   echo ""
 """
 [services.dev]
-command = "bun dev"
+command = "pnpm dev"
 
 [services.dev-host]
-command = "bun dev --host"
+command = "pnpm dev --host"
 
 ## Other Environment Options -----------------------------------------
 [options]

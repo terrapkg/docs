@@ -3,15 +3,15 @@
   "manifest": {
     "schema-version": "1.10.0",
     "install": {
-      "bun": {
-        "pkg-path": "bun"
-      },
       "nodejs": {
         "pkg-path": "nodejs"
+      },
+      "pnpm": {
+        "pkg-path": "pnpm"
       }
     },
     "hook": {
-      "on-activate": "\n  bun ci\n  echo \"\"\n  echo \"run 'flox services start dev' to start the dev server at localhost:3000\"\n  echo \"\"\n  echo \"run 'flox services start dev-host' to start the dev server and expose to the LAN/Tailnet at hostname:300\"\n  echo \"\"\n  echo \"Contact Jaiden for help with Flox @ Fyra\"\n  echo \"\"\n  echo \"\"\n"
+      "on-activate": "\n  pnpm ci\n  echo \"\"\n  echo \"run 'flox services start dev' to start the dev server at localhost:4321\"\n  echo \"\"\n  echo \"run 'flox services start dev-host' to start the dev server and expose to the LAN/Tailnet at hostname:4321\"\n  echo \"\"\n  echo \"Contact Jaiden for help with Flox @ Fyra\"\n  echo \"\"\n  echo \"\"\n"
     },
     "options": {
       "systems": [
@@ -23,130 +23,14 @@
     },
     "services": {
       "dev": {
-        "command": "bun dev"
+        "command": "pnpm dev"
       },
       "dev-host": {
-        "command": "bun dev --host"
+        "command": "pnpm dev --host"
       }
     }
   },
   "packages": [
-    {
-      "attr_path": "bun",
-      "broken": false,
-      "derivation": "/nix/store/6wvpwf4gfv8rpm3a2dr73ahlx2cw2r18-bun-1.3.10.drv",
-      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
-      "install_id": "bun",
-      "license": "[ MIT, LGPL-2.1-only ]",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "name": "bun-1.3.10",
-      "pname": "bun",
-      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "rev_count": 963917,
-      "rev_date": "2026-03-16T07:26:50Z",
-      "scrape_date": "2026-03-17T04:42:03.394492Z",
-      "stabilities": [
-        "unstable"
-      ],
-      "unfree": false,
-      "version": "1.3.10",
-      "outputs_to_install": [
-        "out"
-      ],
-      "outputs": {
-        "out": "/nix/store/421j82pv4gjmh9n2gchb4cs40hqfj20d-bun-1.3.10"
-      },
-      "system": "aarch64-darwin",
-      "group": "toplevel",
-      "priority": 5
-    },
-    {
-      "attr_path": "bun",
-      "broken": false,
-      "derivation": "/nix/store/ripy81lw4h7slpj8r8rnqy2648wk8fv0-bun-1.3.10.drv",
-      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
-      "install_id": "bun",
-      "license": "[ MIT, LGPL-2.1-only ]",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "name": "bun-1.3.10",
-      "pname": "bun",
-      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "rev_count": 963917,
-      "rev_date": "2026-03-16T07:26:50Z",
-      "scrape_date": "2026-03-17T05:14:38.447833Z",
-      "stabilities": [
-        "unstable"
-      ],
-      "unfree": false,
-      "version": "1.3.10",
-      "outputs_to_install": [
-        "out"
-      ],
-      "outputs": {
-        "out": "/nix/store/ffdcfkl3kpdwagswlwlff6qazxkj4cag-bun-1.3.10"
-      },
-      "system": "aarch64-linux",
-      "group": "toplevel",
-      "priority": 5
-    },
-    {
-      "attr_path": "bun",
-      "broken": false,
-      "derivation": "/nix/store/isi2vyf4kk6c0ddwsgq0n53313xqsqdf-bun-1.3.10.drv",
-      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
-      "install_id": "bun",
-      "license": "[ MIT, LGPL-2.1-only ]",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "name": "bun-1.3.10",
-      "pname": "bun",
-      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "rev_count": 963917,
-      "rev_date": "2026-03-16T07:26:50Z",
-      "scrape_date": "2026-03-17T05:45:10.056379Z",
-      "stabilities": [
-        "unstable"
-      ],
-      "unfree": false,
-      "version": "1.3.10",
-      "outputs_to_install": [
-        "out"
-      ],
-      "outputs": {
-        "out": "/nix/store/k6gj0kvvy9nrs87i646qxj9hr6fkchix-bun-1.3.10"
-      },
-      "system": "x86_64-darwin",
-      "group": "toplevel",
-      "priority": 5
-    },
-    {
-      "attr_path": "bun",
-      "broken": false,
-      "derivation": "/nix/store/7nj2p1hvxj7kkg50bllk9d2bkb3y43c3-bun-1.3.10.drv",
-      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
-      "install_id": "bun",
-      "license": "[ MIT, LGPL-2.1-only ]",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "name": "bun-1.3.10",
-      "pname": "bun",
-      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
-      "rev_count": 963917,
-      "rev_date": "2026-03-16T07:26:50Z",
-      "scrape_date": "2026-03-17T06:21:13.915335Z",
-      "stabilities": [
-        "unstable"
-      ],
-      "unfree": false,
-      "version": "1.3.10",
-      "outputs_to_install": [
-        "out"
-      ],
-      "outputs": {
-        "out": "/nix/store/ffgyf7g2n4gbhi1zgbcphssivfah1c4s-bun-1.3.10"
-      },
-      "system": "x86_64-linux",
-      "group": "toplevel",
-      "priority": 5
-    },
     {
       "attr_path": "nodejs",
       "broken": false,
@@ -167,6 +51,7 @@
       "unfree": false,
       "version": "24.13.0",
       "outputs_to_install": [
+        "out",
         "out",
         "out"
       ],
@@ -262,6 +147,122 @@
       ],
       "outputs": {
         "out": "/nix/store/sy0c7j0npsq33d9zhnnzvjnzc52f4y0p-nodejs-24.13.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/z89zp5w5ndjznb28kzd1cny1y1j22bih-pnpm-10.32.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "name": "pnpm-10.32.1",
+      "pname": "pnpm",
+      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "rev_count": 963917,
+      "rev_date": "2026-03-16T07:26:50Z",
+      "scrape_date": "2026-03-17T04:42:42.320768Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "10.32.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/3g1pygsghg35h23zin6szmd7v1xn87w8-pnpm-10.32.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/khzbz0wc45bm8ifzjp0gr4075hbivng1-pnpm-10.32.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "name": "pnpm-10.32.1",
+      "pname": "pnpm",
+      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "rev_count": 963917,
+      "rev_date": "2026-03-16T07:26:50Z",
+      "scrape_date": "2026-03-17T05:15:40.206595Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "10.32.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/2501c440kl6lpcj36k0jzj0bhsggxp3r-pnpm-10.32.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/vg3d0my9ggpwf8fl3j893rgx34sb76jz-pnpm-10.32.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "name": "pnpm-10.32.1",
+      "pname": "pnpm",
+      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "rev_count": 963917,
+      "rev_date": "2026-03-16T07:26:50Z",
+      "scrape_date": "2026-03-17T05:45:49.963411Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "10.32.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/y7aiggcvhsnavn3x39fyy287jg5rckv2-pnpm-10.32.1"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "pnpm",
+      "broken": false,
+      "derivation": "/nix/store/7424c60ilfkj4nl8zzih3zz488wii2ng-pnpm-10.32.1.drv",
+      "description": "Fast, disk space efficient package manager for JavaScript",
+      "install_id": "pnpm",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "name": "pnpm-10.32.1",
+      "pname": "pnpm",
+      "rev": "5b2c2d84341b2afb5647081c1386a80d7a8d8605",
+      "rev_count": 963917,
+      "rev_date": "2026-03-16T07:26:50Z",
+      "scrape_date": "2026-03-17T06:22:20.199777Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "10.32.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/lfnzp1f6aqiwz9vb1fzgm15rby2cg416-pnpm-10.32.1"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
