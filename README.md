@@ -20,7 +20,7 @@ Below are some commands to either build the site to test your changes or to help
 
 | Command                    | Action                                           |
 | :------------------------- | :----------------------------------------------- |
-| `pnpm ci`                  | Installs dependencies                            |
+| `pnpm install`             | Installs dependencies                            |
 | `pnpm run dev`             | Starts a local dev server at `localhost:4321`    |
 | `pnpm run build`           | Build the production site to `./dist/`           |
 | `pnpm run preview`         | Preview your build locally                       |
