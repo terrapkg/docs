@@ -122,18 +122,13 @@ export default defineConfig({
     react(),
   ],
 
-  markdown: {
-    processor: unified({
-      // Force footnotes to render as text for better accessibility.
-      remarkRehype: { footnoteBackContent: "↩️ Back to reference" },
-    }),
-  },
-
   vite: {
     plugins: [
       Icons({
         compiler: "astro",
       }),
+      // Upstream knows about the issue and it will hopefully be fixed soon?
+      // @ts-expect-error
       tailwindcss(),
     ],
   },
@@ -141,4 +136,11 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "compile",
   }),
+
+  markdown: {
+    processor: unified({
+      // Force footnotes to render as text for better accessibility.
+      remarkRehype: { footnoteBackContent: "↩️ Back to reference" },
+    }),
+  },
 });
