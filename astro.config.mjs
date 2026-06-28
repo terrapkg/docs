@@ -126,7 +126,10 @@ export default defineConfig({
     plugins: [
       Icons({
         compiler: "astro",
-      }), 
+      }),
+      // Upstream knows about the issue and it will hopefully be fixed soon?
+      // @ts-expect-error
+      tailwindcss(),
     ],
   },
 
