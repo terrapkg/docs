@@ -1,9 +1,9 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
-import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
+import { unified } from "@astrojs/markdown-remark";
 import starlightLinksValidator from "starlight-links-validator";
 import astroD2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
@@ -119,12 +119,15 @@ export default defineConfig({
           ? [starlightLinksValidator({ errorOnFallbackPages: false })]
           : [],
     }),
-    mdx({
+    react(),
+  ],
+
+  markdown: {
+    processor: unified({
       // Force footnotes to render as text for better accessibility.
       remarkRehype: { footnoteBackContent: "↩️ Back to reference" },
     }),
-    react(),
-  ],
+  },
 
   vite: {
     plugins: [
