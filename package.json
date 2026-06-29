@@ -36,7 +36,7 @@
     "@astrojs/starlight": "^0.39.2",
     "@astrojs/starlight-tailwind": "^5.0.0",
     "@lunariajs/core": "^0.1.1",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.2",
     "@terrastruct/d2": "^0.1.33",
     "astro": "^6.3.8",
     "astro-d2": "^0.11.0",
@@ -44,7 +44,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "sharp": "^0.35.1",
-    "tailwindcss": "^4.3.0",
+    "tailwindcss": "^4.3.2",
     "unplugin-icons": "^23.0.1",
     "wrangler": "^4.100.0"
   },
