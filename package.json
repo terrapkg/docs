@@ -61,6 +61,6 @@
     "oxlint": "^1.69.0",
     "oxlint-tsgolint": "^0.23.0",
     "sitemapper": "^4.1.6",
-    "starlight-links-validator": "^0.24.1"
+    "starlight-links-validator": "^0.25.2"
   }
 }
