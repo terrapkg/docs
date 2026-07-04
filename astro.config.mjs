@@ -96,6 +96,12 @@ export default defineConfig({
             { label: "Custom RPM Macros", slug: "contributing/srpm" },
           ],
         },
+        {
+          label: "Guides",
+          items: [
+            { label: "Rust", slug: "guide/rust" },
+          ],
+        },
       ],
       lastUpdated: true,
       editLink: {
