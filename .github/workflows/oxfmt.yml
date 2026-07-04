@@ -8,6 +8,8 @@ on:
       - next
 permissions:
   contents: read
+env:
+  FORCE_COLOR: 1
 
 jobs:
   fmt:

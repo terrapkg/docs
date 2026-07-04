@@ -30,6 +30,8 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  FORCE_COLOR: 1
 
 jobs:
   test:
@@ -64,7 +66,5 @@ jobs:
         run: pnpm ci
 
       - name: Run Accessibility Audit
-        env:
-          FORCE_COLOR: 1
         shell: bash
         run: pnpm run test:ci
