@@ -141,7 +141,7 @@ export default defineConfig({
       features: {
         gfm: {
           footnotes: {
-            backContent: (n, _k) => `◂┈╯`,
+            backContent: (n, _k) => `↩️ Back to reference ${n}`,
           },
         },
       },
