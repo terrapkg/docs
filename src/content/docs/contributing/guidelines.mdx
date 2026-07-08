@@ -358,7 +358,7 @@ These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
     - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
     - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
     - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
-- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_excludes}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
+- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_exclude}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
   - <Code code={`%global __requires_exclude %{__requires_exclude}|private_library\\.so`} lang={RPMSpec} inline />
   - <Code code={`%global __provides_exclude %{__provides_exclude}|private_library\\.so`} lang={RPMSpec} inline />
 - You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
