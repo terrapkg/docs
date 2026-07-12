@@ -22,8 +22,10 @@ then modify the spec file to match our packaging guidelines.
 - replace `%cargo_prep` with `%cargo_prep_online`
 - remove `%generate_buildrequires` and `%cargo_generate_buildrequires`
 - remove `%cargo_build`. In `%build`, you only need the following 2 lines (most likely):
-  <Code code={`%{cargo_license_summary_online}
-    %{cargo_license_online} > LICENSE.dependencies`} lang={RPMSpec} />
+  ```rpmspec
+  %{cargo_license_summary_online}
+  %{cargo_license_online} > LICENSE.dependencies
+  ```
   - alternative use `%crate_install_bin` instead of `%cargo_install`, or use the `install` command manually.
 - now use anda to build the package, and wait until you see a list of licenses starting with `# ` in the log output, then stop the build
 - Use [`format-license`](https://github.com/terrapkg/cli-tools/blob/main/format-license.sh) to format the license, and paste the final license into `License:` in the spec file.

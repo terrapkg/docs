@@ -10,12 +10,10 @@ import RPMSpec from "@/components/spec.json";
 This page is a work in progress.
 
 Currently only OpenSUSE Tumbleweed is supported.
-If your system releasever is not "tumbleweed" (but compatible with it),
-you should replace <Code code='$releasever' inline /> in the following command
-with <Code code='tumbleweed' inline /> manually.
-Additionally, you will need to modify the
-<Code code='/etc/zypp/repos.d/tuatara.repo' inline /> file after the release package
-is installed.
+If your system releasever is not `tumbleweed` (but compatible with it),
+you should replace `$releasever` in the following command with `tumbleweed` manually.
+Additionally, you will need to modify the `/etc/zypp/repos.d/tuatara.repo` file
+after the release package is installed.
 
 ```sh
 sudo zypper install --plus-repo 'https://repos.fyralabs.com/tuatara-$releasever' tuatara-release
