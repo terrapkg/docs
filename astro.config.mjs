@@ -102,6 +102,15 @@ export default defineConfig({
             { label: "Rust", slug: "guide/rust" },
           ],
         },
+        {
+          label: "Tuatara",
+          items: [
+            { label: "Rust", slug: "tuatara/rust" },
+            { label: "Go", slug: "tuatara/go" },
+            { label: "Installing", slug: "tuatara/installing" },
+            { label: "Contributing & Packaging", slug: "tuatara/packaging" },
+          ],
+        },
       ],
       lastUpdated: true,
       editLink: {
