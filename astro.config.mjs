@@ -2,8 +2,8 @@
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
+import { satteri } from "@astrojs/markdown-satteri";
 import starlight from "@astrojs/starlight";
-import { unified } from "@astrojs/markdown-remark";
 import starlightLinksValidator from "starlight-links-validator";
 import astroD2 from "astro-d2";
 import tailwindcss from "@tailwindcss/vite";
@@ -149,9 +149,15 @@ export default defineConfig({
   }),
 
   markdown: {
-    processor: unified({
+    processor: satteri({
       // Force footnotes to render as text for better accessibility.
-      remarkRehype: { footnoteBackContent: "↩️ Back to reference" },
+      features: {
+        gfm: {
+          footnotes: {
+            backContent: (n, _k) => `↩️ Back to reference ${n}`,
+          },
+        },
+      },
     }),
   },
 });
