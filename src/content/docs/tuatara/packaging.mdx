@@ -1,0 +1,27 @@
+---
+title: Tuatara General Packaging Documentation
+description: "This page describes how packaging is done in Tuatara."
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
+
+This page is a work in progress.
+
+## Building Packages 101
+
+Just like Terra, Tuatara uses the Andaman toolchain to manage different
+packages in a separate monorepo from Terra: https://github.com/terrapkg/tuatara
+
+Here are some main differences from Terra:
+- The `anda/` directory has been flattened to the main repository and all
+  categories live at the root of the Git repository.
+- The `/pkg` suffix is obsoleted (when using anda). Make sure to use
+  <Code code='project "" {}' lang='hcl' inline /> in `anda.hcl`.
+
+Currently, only `rpmbuild` builder mode is supported.
+Here's an example for building the `subatomic` package:
+```ansi
+[1;32manda[97m build [0;3;37m-rrpmbuild[0m tuatara/subatomic
+```
