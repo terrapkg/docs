@@ -60,6 +60,16 @@ export default defineConfig({
           href: "https://twitter.com/terra_repo",
         },
       ],
+      head: [
+        {
+          tag: "script",
+          attrs: {
+            src: "https://plausible.fyralabs.com/js/script.outbound-links.js",
+            defer: true,
+            "data-domain": "docs.terrapkg.com",
+          },
+        },
+      ],
       sidebar: [
         {
           label: "Welcome",
