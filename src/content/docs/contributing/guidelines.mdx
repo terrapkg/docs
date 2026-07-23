@@ -270,6 +270,7 @@ atlas rep atlas.lock
 
 ### Rust
 
+These are guidelines for packaging projects written in [Rust](https://rust-lang.org).
 If the software you would like to package is available on https://crates.io,
 we recommend generating the spec file first using `rust2rpm`[^1] first,
 then modify the spec file to match our packaging guidelines.
@@ -324,11 +325,12 @@ Summary:        %{summary}
 
 %files       -n %{crate}
 %license LICENSE
+%license LICENSE.dependencies
 %doc README.md
 %{_bindir}/joshuto
 
 %prep
-%autosetup -n %{crate}-%{version_no_tilde} -p1
+%autosetup -n %{crate}-%{version} -p1
 %cargo_prep_online
 
 %build
@@ -336,6 +338,7 @@ Summary:        %{summary}
 
 %install
 %cargo_install
+%{cargo_license_online} > LICENSE.dependencies
 
 %if %{with check}
 %check
