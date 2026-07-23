@@ -109,9 +109,6 @@ export default defineConfig({
           ],
         },
         {
-          label: "Guides",
-          items: [{ label: "Rust", slug: "guide/rust" }],
-        },
         {
           label: "Tuatara",
           items: [
