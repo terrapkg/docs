@@ -79,12 +79,11 @@ export default defineConfig({
           items: [{ label: "Introduction", slug: "index" }],
         },
         {
-          label: "Reference",
-          items: [{ autogenerate: { directory: "reference" } }],
-        },
-        {
           label: "General",
-          items: [{ autogenerate: { directory: "general" } }],
+          items: [
+            { label: "General", slug: "general/infrastructure" },
+            { label: "FAQ", slug: "general/faq" },
+          ],
         },
         {
           label: "Using Terra",
