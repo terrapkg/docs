@@ -275,7 +275,7 @@ If the software you would like to package is available on https://crates.io,
 we recommend generating the spec file first using `rust2rpm`[^1] first,
 then modify the spec file to match our packaging guidelines.
 
-## rust2rpm
+#### rust2rpm
 
 - generate the spec file using `rust2rpm name-of-crate`
 - remove the line starting with `Patch:` (and the `.patch` file too) if it exists
@@ -350,7 +350,7 @@ Summary:        %{summary}
 - Initial commit
 ```
 
-# Manual
+#### Manual
 
 For rust programs not on crates.io, you will need to manually create the spec.
 What you can probably do is to copy an existing rust spec file like this and edit it out. Here's a pretty simple one for reference:[^3]
