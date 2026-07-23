@@ -186,6 +186,53 @@ The general guidelines for building webapps are:
     BuildRequires: yarnpkg
     ```
 
+##### Electron
+
+These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
+
+<Aside>
+  Many Electron projects will default to building distro binary packages (such as RPMs and Debs) and this rarely works well in RPM builds. Packagers should be prepared to patch or otherwise modify the Electron Builder config to rectify this.
+</Aside>
+
+- You SHOULD add `%electronmeta` and make sure it is in the correct location in the spec file. The other macros for Electron also depend on the information in this being set.
+  - This meta macro automatically handles MANY common issues that can happen with Electron packages including incorrect dependencies due to bundled (or private) [shared object (`*.so`) libraries](https://en.wikipedia.org/wiki/Shared_library).
+  - It also pulls all basic build dependencies for Electron apps.
+  - Like all meta macros, must be placed carefully:
+    - MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the first <Code code={`%description`} lang={RPMSpec} inline />.
+    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
+    - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
+    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
+- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_exclude}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
+  - <Code code={`%global __requires_exclude %{__requires_exclude}|private_library\\.so`} lang={RPMSpec} inline />
+  - <Code code={`%global __provides_exclude %{__provides_exclude}|private_library\\.so`} lang={RPMSpec} inline />
+- You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
+  - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
+- You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
+
+##### Tauri
+
+These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
+
+Tauri builds webapps using Cargo and the system WebKit. For these reasons some of the [Rust](#rust) guidelines also apply to Tauri. Most relevant Cargo macros have been ported into Tauri compatible ones, however it will likely still be helpful to make yourself familiar with the original macros.
+<Aside>
+  It is important to note that unlike the original Cargo macros, Tauri macros only support passing features with the `-f` flag due to how Tauri works.
+</Aside>
+
+- You SHOULD use one of the following in your spec:
+  - <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
+  - ```rpmspec
+    %generate_buildrequires
+    %tauri_generate_buildrequires
+    ```
+  <Aside type="caution">
+    BuildRequires generation only works in Mock.
+  </Aside>
+- You SHOULD use <Code code={`%tauri_prep`} lang={RPMSpec} inline /> in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
+- You SHOULD use either a [webapp build macro](/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
+- You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
+- You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
+- You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
+
 ### Nim
 
 These are guidelines for packaging projects written in [Nim](https://nim-lang.org).
@@ -310,12 +357,12 @@ Example using `%zig_build_target`:
 
 For projects where dynamic linking of all dependencies is simply not possible (such as the version in the Fedora repos is too new or too old) or that have no dependencies to link, you MAY use `%zig_build_target` with the `-s` flag. You SHOULD still dynamically link compatible dependencies by using <Code code={`-fsys=pkgname`} lang={RPMSpec} inline />.
 
-### Shell Completions
+## Shell Completions
 
 - SHOULD be a subpackage.
 - SHOULD use the [`%pkg_completion` macro](/contributing/srpm#pkg_completion).
 
-### Development and Shared Libraries
+## Development and Shared Libraries
 
 You SHOULD try to use the [`%pkg_devel_files`, `%pkg_libs_files` and `%pkg_static_files` macros](/contributing/srpm#subpackages).
 
@@ -346,76 +393,29 @@ These packages SHOULD NOT contain anything **except**:
 # and other development files (.vapi, .typelib, .gir, etc.).
 ```
 
-#### Electron
+## Miscellaneous
 
-These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
-
-<Aside>
-  Many Electron projects will default to building distro binary packages (such as RPMs and Debs) and this rarely works well in RPM builds. Packagers should be prepared to patch or otherwise modify the Electron Builder config to rectify this.
-</Aside>
-
-- You SHOULD add `%electronmeta` and make sure it is in the correct location in the spec file. The other macros for Electron also depend on the information in this being set.
-  - This meta macro automatically handles MANY common issues that can happen with Electron packages including incorrect dependencies due to bundled (or private) [shared object (`*.so`) libraries](https://en.wikipedia.org/wiki/Shared_library).
-  - It also pulls all basic build dependencies for Electron apps.
-  - Like all meta macros, must be placed carefully:
-    - MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the first <Code code={`%description`} lang={RPMSpec} inline />.
-    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
-    - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
-    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
-- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_exclude}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
-  - <Code code={`%global __requires_exclude %{__requires_exclude}|private_library\\.so`} lang={RPMSpec} inline />
-  - <Code code={`%global __provides_exclude %{__provides_exclude}|private_library\\.so`} lang={RPMSpec} inline />
-- You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
-  - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
-- You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
-
-#### Tauri
-
-These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
-
-Tauri builds webapps using Cargo and the system WebKit. For these reasons some of the [Rust](#rust) guidelines also apply to Tauri. Most relevant Cargo macros have been ported into Tauri compatible ones, however it will likely still be helpful to make yourself familiar with the original macros.
-<Aside>
-  It is important to note that unlike the original Cargo macros, Tauri macros only support passing features with the `-f` flag due to how Tauri works.
-</Aside>
-
-- You SHOULD use one of the following in your spec:
-  - <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
-  - ```rpmspec
-    %generate_buildrequires
-    %tauri_generate_buildrequires
-    ```
-  <Aside type="caution">
-    BuildRequires generation only works in Mock.
-  </Aside>
-- You SHOULD use <Code code={`%tauri_prep`} lang={RPMSpec} inline /> in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
-- You SHOULD use either a [webapp build macro](/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
-- You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
-- You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
-- You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
-
-### Miscellaneous
-
-#### Changelog Entries
+### Changelog Entries
 
 You MUST add a Changelog entry when you submit a new package, and you MUST NOT use `%autochangelog`.
 We typically use `Initial package`/`Initial commit`, but anything that describes adding the package is fine.
 
-##### Changing an Existing Package
+#### Changing an Existing Package
 
 You SHOULD add a <Code code={`%changelog`} lang={RPMSpec} inline /> entry for large changes, such as file renames, new build process, etc.
 Small changes like adding build dependencies or adding one-liners to make a build work MAY be omitted from adding a <Code code={`%changelog`} lang={RPMSpec} inline /> entry, it is up to you.
 
-##### Copying a Spec from a Different Repository
+#### Copying a Spec from a Different Repository
 
 When copying/porting/using a spec file from a different repository (SUSE, Mandriva, RPMfusion, Copr, etc.), you MUST preserve any changelogs in the spec, and then add your own changelog entry as `Port to Terra`.
 You MAY specify which repo it has been ported from.
 
-##### Modifying Changelog Entries
+#### Modifying Changelog Entries
 
 This _should_ not need to be done, the only reasons are if there was a formatting error, date error, or updated name/emails.
 It is also acceptable to add more to previous changelogs (for example, adding missing emails/version), but there has to be a reason to do this.
 
-#### Fixing Packages
+### Fixing Packages
 
 - If a PR is changing anything user-facing, the <Code code={`Release:`} lang={RPMSpec} inline /> tag SHOULD be bumped. The only exception SHOULD be if you are fixing a package where the current version does not and has never built.
   - Some (not all!) examples of user-facing fixes requiring a <Code code={`Release:`} lang={RPMSpec} inline /> bump:
@@ -429,15 +429,15 @@ It is also acceptable to add more to previous changelogs (for example, adding mi
 - If you are unsure if a bump is needed, bump it.
 - Follow appropriate changelog procedures outlined in the above section.
 
-#### Patches
+### Patches
 
 - Packages SHOULD apply patches (usually via the `-p#` flag) in <Code code={`%autosetup`} lang={RPMSpec} inline />. If this is not possible (typically when <Code code={`%autosetup`} lang={RPMSpec} inline /> is not used), you SHOULD use [%autopatch](https://developer.fyralabs.com/rpm/macros#autopatch).
 
-#### Providing Your Own .desktop File
+### Providing Your Own .desktop File
 
 If you are packaging a graphical app that doesn't provide its own `.desktop` file, you SHOULD create one.
 
-##### Creating the .desktop File
+#### Creating the .desktop File
 
 Copy the following template:
 
@@ -456,7 +456,7 @@ If this is not the case, it is up to you if you want to use the full path or not
 You SHOULD name this file either `package-name.desktop` or `package_app-ID.desktop`.
 You MAY add more tags, to see all possible tags, read through the [freedesktop specification](https://specifications.freedesktop.org/desktop-entry/latest).
 
-##### Installing the .desktop File
+#### Installing the .desktop File
 
 To install the `.desktop` file:
 
@@ -483,7 +483,7 @@ Source1:  NeoHtop.desktop
 %{_appsdir}/NeoHtop.desktop
 ```
 
-##### Validating the .desktop File
+#### Validating the .desktop File
 
 You MUST validate your `.desktop` file. To do this, add the following to your spec file:
 
@@ -498,7 +498,7 @@ BuildRequires:  desktop-file-utils
 ...
 ```
 
-##### Finished Example
+#### Finished Example
 
 `NeoHtop.desktop`:
 
@@ -534,10 +534,10 @@ BuildRequires:  desktop-file-utils
 %{_appsdir}/NeoHtop.desktop
 ```
 
-#### Usage of Periods in Various Package Fields
+### Usage of Periods in Various Package Fields
 You MUST NOT have a period at the end of any <Code code={`Summary:`} lang={RPMSpec} inline /> tags, and you SHOULD have a period at the end of all <Code code={`%description`} lang={RPMSpec} inline />s.
 
-#### Usage of %elifarch
+### Usage of %elifarch
 
 To make specs easier to read, you SHOULD use <Code code={`%ifarch`} lang={RPMSpec} inline /> followed by <Code code={`%elifarch`} lang={RPMSpec} inline /> before <Code code={`%endif`} lang={RPMSpec} inline /> in specs where build steps are arch dependent.
 
