@@ -50,15 +50,17 @@ End.
   - Each folder MUST either contain folders and no source files (other files are exempted), or contain multiple files and no folders.
   - The following directories have a higher priority. Categorize your new package in the following order:
     1. `fonts/`
-    2. `system/` (bootloaders, kernels, drivers, ...)
-    3. `buildsys/` (software used to build other software)
-    4. `devs/` (tools for software development)
+    2. `system/` (Bootloaders, kernels, drivers, ...)
+    3. `buildsys/` (Buildsystems, software used to build other software)
+    4. `devs/` (Tools for software development)
     5. `games/`
     6. `themes/`
-    7. `desktops/` (applications specific to a Desktop Environment)
-    8. `desktops/stardust/` (packages for the [Stardust XR](https://stardustxr.org) stack)
+    7. `desktops/` (Applications specific to a Desktop Environment)
+    8. `desktops/stardust/` (Packages for the [Stardust XR](https://stardustxr.org) stack)
     9. `apps/` (GUI applications)
-    10. `langs/` (software written in/for a specific programming language)
+    10. `langs/` (Software written in/for a specific programming language)
+    11. `tools/`
+    12. `tools/ansible-collections` (Ansible collection packages MUST be placed here)
 - When there are ambiguous or unspecified parts in our policies/guidelines, you SHOULD refer to [Fedora's packaging guidelines].
 - Low-quality contributions will be declined at the team's discretion.
 - Do not include work-in-progress code or untested patches. See [https://dont-ship.it](https://web.archive.org/web/20250320104139/https://dont-ship.it).
