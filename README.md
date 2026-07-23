@@ -76,7 +76,7 @@ Finally, add a translation for the page title to `astro.config.mjs`. The format 
 }
 ```
 
-The path translated pages must go in is `src/content/docs/<language>/<path>` with `<language>` being the shorthand of the language and `<path>` being the original path of the file. For example, the file `src/content/docs/reference/faq.mdx` translated into German would have to go into `src/content/docs/de/reference/faq.mdx`.
+The path translated pages must go in is `src/content/docs/<language>/<path>` with `<language>` being the shorthand of the language and `<path>` being the original path of the file. For example, the file `src/content/docs/general/faq.mdx` translated into German would have to go into `src/content/docs/de/general/faq.mdx`.
 
 ## Reference
 
