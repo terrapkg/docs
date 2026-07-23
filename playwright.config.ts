@@ -22,7 +22,7 @@ export default defineConfig({
   timeout: 180 * 1_000,
   webServer: [
     {
-      command: "pnpm run build && pnpm run preview",
+      command: "USE_LOCALHOST=true pnpm run build && pnpm run preview",
       reuseExistingServer: !isCI,
       // The timeout of the single build step ran before the accessibility tests.
       timeout: 120 * 1_000,
