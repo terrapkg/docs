@@ -78,7 +78,7 @@ export default defineConfig({
         {
           label: "General",
           items: [
-            { autogenerate: { directory: "general" } },
+            { label: "General", slug: "general/infrastructure" },
             { label: "FAQ", slug: "general/faq" },
           ],
         },
