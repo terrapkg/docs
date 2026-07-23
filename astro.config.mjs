@@ -77,8 +77,10 @@ export default defineConfig({
         },
         {
           label: "General",
-          items: [{ autogenerate: { directory: "general" } }],
-        },
+          items: [
+          { autogenerate: { directory: "general" } },
+          { label: "FAQ", slug: "general/faq" },
+        }],
         {
           label: "Using Terra",
           items: [{ autogenerate: { directory: "usage" } }],
