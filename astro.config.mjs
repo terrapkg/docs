@@ -109,7 +109,6 @@ export default defineConfig({
           ],
         },
         {
-        {
           label: "Tuatara",
           items: [
             { label: "Rust", slug: "tuatara/rust" },
