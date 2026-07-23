@@ -8,8 +8,6 @@ type AxeFixture = {
 
 // Export for use in tests.
 export const localURL = "http://localhost:4321";
-
-const liveURL = "https://docs.terrapkg.com";
 const localSitemap = `${localURL}/sitemap-index.xml`;
 
 export async function getSitemap() {
@@ -23,9 +21,7 @@ export async function getSitemap() {
   const urls: string[] = [];
 
   for (const site of sites) {
-    const slug = site.replace(liveURL, "");
-    const url = localURL + slug;
-    urls.push(url);
+    urls.push(site);
   }
 
   return urls;

@@ -26,7 +26,7 @@
     "fmt:check": "oxfmt --check",
     "lint": "oxlint --type-aware",
     "lint:ci": "oxlint --type-aware --format github",
-    "test": "playwright install --with-deps chromium && playwright test",
+    "test": "playwright install chromium && playwright test",
     "test:ci": "playwright test"
   },
   "dependencies": {

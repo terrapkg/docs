@@ -11,9 +11,12 @@ import Icons from "unplugin-icons/vite";
 import RPMSpec from "./components/spec.json";
 import rhai from "./components/rhai.json";
 
+const site =
+  process.env.USE_LOCALHOST === "true" ? "http://localhost:4321" : "https://docs.terrapkg.com";
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://docs.terrapkg.com",
+  site: site,
 
   trailingSlash: "never",
 
