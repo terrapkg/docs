@@ -78,8 +78,8 @@ export default defineConfig({
         {
           label: "General",
           items: [
-          { autogenerate: { directory: "general" } },
-          { label: "FAQ", slug: "general/faq" },
+            { autogenerate: { directory: "general" } },
+            { label: "FAQ", slug: "general/faq" },
           ],
         },
         {
