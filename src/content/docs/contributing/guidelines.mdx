@@ -131,7 +131,7 @@ Terra's Mock sandbox has networking enabled, so builders can download the depend
 
 ### Haskell
 
-Haskell packages in Terra MUST follow Fedora guidelines, although if using `cabal-rpm`, you SHOULD change the changelog entry in accordance with our [changelog policy](#changelog-entries), and you MUST add the `Packager:` line.
+Haskell packages in Terra MUST follow Fedora guidelines, although if using `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](#changelog-entries), and you MUST add the `Packager:` line.
 You may also use a `sed` script to drop dependancy versions instead of `cabal-tweak-dep-ver` or `cabal-tweak-drop-dep`, up to you.
 
 `ghc-*` haskell packages SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
