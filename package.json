@@ -54,7 +54,7 @@
     "@iconify/json": "^2.2.506",
     "@playwright/test": "^1.60.0",
     "@types/mdx": "^2.0.14",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.1.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "oxfmt": "^0.61.0",
