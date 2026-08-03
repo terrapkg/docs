@@ -232,7 +232,7 @@ The random number decides which day in the week will the auto-update script run.
 
 ## Guidelines
 
-- If possible, avoid using the `gh` and `gh_tag` version functions when possible, due to GitHub API rate limit issue. You may use crates.io, Pypi, hackage, etc. instead. We know this is generally not feasible, but worth a look.
+- If possible, avoid using the `gh` and `gh_tag` version functions due to GitHub API rate limit issues. See if you can use something like crates.io, PyPi, Hackage, etc. instead.
 - You might see scripts with `if filters.contains("nightly")`. This `if` statement is no longer needed.
 - Avoid running code unrelated to updating/bumping packages (and in rare cases, cropping strings off the returned version) in the `update.rhai`.
 
