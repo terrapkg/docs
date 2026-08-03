@@ -251,18 +251,6 @@ See the "book" (more like guide) for [Rhai].
 - You also need to add <Code code={`labels { nightly = "1" }`} lang="hcl" inline /> in `anda.hcl` for nightly packages.
 
 <Aside>Remember to add semicolons in Rhai scripts! (`;`)</Aside>
-<Aside>
-  Anda defaults the filename to `update.rhai`.
-  If it's not `update.rhai`, add a new entry inside `anda.hcl`:
-  ```hcl
-  project pkg {
-    rpm {
-      update = "path/to/update.rhai"
-      ...
-    }
-  }
-  ```
-</Aside>
 
 [rpm packaging guide]: https://rpm-packaging-guide.github.io
 [spec file format]: https://rpm-software-management.github.io/rpm/manual/spec.html
