@@ -52,7 +52,7 @@
     "@astrojs/check": "^0.9.9",
     "@axe-core/playwright": "^4.11.3",
     "@iconify/json": "^2.2.506",
-    "@playwright/test": "^1.62.0",
+    "@playwright/test": "^1.62.1",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.17",
