@@ -108,7 +108,7 @@ To track the release versions of a package hosted on Codeberg:
 rpm.version(codeberg("ravachol/kew")); // gets latest version tag from Codeberg, and updates the RPM `Version:` tag.
 ```
 
-Replace `ravachol/kew` with the GitHub link, minus the `https://codeberg.org/`.
+Replace `ravachol/kew` with the Codeberg link, minus the `https://codeberg.org/`.
 
 ### PyPi Version Tracking
 
@@ -159,7 +159,7 @@ Replace `FyraLabs/subatomic` with the GitHub link, minus the `https://github.com
 This is the most commonly used update script. It tracks the versions of a package hosted on GitHub, pulling from its releases.
 
 ```ts
-rpm.global("commit", gitlab_commit("gitlab.com", "24306684", "main"));sp
+rpm.global("commit", gitlab_commit("gitlab.com", "24306684", "main"));
 if rpm.changed() {
 	rpm.global("commit_date", date());
 	rpm.release();
