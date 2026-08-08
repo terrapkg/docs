@@ -22,15 +22,11 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set Up PNPM
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
         with:
-          version: latest
-
-      - name: Set Up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          cache: "pnpm"
+          version: 11
+          cache: true
+          runtime: node@lts
 
       - name: Cache Build
         id: cache
@@ -42,9 +38,6 @@ jobs:
           restore-keys: |
             astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
-      - name: Install Dependencies
-        run: pnpm ci
-
       - name: Build With Astro
         run: pnpm run build
   check:
@@ -55,15 +48,11 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set Up PNPM
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
         with:
-          version: latest
-
-      - name: Set Up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          cache: "pnpm"
+          version: 11
+          cache: true
+          runtime: node@lts
 
       - name: Cache Build
         id: cache
@@ -74,9 +63,6 @@ jobs:
           key: astro-check-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
             astro-check-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
-      - name: Install Dependencies
-        run: pnpm ci
 
       - name: Run Checks With Astro
         run: pnpm run check
@@ -90,15 +76,11 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set Up PNPM
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
         with:
-          version: latest
-
-      - name: Set Up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          cache: "pnpm"
+          version: 11
+          cache: true
+          runtime: node@lts
 
       # We don't want to save caches from these runs because they can invalidate it. See: https://starlight-links-validator.vercel.app/getting-started/#installation
       - name: Restore Cache
@@ -110,9 +92,6 @@ jobs:
           key: astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/astro.config.mjs', '**/*.jpg', '**/*.mdx', '**/*.png', '**/*.svg', '**/*.webp') }}
           restore-keys: |
             astro-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
-      - name: Install Dependencies
-        run: pnpm ci
 
       - name: Run Build And Check
         run: pnpm run build
