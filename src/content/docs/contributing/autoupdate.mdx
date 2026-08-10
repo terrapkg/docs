@@ -148,7 +148,7 @@ This is the most commonly used update script. It tracks the versions of a packag
 rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Grab the latest commit from GitHub, then update the globally defined RPM macro "commit"
 if rpm.changed() {
   rpm.release();
-  rpm.global("commit_date", date()); // Update the globally define "commit_date" to the date of the commit
+  rpm.global("commit_date", date()); // Update the globally defined "commit_date" to the date of the commit
 }
 ```
 
