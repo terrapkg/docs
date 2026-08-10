@@ -176,7 +176,7 @@ To do this, you would use an `update.rhai` like this:
 ```ts
 rpm.global("ver", gh("FyraLabs/subatomic")); // Track latest release version of package, update the globally defined RPM macro "ver"
 rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Track latest commit of package, update the globally defined RPM macro "commit"
-if rpm.changed() { // This if statement updates the "commit_date", do the latest commit of a package is always the latest version that gets installed by a user
+if rpm.changed() { // This if statement updates the "commit_date" if "ver" and/or "commit" changed, so the latest commit of a package is always the latest version that gets installed by a user
   rpm.release();
   rpm.global("commit_date", date());
 }
