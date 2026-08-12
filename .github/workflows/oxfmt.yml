@@ -2,10 +2,16 @@ name: Oxfmt
 
 on:
   pull_request:
+    paths-ignore:
+      - "**/*.mdx"
+      - "pnpm-lock.yaml"
   push:
     branches:
       - main
       - next
+    paths-ignore:
+      - "**/*.mdx"
+      - "pnpm-lock.yaml"
 permissions:
   contents: read
 env:
