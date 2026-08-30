@@ -214,6 +214,16 @@ echo "this will also run when building pkg but for installing it into %{buildroo
     `mock` will show you the files not packaged but installed via an error.
 - Add <Code code={`%changelog`} lang={RPMSpec} inline /> (message preferably "Initial package").
 
+<Aside type="tip" title="Tip: Helpful Command-Line Scripts">
+    We maintain a collection of scripts that help streamline parts of spec file creation. Install them like this:
+    
+    ```sh
+    sudo dnf install terra-scripts
+    ```
+
+    Documentation for individual scripts can be found in the [Terra Scripts] repo.
+</Aside>
+
 ## Building
 
 Having anda installed (or in the Dev Container) run the following command:
@@ -254,3 +264,4 @@ See the "book" (more like guide) for [Rhai].
 
 [rpm packaging guide]: https://rpm-packaging-guide.github.io
 [spec file format]: https://rpm-software-management.github.io/rpm/manual/spec.html
+[terra scripts]: https://github.com/terrapkg/cli-tools
