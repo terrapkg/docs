@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@axe-core/playwright": "^4.11.3",
+    "@axe-core/playwright": "^4.13.0",
     "@iconify/json": "^2.2.514",
     "@playwright/test": "^1.62.1",
     "@types/mdx": "^2.0.14",
