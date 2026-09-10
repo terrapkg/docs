@@ -124,8 +124,14 @@ Replace `qmk` with the package name on [PyPi](https://pypi.org/).
 ## Nightly packages
 
 Nightly packages are updated every 24 hours using
-<Code code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m nightly=1`} lang="ansi" inline />.
-Their `anda.hcl` files should look something like this (with the `nightly = 1` label):
+
+<Code
+  code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m nightly=1`}
+  lang="ansi"
+  inline
+/>
+. Their `anda.hcl` files should look something like this (with the `nightly = 1`
+label):
 
 ```hcl
 project pkg {
@@ -207,14 +213,20 @@ You can obtain the branch name during runtime in Rhai using `labels.branch` (str
   You MUST NOT use this feature if the script ends up bumping versions across all branches at the same time.
   This feature should only be used under cases where the version is different for different branch but for the same package.
 
-  Consequently, under normal circumstances and without approval, you are NOT allowed to use GitHub/GitLab related functions for packages which update per branch.
+Consequently, under normal circumstances and without approval, you are NOT allowed to use GitHub/GitLab related functions for packages which update per branch.
+
 </Aside>
 
 ## Weekly packages
 
 Weekly packages are updated every 7 days using
-<Code code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m weekly=[1;35m$([1;32mdate [1;36m"+%w"[1;35m)`} lang="ansi" inline />.
-Their `anda.hcl` files should look something like this:
+
+<Code
+  code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m weekly=[1;35m$([1;32mdate [1;36m"+%w"[1;35m)`}
+  lang="ansi"
+  inline
+/>
+. Their `anda.hcl` files should look something like this:
 
 ```hcl
 project pkg {

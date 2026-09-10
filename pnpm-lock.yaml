@@ -93,6 +93,9 @@ importers:
       oxlint-tsgolint:
         specifier: ^7.0.2001
         version: 7.0.2001
+      prettier:
+        specifier: ^3.8.5
+        version: 3.8.5
       sitemapper:
         specifier: ^4.1.6
         version: 4.1.6

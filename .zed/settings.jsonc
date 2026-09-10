@@ -4,4 +4,14 @@
     "MDX": true,
     "Astro": true,
   },
+  "languages": {
+    "MDX": {
+      "formatter": {
+        "external": {
+          "command": "pnpm",
+          "arguments": ["exec", "prettier", "--stdin-filepath", "{buffer_path}"],
+        },
+      },
+    },
+  },
 }

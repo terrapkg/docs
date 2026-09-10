@@ -107,7 +107,8 @@ The <Code code={`<keywords/>`} lang="xml" inline /> tag[^1] will make your packa
 This tag[^2] is to specify the developer/s of your package. This can be a person or group/organization.
 
 <Aside type="caution">
-  You MUST NOT use the <Code code={`<developer_name/>`} lang="xml" inline /> tag.
+  You MUST NOT use the <Code code={`<developer_name/>`} lang="xml" inline />{" "}
+  tag.
 </Aside>
 
 #### Screenshots
@@ -149,12 +150,17 @@ Freedesktop's example:
 
 #### %terra_appstream
 
-<Code code={`%terra_appstream`} lang={RPMSpec} inline /> will add more sections to your `metainfo.xml`, or can generate your metainfo.xml file entirely.
-You SHOULD use it when installing your own metainfo.xml file.
-Review the [Terra AppStream helper README](https://github.com/terrapkg/appstream-helper/blob/main/README.md) for more.
-You MAY need to add this line to your spec file: <Code code={`BuildRequires: terra-appstream-helper`} lang={RPMSpec} inline />
+<Code code={`%terra_appstream`} lang={RPMSpec} inline /> will add more sections
+to your `metainfo.xml`, or can generate your metainfo.xml file entirely. You
+SHOULD use it when installing your own metainfo.xml file. Review the [Terra
+AppStream helper
+README](https://github.com/terrapkg/appstream-helper/blob/main/README.md) for
+more. You MAY need to add this line to your spec file:
+<Code code={`BuildRequires: terra-appstream-helper`} lang={RPMSpec} inline />
 
-<Code code={`%appid`} lang={RPMSpec} inline /> SHOULD be defined at the top of your spec file (preamble), and used in references to the metainfo file name, for example:
+<Code code={`%appid`} lang={RPMSpec} inline /> SHOULD be defined at the top of
+your spec file (preamble), and used in references to the metainfo file name, for
+example:
 
 ```rpmspec
 %{_metainfodir}/%appid.metainfo.xml
@@ -198,8 +204,10 @@ Here is an example of the output of running `appstreamcli validate` on a proper 
 appstreamcli validate games/minecraft-java/com.mojang.Minecraft.metainfo.xml
 I: com.mojang.Minecraft:50: nonstandard-gnome-extension metadata
 I: com.mojang.Minecraft:~: developer-info-missing
-``` 
+```
 
 [^1]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-keywords
+
 [^2]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-developer
+
 [^3]: https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-screenshots

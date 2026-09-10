@@ -11,7 +11,10 @@ This page goes over how to install Terra for various distributions.
 
 Directly install `terra-release`:
 
-<Badge text="Note" type="note" /> The below command uses `--nogpgcheck` because it must fetch the package repo from the origin server. Once the keys are installed all further packages installed from Terra will be verified against the key. If preferable, you can download and inspect the RPMs yourself first.
+<Badge text="Note" type="note" /> The below command uses `--nogpgcheck` because
+it must fetch the package repo from the origin server. Once the keys are
+installed all further packages installed from Terra will be verified against the
+key. If preferable, you can download and inspect the RPMs yourself first.
 
 ```sh
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
@@ -98,9 +101,7 @@ sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/t
 
 ## Subrepos
 
-<Aside>
-    Subrepos are currently not available on Enterprise Linux.
-</Aside>
+<Aside>Subrepos are currently not available on Enterprise Linux.</Aside>
 
 Terra provides additional packages in separate repositories. These packages might conflict with RPM Fusion or the Fedora repositories. Extra care and technical knowledge may be needed.
 
@@ -142,7 +143,13 @@ sudo dnf install terra-release-nvidia
 ### Multimedia
 
 <Aside type="danger">
-The Terra Multimedia subrepo is currently considered unstable and a work in progress. At this time packages on this repo will often cause package manager conflicts, be out of date, or have broken functionality. This is because multimedia packages can have different packaging approaches, legality/licensing concerns, and very complex dependency chains. There will be continued work until this repository is ready, but there is no current estimated date for when it will be considered stable.
+  The Terra Multimedia subrepo is currently considered unstable and a work in
+  progress. At this time packages on this repo will often cause package manager
+  conflicts, be out of date, or have broken functionality. This is because
+  multimedia packages can have different packaging approaches,
+  legality/licensing concerns, and very complex dependency chains. There will be
+  continued work until this repository is ready, but there is no current
+  estimated date for when it will be considered stable.
 </Aside>
 
 The multimedia subrepo is only available on Fedora 43 and newer. It provides multimedia codecs and related software, like `gstreamer1` packages and `ffmpeg`.

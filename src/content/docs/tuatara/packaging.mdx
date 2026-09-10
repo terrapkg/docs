@@ -15,13 +15,15 @@ Just like Terra, Tuatara uses the Andaman toolchain to manage different
 packages in a separate monorepo from Terra: https://github.com/terrapkg/tuatara
 
 Here are some main differences from Terra:
+
 - The `anda/` directory has been flattened to the main repository and all
   categories live at the root of the Git repository.
 - The `/pkg` suffix is obsoleted (when using anda). Make sure to use
-  <Code code='project "" {}' lang='hcl' inline /> in `anda.hcl`.
+  <Code code='project "" {}' lang="hcl" inline /> in `anda.hcl`.
 
 Currently, only `rpmbuild` builder mode is supported.
 Here's an example for building the `subatomic` package:
+
 ```ansi
 [1;32manda[97m build [0;3;37m-rrpmbuild[0m tuatara/subatomic
 ```

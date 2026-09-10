@@ -22,8 +22,8 @@
     "lunaria:build": "lunaria build",
     "lunaria:preview": "lunaria preview",
     "generate-types": "wrangler types",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
+    "fmt": "oxfmt && prettier --write '**/*.mdx'",
+    "fmt:check": "oxfmt --check && prettier --check '**/*.mdx'",
     "lint": "oxlint --type-aware",
     "lint:ci": "oxlint --type-aware --format github",
     "test": "playwright install chromium && playwright test",
@@ -60,6 +60,7 @@
     "oxfmt": "^0.65.0",
     "oxlint": "^1.80.0",
     "oxlint-tsgolint": "^7.0.2001",
+    "prettier": "^3.8.5",
     "sitemapper": "^4.1.6",
     "starlight-links-validator": "^0.25.2"
   }

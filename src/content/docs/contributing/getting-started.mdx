@@ -3,7 +3,13 @@ title: Getting Started
 description: "Get started with contributing packages to Terra."
 ---
 
-import { Aside, Badge, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
+import {
+  Aside,
+  Badge,
+  Steps,
+  Tabs,
+  TabItem,
+} from "@astrojs/starlight/components";
 import { Code } from "astro:components";
 import RPMSpec from "@/components/spec.json";
 
@@ -95,6 +101,7 @@ You'll need a few tools to get started, pick one of these sections, then continu
 
     You are now in the Terra Dev Container, and have all the packages and
     configuration necessary to start building packages!
+
   </TabItem>
   <TabItem label="Pet Container">
     If you're on atomic system, or otherwise prefer to work with containers, you can run the Terra build container as your development environment.
@@ -104,19 +111,21 @@ You'll need a few tools to get started, pick one of these sections, then continu
     ```sh
     podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:frawhide anda
     ```
+
   </TabItem>
 </Tabs>
 
 <Aside type="tip" title="Tip: Language Support in Editors">
   The most common languages you will see:
 
-  - [RPMSPEC](https://rpm-software-management.github.io/rpm/manual/spec.html) (`.spec`), for the package build scripts
-  - [Rhai](https://rhai.rs/), for the auto-update scripts
-  - [HCL](https://github.com/hashicorp/hcl#readme), for informing `anda` of the package
-  - [XML](https://en.wikipedia.org/wiki/XML), for AppStream MetaInfo on some packages
+- [RPMSPEC](https://rpm-software-management.github.io/rpm/manual/spec.html) (`.spec`), for the package build scripts
+- [Rhai](https://rhai.rs/), for the auto-update scripts
+- [HCL](https://github.com/hashicorp/hcl#readme), for informing `anda` of the package
+- [XML](https://en.wikipedia.org/wiki/XML), for AppStream MetaInfo on some packages
 
-  VSCode should prompt you to install these extensions, and Zed should auto-install them.
-  If not/using a different IDE, we suggest installing language support where possible.
+VSCode should prompt you to install these extensions, and Zed should auto-install them.
+If not/using a different IDE, we suggest installing language support where possible.
+
 </Aside>
 
 ### Writing sources
@@ -161,6 +170,7 @@ You'll need a few tools to get started, pick one of these sections, then continu
     ```
 
     Documentation for individual scripts can be found in the [Terra Scripts] repo.
+
 </Aside>
 
 ### Editing the Spec file
