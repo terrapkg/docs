@@ -4,4 +4,9 @@
     "MDX": true,
     "Astro": true,
   },
+  "languages": {
+    "Markdown": {
+      "format_on_save": "off",
+    },
+  },
 }
