@@ -57,8 +57,8 @@
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "oxfmt": "^0.71.0",
-    "oxlint": "^1.86.0",
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0",
     "oxlint-tsgolint": "^7.0.2003",
     "sitemapper": "^4.1.6",
     "starlight-links-validator": "^0.26.0"
