@@ -22,9 +22,8 @@ Updates are triggered every 10 minutes using <Code code={`[1;32manda[97m updat
 <Aside icon="open-book">
   Actually, the [full
   command](https://github.com/terrapkg/packages/blob/4767e5b9560f2986accaeb8447fbb4ea742041cf/.github/workflows/update.yml#L27-L31)
-  for auto-updating normal packages is: (as of 2024-08-09) ```sh
-  RUST_BACKTRACE=full GITHUB_TOKEN=... anda update -vv --excludes nightly=1
-  --excludes updbranch=1 ```
+  for auto-updating normal packages is: (as of 2024-08-09) ```sh RUST_BACKTRACE=full
+  GITHUB_TOKEN=... anda update -vv --excludes weekly=1 --excludes updbranch=1 --excludes nightly=1 --excludes nightly=2 --excludes nightly=3 --excludes nightly=4 --excludes quadridaily=1 ```
 </Aside>
 
 ## Common Update Scripts
@@ -179,6 +178,75 @@ rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Track latest commit of
 if rpm.changed() { // This if statement updates the "commit_date" if "ver" and/or "commit" changed, so the latest commit of a package is always the latest version that gets installed by a user
   rpm.release();
   rpm.global("commit_date", date());
+}
+```
+
+## Quaterdaily packages
+
+Quaterdaily packages are updated every 6 hours using
+
+<Code
+  code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m quaterdaily=1`}
+  lang="ansi"
+  inline
+/>
+. Their `anda.hcl` files should look something like this (with the `quaterdaily = 1` label):
+
+```hcl
+project pkg {
+	rpm {
+		spec = "package-name.spec"
+	}
+	labels {
+		quaterdaily = 1
+	}
+}
+```
+
+Now lets go over some common nightly `update.rhai` examples.
+
+### GitHub Commit Tracking
+
+This is the most commonly used update script. It tracks the versions of a package hosted on GitHub, pulling from its releases.
+
+```ts
+rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Grab the latest commit from GitHub, then update the globally defined RPM macro "commit"
+if rpm.changed() {
+  rpm.release();
+  rpm.global("commit_date", date()); // Update the globally defined "commit_date" to the date of the commit
+  rpm.global("run", quaterdaily_run()); // Set the run number based on the quarter of the day
+}
+```
+
+Replace `FyraLabs/subatomic` with the GitHub link, minus the `https://github.com/`.
+
+### GitLab Commit Tracking
+
+This is the most commonly used update script. It tracks the versions of a package hosted on GitLab, pulling from its releases.
+
+```ts
+rpm.global("commit", gitlab_commit("gitlab.com", "24306684", "main"));
+if rpm.changed() {
+	rpm.global("commit_date", date());
+	rpm.global("run", quaterdaily_run());
+	rpm.release();
+}
+```
+
+Replace `gitlab.com` with a custom GitLab link (if there is one), replace `24306684` with the GitLab Project ID, and replace `main` with the branch to track.
+
+### Nightly Versions of a Stable Package update.rhai
+
+If you have a nightly version of a stable package, you will need to track commits and versions of the package.
+To do this, you would use an `update.rhai` like this:
+
+```ts
+rpm.global("ver", gh("FyraLabs/subatomic")); // Track latest release version of package, update the globally defined RPM macro "ver"
+rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Track latest commit of package, update the globally defined RPM macro "commit"
+if rpm.changed() { // This if statement updates the "commit_date" and "run" if "ver" and/or "commit" changed, so the latest commit of a package is always the latest version that gets installed by a user
+  rpm.release();
+  rpm.global("commit_date", date());
+  rpm.global("run", quaterdaily_run());
 }
 ```
 
