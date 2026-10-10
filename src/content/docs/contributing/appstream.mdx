@@ -193,9 +193,7 @@ Errors and warnings should be corrected to the best of your ability. In rare cas
 `infos` can be ignored or corrected at your discretion.
 
 <Aside>
-    Please do NOT include an `appstreamcli validate` check in your package's `%check` section for the following reasons:
-    - Terra has a CI job that automatically runs this and formats the output for you.
-    - If the validator is ran and fialed in `%check`, it will fail the build. We don't believe that an error in an appstream file is worth holding back an entire package version.
+    Please do NOT include an `appstreamcli validate` check in your package's `%check` section. If a validator fails in %check, it marks the entire build unsuccessful.
 </Aside>
 
 Here is an example of the output of running `appstreamcli validate` on a proper metainfo.xml file:
