@@ -192,6 +192,10 @@ To validate your `metainfo.xml` file, install `appstream`, then run `appstreamcl
 Errors and warnings should be corrected to the best of your ability. In rare cases, errors are fine to have, such as `E: com.github.neohtop:6: metainfo-invalid-icon-type local`.
 `infos` can be ignored or corrected at your discretion.
 
+<Aside>
+    Please do NOT include an `appstreamcli validate` check in your package's `%check` section. If a validator fails in %check, it marks the entire build unsuccessful.
+</Aside>
+
 Here is an example of the output of running `appstreamcli validate` on a proper metainfo.xml file:
 
 ```bash
