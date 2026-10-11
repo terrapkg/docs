@@ -183,10 +183,12 @@ if rpm.changed() { // This if statement updates the "commit_date" if "ver" and/o
 
 ## Quaterdaily packages
 
+Does anyone know what a quaterdaily is? I just wanted an update script for a goddamn package.
+
 Quaterdaily packages are updated every 6 hours using
 
 <Code
-  code={`[1;32manda[97m update [0;3;37m-vv --filters[0;97;m quaterdaily=1`}
+  code={`[1;32manda[97m update [0;3;37m--filters[0;97;m quaterdaily=1`}
   lang="ansi"
   inline
 />
@@ -203,11 +205,11 @@ project pkg {
 }
 ```
 
-Now lets go over some common nightly `update.rhai` examples.
+Now, let's go over some common quaterdaily `update.rhai` examples.
 
 ### GitHub Commit Tracking
 
-This is the most commonly used update script. It tracks the versions of a package hosted on GitHub, pulling from its releases.
+This is the most commonly used GitHub update script. It tracks the commit of a package hosted on GitHub.
 
 ```ts
 rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Grab the latest commit from GitHub, then update the globally defined RPM macro "commit"
@@ -222,7 +224,7 @@ Replace `FyraLabs/subatomic` with the GitHub link, minus the `https://github.com
 
 ### GitLab Commit Tracking
 
-This is the most commonly used update script. It tracks the versions of a package hosted on GitLab, pulling from its releases.
+This is the most commonly used GitLab update script. It tracks the commit of a package hosted on GitLab.
 
 ```ts
 rpm.global("commit", gitlab_commit("gitlab.com", "24306684", "main"));
@@ -241,10 +243,10 @@ If you have a nightly version of a stable package, you will need to track commit
 To do this, you would use an `update.rhai` like this:
 
 ```ts
-rpm.global("ver", gh("FyraLabs/subatomic")); // Track latest release version of package, update the globally defined RPM macro "ver"
 rpm.global("commit", gh_commit("FyraLabs/subatomic")); // Track latest commit of package, update the globally defined RPM macro "commit"
 if rpm.changed() { // This if statement updates the "commit_date" and "run" if "ver" and/or "commit" changed, so the latest commit of a package is always the latest version that gets installed by a user
   rpm.release();
+  rpm.global("ver", gh("FyraLabs/subatomic")); // Track latest release version of package, update the globally defined RPM macro "ver"
   rpm.global("commit_date", date());
   rpm.global("run", quaterdaily_run());
 }
