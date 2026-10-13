@@ -140,6 +140,7 @@ You may also use a `sed` script to drop dependancy versions instead of `cabal-tw
 
 Java packaging should also be aligned with Fedora, but it should be noted that Terra has the `gradle` build tool packaged, and you are free to use it in your specs.
 Also, if your package needs an older Java version then Fedora currently carries, you can pull in the adoptium repo at build time, example seen [here](https://github.com/terrapkg/packages/blob/frawhide/anda/buildsys/gradle/anda.hcl#L5).
+If your package bundles a private Java runtime, you MUST exclude the binary directory from being searched for `Provides`. For examples, see [this search query](https://github.com/search?q=repo%3Aterrapkg%2Fpackages+__provides_exclude_from&type=code).
 
 ### JavaScript
 
