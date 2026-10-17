@@ -1407,7 +1407,7 @@ atlas rep atlas.lock
 
 Set up build environment with required packages via `nimble setup`.
 
-This also adds the configuration for enabling mold automatically if found in the build environment.
+This also adds the configuration for enabling lld automatically if found in the build environment.
 
 <SearchTerra macroname="nim_prep" />
 
@@ -1746,4 +1746,4 @@ Common opts passed to Tauri. Used by macros which call Tauri.
 
 ### %terra_rustflags
 
-This macro simply appends the [Mold linker arguments](/contributing/guidelines#usage-of-the-mold-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
+This macro simply appends the [lld linker arguments](/contributing/guidelines#usage-of-the-lld-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
