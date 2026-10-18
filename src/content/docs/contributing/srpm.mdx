@@ -126,6 +126,12 @@ Expands to: <Code code={`%{_datadir}/gnome-shell/extensions%{?uuid:/%{uuid}}`} l
 
 <SearchTerra macroname="_gnomeextensionsdir" />
 
+### %_xdg_autostartdir
+
+Expands to: <Code code ={`%{sysconfdir}/xdg/autostart`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="_xdg_autostartdir" />
+
 <Aside>
 `%{uuid}` is usually defined in gnome-shell-extension packages. if the macro is defined in your spec file (`%global uuid PKG-UUID`), it will be appended to the path upon expansion as: `%{_datadir}/gnome-shell/extensions/%{uuid}`.<br />
 Otherwise, it will expand without `%{uuid}`, as: `%{_datadir}/gnome-shell/extensions`.<br />
