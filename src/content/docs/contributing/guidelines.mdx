@@ -104,9 +104,9 @@ Terra uses [`lld`](https://lld.llvm.org/), LLVM's linker, as the default linker 
 It is significantly faster than GNU `ld` and, since the Rust toolchain is built around LLVM, more reliable for Rust builds than other alternative linkers.
 You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAGS`/`LDFLAGS`.
 
-The `%with_lld` flag is enabled by default in `anda-srpm-macros` on Fedora. `lld` is also preinstalled in the builders.
+`lld` is enabled by default for Rust packages on Fedora via the `%_terra_use_lld` macro in `anda-srpm-macros`. `lld` is also preinstalled in the builders.
 
-You can disable `lld` for Rust by adding `%undefine with_lld` to your spec file. (`%bcond_with lld` alone is not enough, since it does not undefine the `%with_lld` macro set by `anda-srpm-macros`.)
+You can disable `lld` for Rust by adding `%global _terra_use_lld 0` to your spec file, or by building with `--without lld`. (This is not a bcond, so `%bcond lld 0`/`%bcond_with lld` will not disable it.)
 
 <Aside type="caution">
 `mold` was previously Terra's default linker. Packages SHOULD NOT add new `mold` build dependencies; use `lld` instead.
