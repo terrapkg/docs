@@ -104,8 +104,7 @@ Terra uses [`lld`](https://lld.llvm.org/), LLVM's linker, as the default linker 
 It is significantly faster than GNU `ld` and, since the Rust toolchain is built around LLVM, more reliable for Rust builds than other alternative linkers.
 You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAGS`/`LDFLAGS`.
 
-The `%with_lld` flag is enabled by default in `anda-srpm-macros` on Fedora. `lld` is also preinstalled in the builders,
-but you SHOULD still add `BuildRequires: lld` if your spec file passes `-fuse-ld=lld` itself.
+The `%with_lld` flag is enabled by default in `anda-srpm-macros` on Fedora. `lld` is also preinstalled in the builders.
 
 You can disable `lld` for Rust by adding `%undefine with_lld` to your spec file. (`%bcond_with lld` alone is not enough, since it does not undefine the `%with_lld` macro set by `anda-srpm-macros`.)
 
