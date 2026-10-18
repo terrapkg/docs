@@ -106,7 +106,7 @@ You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAG
 
 `lld` is enabled by default for Rust packages on Fedora via the `%_terra_use_lld` macro in `anda-srpm-macros`. `lld` is also preinstalled in the builders.
 
-You can disable `lld` for Rust by adding `%global _terra_use_lld 0` to your spec file, or by building with `--without lld`. (This is not a bcond, so `%bcond lld 0`/`%bcond_with lld` will not disable it.)
+You can disable `lld` for Rust by adding `%global _terra_use_lld 0` to your spec file, or by building with `--without lld`.
 
 <Aside type="caution">
 `mold` was previously Terra's default linker. Packages SHOULD NOT add new `mold` build dependencies; use `lld` instead.
