@@ -34,5 +34,5 @@ jobs:
           runtime: node@lts
 
       - name: Generate Lunaria Overview
-        # TODO: Swap to lunariajs/action once it has releases. Note that this action is still from the dev of Lunaria so it's still official.
-        uses: yanthomasdev/lunaria-action@06ad5ab2704d030708baf3b279ca0446b418e853 # v0.1.0
+        # lunaria has weird stuff with their actions, so this will need to be manually updated since they do new releases using branches instead of tags (??????).
+        uses: lunariajs/action@e5ab09c3c8353fa80786d8c2149873ba3978a3a7 # v0.2.0
