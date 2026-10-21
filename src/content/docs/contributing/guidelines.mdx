@@ -102,7 +102,8 @@ If can't dynamically link all deps / no deps to link, `%zig_build_target` with `
 
 Terra uses [`lld`](https://lld.llvm.org/), LLVM's linker, as the default linker for Rust and Nim packages.
 It is significantly faster than GNU `ld` and, since the Rust toolchain is built around LLVM, more reliable for Rust builds than other alternative linkers.
-You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAGS`/`LDFLAGS`.
+You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAGS`/`LDFLAGS`. 
+You can do this by adding `%global _pkg_extra_ldflags -fuse-ld=lld` in your spec.
 
 `lld` is enabled by default for Rust packages on Fedora via the `%__terra_use_lld` macro in `anda-srpm-macros`. `lld` is also preinstalled in the builders.
 
