@@ -132,6 +132,24 @@ Expands to: <Code code ={`%{sysconfdir}/xdg/autostart`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_xdg_autostartdir" />
 
+### %_bootdir
+
+Expands to: <Code code ={`/boot`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="_bootdir" />
+
+### %_grubdir
+
+Expands to: <Code code ={`%_bootdir/grub2`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="_grubdir" />
+
+### %_grubthemedir
+
+Expands to: <Code code ={`%_grubdir/themes`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="_grubthemedir" />
+
 <Aside>
 `%{uuid}` is usually defined in gnome-shell-extension packages. if the macro is defined in your spec file (`%global uuid PKG-UUID`), it will be appended to the path upon expansion as: `%{_datadir}/gnome-shell/extensions/%{uuid}`.<br />
 Otherwise, it will expand without `%{uuid}`, as: `%{_datadir}/gnome-shell/extensions`.<br />
@@ -1220,6 +1238,113 @@ Available flags:
 - `-f <…>`: Features to enable in Tauri and Cargo. Comma separated.
 
 <SearchTerra macroname="tauri_build_crate" />
+
+#### Wails
+
+Macros for using [Wails](https://wails.io/).
+
+##### %__wails
+
+Expands to: <Code code={`/usr/bin/wails`} lang={RPMSpec} inline />
+
+Should only be used when needing to call the `wails` binary directly.
+
+<SearchTerra macroname="__wails" />
+
+##### %wails_build
+
+SHOULD be used to build wails projects, unless they use wailsv3.
+
+Sets javascript build flags with 1%set_javascript_build_flags`, then runs `%__wails build`.
+
+<SearchTerra macroname="wails_build" />
+
+##### %wails_buildrequires
+
+Pulls in build dependencies needed to build wails projects.
+
+Packages pulled in with this macro:
+  - `wails`
+  - `gcc`
+  - `gcc-c++`
+  - `nodejs-npm`
+  - `gtk3-devel`
+  - `webkit2gtk4.1-devel`
+  - `pkgconf-pkg-config`
+
+Available flags:
+- `-a`: Pull in additional deps for packages that may need `upx` or other nodejs packages.
+  - Packages `-a` pulls in:
+    - `upx`
+    - `nodejs`
+    - `nodejs-devel`
+    - `nodejs-full-i18n`
+
+Usage examples:
+
+```rpmspec
+BuildRequires:  %{wails_buildrequires}
+
+OR
+
+BuildRequires:  %{wails_buildrequires -a}
+```
+
+<SearchTerra macroname="wails_buildrequires" />
+
+#### Wails (Version 3)
+
+Macros for using [wails3 projects](https://v3.wails.io/).
+
+##### %__wails3
+
+Expands to: <Code code={`/usr/bin/wails`} lang={RPMSpec} inline />
+
+Should only be used when needing to call the `wails3` binary directly.
+
+<SearchTerra macroname="__wails3" />
+
+##### %wails3_build
+
+Sets javascript build flags with 1%set_javascript_build_flags`, then runs `%__wails3 build`.
+
+<SearchTerra macroname="wails3_build" />
+
+##### %wails3_buildrequires
+
+Pulls in build dependencies needed to build wails projects.
+
+Packages pulled in with this macro:
+  - `wails3`
+  - `gcc`
+  - `gcc-c++`
+  - `nodejs-npm`
+  - `gtk3-devel`
+  - `webkit2gtk4.1-devel`
+  - `pkgconf-pkg-config`
+
+Available flags:
+- `-a`: Pull in additional deps for packages that may need `upx` or other nodejs packages.
+  - Packages `-a` pulls in:
+    - `upx`
+    - `nodejs`
+    - `nodejs-devel`
+    - `nodejs-full-i18n`
+- `-e`: Pull in experimental deps for packages that may need them.
+  - Packages `-e` pulls in:
+    - `webkitgtk6.0-devel`
+    - `gtk4-devel`
+
+Can be used in any of the folowing configurations:
+
+```rpmspec
+BuildRequires:  %{wails3_buildrequires}
+BuildRequires:  %{wails3_buildrequires -a}
+BuildRequires:  %{wails3_buildrequires -e}
+BuildRequires:  %{wails3_buildrequires -ae}
+```
+
+<SearchTerra macroname="wails3_buildrequires" />
 
 #### Webapp Build Macros
 
