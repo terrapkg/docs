@@ -105,7 +105,7 @@ It is significantly faster than GNU `ld` and, since the Rust toolchain is built 
 You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAGS`/`LDFLAGS`. 
 You can do this by adding `%global _pkg_extra_ldflags -fuse-ld=lld` in your spec.
 
-`lld` is enabled by default for Rust packages on Fedora via the `%__terra_use_lld` macro in `anda-srpm-macros`. `lld` is also preinstalled in the builders.
+`lld` is enabled by default for Rust packages on Fedora via the `%__terra_use_lld` macro in `anda-srpm-macros`. `lld` is also preinstalled in the builders (see [terrapkg/builder](https://github.com/terrapkg/builder)).
 
 You can disable `lld` for Rust by adding `%global __terra_use_lld 0` to your spec file.
 
