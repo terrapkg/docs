@@ -147,98 +147,6 @@ You may also use a `sed` script to drop dependancy versions instead of `cabal-tw
 Java packaging should also be aligned with Fedora, but it should be noted that Terra has the `gradle` build tool packaged, and you are free to use it in your specs.
 Also, if your package needs an older Java version then Fedora currently carries, you can pull in the adoptium repo at build time, example seen [here](https://github.com/terrapkg/packages/blob/frawhide/anda/buildsys/gradle/anda.hcl#L5).
 
-### JavaScript
-
-These are guidelines for packaging projects written in or which utilize [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
-
-These guidelines also often cover things written in or which utilize [TypeScript](https://www.typescriptlang.org).
-
-#### Node Modules
-
-Guidelines for packaging Node modules in Terra.
-
-<Aside>
-  "Node modules" in this document refers to JavaScript packages run using a JavaScript runtime (usually Node.js), which are hosted on the [NPM Registry](https://www.npmjs.com).<br />
-  "JavaScript modules," however, refers to JavaScript packages run using a JavaScript runtime which are hosted on *either* the NPM Registry or the [JavaScript Registry](https://jsr.io), the latter of which are also called "modern JavaScript packages." This means Node modules are JavaScript modules, but not the other way around.<br />
-  NPM only officially uses Node modules. You can use JSR with NPX by using `npx jsr`, but not through NPM directly. Other package managers of new enough versions support both.
-</Aside>
-
-- You SHOULD add (at least!) the following build dependencies to your spec file:
-  - <Code code={`BuildRequires: nodejs`} lang={RPMSpec} inline /> (OR the required Node.js version if the default in a given branch of Fedora will not work)
-    - If using an alternate Node.js version be prepared that you may need to patch or otherwise edit some JS executables' shebangs.
-  - <Code code={`BuildRequires: nodejs-npm`} lang={RPMSpec} inline />
-  - <Code code={`BuildRequires: nodejs-packaging`} lang={RPMSpec} inline />
-- We package them like Arch and other distros, and allow bundled dependencies unlike Fedora. You however MAY use system dependencies instead for modules by removing the installed dependency and symlinking it to the one available in the package repos, but this is likely more work than it is worth.
-- You MUST either set <Code code={`%global npm_name pkgname`} lang={RPMSpec} inline /> or use <Code code={`%npm_prep -n pkgname`} lang={RPMSpec} inline /> when packaging Node modules directly. This MUST be defined as the canonical name of the module as listed on the NPM Registry.
-- You SHOULD use `%npm_license` to create the license of the bundled dependencies.
-- You MAY opt instead to follow Fedora's Node.js packaging methods but keep in mind this is very difficult to maintain and may not work on all modules.
-
-#### Web Applications
-
-These are guidelines for building [web applications](https://en.wikipedia.org/wiki/Web_application) (hereafter referred to as "webapps"), which refers to apps built using technologies such as Electron or Tauri.
-
-These apps embed parts of browser functionality in order to display web content. One of the most recognizable examples is [Discord](https://discord.com).
-
-The general guidelines for building webapps are:
-- Use our [JavaScript package manager macros](/contributing/srpm#javascript-package-managers) and/or [webapp build macros](/contributing/srpm#webapp-build-macros).
-- Use appropriate [Electron macros](/contributing/srpm#electron) for Electron apps.
-- Use appropriate [Tauri macros](/contributing/srpm#tauri) for Tauri apps.
-- Add the correct JavaScript package manager to your build dependencies.
-  - Examples:
-  - ```rpmspec
-    BuildRequires: bun-bin
-    BuildRequires: deno
-    BuildRequires: pnpm
-    BuildRequires: yarnpkg
-    ```
-
-##### Electron
-
-These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
-
-<Aside>
-  Many Electron projects will default to building distro binary packages (such as RPMs and Debs) and this rarely works well in RPM builds. Packagers should be prepared to patch or otherwise modify the Electron Builder config to rectify this.
-</Aside>
-
-- You SHOULD add `%electronmeta` and make sure it is in the correct location in the spec file. The other macros for Electron also depend on the information in this being set.
-  - This meta macro automatically handles MANY common issues that can happen with Electron packages including incorrect dependencies due to bundled (or private) [shared object (`*.so`) libraries](https://en.wikipedia.org/wiki/Shared_library).
-  - It also pulls all basic build dependencies for Electron apps.
-  - Like all meta macros, must be placed carefully:
-    - MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the first <Code code={`%description`} lang={RPMSpec} inline />.
-    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
-    - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
-    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
-- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_exclude}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
-  - <Code code={`%global __requires_exclude %{__requires_exclude}|private_library\\.so`} lang={RPMSpec} inline />
-  - <Code code={`%global __provides_exclude %{__provides_exclude}|private_library\\.so`} lang={RPMSpec} inline />
-- You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
-  - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
-- You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
-
-##### Tauri
-
-These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
-
-Tauri builds webapps using Cargo and the system WebKit. For these reasons some of the [Rust](#rust) guidelines also apply to Tauri. Most relevant Cargo macros have been ported into Tauri compatible ones, however it will likely still be helpful to make yourself familiar with the original macros.
-<Aside>
-  It is important to note that unlike the original Cargo macros, Tauri macros only support passing features with the `-f` flag due to how Tauri works.
-</Aside>
-
-- You SHOULD use one of the following in your spec:
-  - <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
-  - ```rpmspec
-    %generate_buildrequires
-    %tauri_generate_buildrequires
-    ```
-  <Aside type="caution">
-    BuildRequires generation only works in Mock.
-  </Aside>
-- You SHOULD use <Code code={`%tauri_prep`} lang={RPMSpec} inline /> in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
-- You SHOULD use either a [webapp build macro](/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
-- You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
-- You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
-- You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
-
 ### Nim
 
 These are guidelines for packaging projects written in [Nim](https://nim-lang.org).
@@ -450,6 +358,96 @@ Example using `%zig_build_target`:
 - If they are not, you may need to disable debug packages using the global variable <Code code={`%global debug_package %{nil}`} lang={RPMSpec} inline /> if not enough debug info is preserved to strip.
 
 For projects where dynamic linking of all dependencies is simply not possible (such as the version in the Fedora repos is too new or too old) or that have no dependencies to link, you MAY use `%zig_build_target` with the `-s` flag. You SHOULD still dynamically link compatible dependencies by using <Code code={`-fsys=pkgname`} lang={RPMSpec} inline />.
+
+## Javascript/Typescript Packaging Guidelines
+
+Currently, these are guidelines for packaging projects written in or which utilize [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [TypeScript](https://www.typescriptlang.org), as there are many different methods for packaging these applications
+
+### Node Modules
+
+Guidelines for packaging Node modules in Terra.
+
+<Aside>
+  "Node modules" in this document refers to JavaScript packages run using a JavaScript runtime (usually Node.js), which are hosted on the [NPM Registry](https://www.npmjs.com).<br />
+  "JavaScript modules," however, refers to JavaScript packages run using a JavaScript runtime which are hosted on *either* the NPM Registry or the [JavaScript Registry](https://jsr.io), the latter of which are also called "modern JavaScript packages." This means Node modules are JavaScript modules, but not the other way around.<br />
+  NPM only officially uses Node modules. You can use JSR with NPX by using `npx jsr`, but not through NPM directly. Other package managers of new enough versions support both.
+</Aside>
+
+- You SHOULD add (at least!) the following build dependencies to your spec file:
+  - <Code code={`BuildRequires: nodejs`} lang={RPMSpec} inline /> (OR the required Node.js version if the default in a given branch of Fedora will not work)
+    - If using an alternate Node.js version be prepared that you may need to patch or otherwise edit some JS executables' shebangs.
+  - <Code code={`BuildRequires: nodejs-npm`} lang={RPMSpec} inline />
+  - <Code code={`BuildRequires: nodejs-packaging`} lang={RPMSpec} inline />
+- We package them like Arch and other distros, and allow bundled dependencies unlike Fedora. You however MAY use system dependencies instead for modules by removing the installed dependency and symlinking it to the one available in the package repos, but this is likely more work than it is worth.
+- You MUST either set <Code code={`%global npm_name pkgname`} lang={RPMSpec} inline /> or use <Code code={`%npm_prep -n pkgname`} lang={RPMSpec} inline /> when packaging Node modules directly. This MUST be defined as the canonical name of the module as listed on the NPM Registry.
+- You SHOULD use `%npm_license` to create the license of the bundled dependencies.
+- You MAY opt instead to follow Fedora's Node.js packaging methods but keep in mind this is very difficult to maintain and may not work on all modules.
+
+### Web Applications
+
+These are guidelines for building [web applications](https://en.wikipedia.org/wiki/Web_application) (hereafter referred to as "webapps"), which refers to apps built using technologies such as Electron or Tauri.
+
+These apps embed parts of browser functionality in order to display web content. One of the most recognizable examples is [Discord](https://discord.com).
+
+The general guidelines for building webapps are:
+- Use our [JavaScript package manager macros](/contributing/srpm#javascript-package-managers) and/or [webapp build macros](/contributing/srpm#webapp-build-macros).
+- Use appropriate [Electron macros](/contributing/srpm#electron) for Electron apps.
+- Use appropriate [Tauri macros](/contributing/srpm#tauri) for Tauri apps.
+- Add the correct JavaScript package manager to your build dependencies.
+  - Examples:
+  - ```rpmspec
+    BuildRequires: bun-bin
+    BuildRequires: deno
+    BuildRequires: pnpm
+    BuildRequires: yarnpkg
+    ```
+
+#### Electron
+
+These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
+
+<Aside>
+  Many Electron projects will default to building distro binary packages (such as RPMs and Debs) and this rarely works well in RPM builds. Packagers should be prepared to patch or otherwise modify the Electron Builder config to rectify this.
+</Aside>
+
+- You SHOULD add `%electronmeta` and make sure it is in the correct location in the spec file. The other macros for Electron also depend on the information in this being set.
+  - This meta macro automatically handles MANY common issues that can happen with Electron packages including incorrect dependencies due to bundled (or private) [shared object (`*.so`) libraries](https://en.wikipedia.org/wiki/Shared_library).
+  - It also pulls all basic build dependencies for Electron apps.
+  - Like all meta macros, must be placed carefully:
+    - MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the first <Code code={`%description`} lang={RPMSpec} inline />.
+    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
+    - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
+    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
+- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_exclude}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
+  - <Code code={`%global __requires_exclude %{__requires_exclude}|private_library\\.so`} lang={RPMSpec} inline />
+  - <Code code={`%global __provides_exclude %{__provides_exclude}|private_library\\.so`} lang={RPMSpec} inline />
+- You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
+  - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
+- You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
+
+#### Tauri
+
+These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
+
+Tauri builds webapps using Cargo and the system WebKit. For these reasons some of the [Rust](#rust) guidelines also apply to Tauri. Most relevant Cargo macros have been ported into Tauri compatible ones, however it will likely still be helpful to make yourself familiar with the original macros.
+<Aside>
+  It is important to note that unlike the original Cargo macros, Tauri macros only support passing features with the `-f` flag due to how Tauri works.
+</Aside>
+
+- You SHOULD use one of the following in your spec:
+  - <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
+  - ```rpmspec
+    %generate_buildrequires
+    %tauri_generate_buildrequires
+    ```
+  <Aside type="caution">
+    BuildRequires generation only works in Mock.
+  </Aside>
+- You SHOULD use <Code code={`%tauri_prep`} lang={RPMSpec} inline /> in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
+- You SHOULD use either a [webapp build macro](/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
+- You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
+- You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
+- You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
 
 ## Shell Completions
 
