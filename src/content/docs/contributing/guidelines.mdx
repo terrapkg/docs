@@ -276,6 +276,59 @@ atlas rep atlas.lock
 %nim_c src/netto
 ```
 
+### OCaml
+
+OCaml packages in Terra MUST follow the [Fedora OCaml guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/OCaml/), except when it comes to the spec format if using the [`dune`](https://dune.build/) build system.
+If this is the case, we recommend you use `BuildSystem: dune`, which declaritivly defines the `%prep`, `%build`, `%install`, and `%check` sections for the dune build system. This makes the specs more simple, and helps to ensure no steps are forgotten.
+
+Example OCaml dune spec using `BuildSystem: dune`:
+
+```rpmspec
+Name:           ocaml-ppx-disable-unused-warnings
+Version:        0.17.0
+Release:        1%{?dist}
+Summary:        disables the many OCaml compiler warnings having to do with something being used
+
+License:        MIT
+URL:            https://github.com/janestreet/ppx_disable_unused_warnings
+Source:         %{url}/archive/v%{version}/ppx_disable_unnused_warnings-%{version}.tar.gz
+
+BuildSystem:    dune
+BuildRequires:  ocaml
+BuildRequires:  ocaml-dune
+BuildRequires:  ocaml-ppxlib-devel
+BuildRequires:  ocaml-base-devel
+
+Packager:       Owen Zimmerman <owen@fyralabs.com>
+
+%description
+The @disable_unused_warnings annotation disables the many
+OCaml compiler warnings having to do with something being
+used (variable, constructor, declaration, open, rec keyword, etc.).
+
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{evr}
+
+%description    devel
+The %{name}-devel package contains libraries and signature files for
+developing applications that use %{name}.
+
+%prep
+%autosetup -C
+
+%files -f .ofiles
+%license LICENSE.md
+
+%files devel -f .ofiles-devel
+
+%changelog
+* Tue Sep 22 2026 Owen Zimmerman <owen@fyralabs.com> - 0.17.0-1
+- Initial commit
+```
+
+ocaml-* OCaml packages SHOULD be placed in anda/langs/ocaml, with the folder and spec named with ocaml-*.
+
 ### Rust
 
 These are guidelines for packaging projects written in [Rust](https://rust-lang.org).
