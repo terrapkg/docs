@@ -278,7 +278,7 @@ atlas rep atlas.lock
 
 ### OCaml
 
-OCaml packages in Terra MUST follow the [Fedora OCaml guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/OCaml/), except when it comes to the spec format if using the [`dune`](https://dune.build/) build system.
+OCaml packages in Terra MUST follow the [Fedora OCaml Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/OCaml/), except when it comes to the spec format if using the [`dune`](https://dune.build/) build system.
 If this is the case, we recommend you use `BuildSystem: dune`, which declaritivly defines the `%prep`, `%build`, `%install`, and `%check` sections for the dune build system. This makes the specs more simple, and helps to ensure no steps are forgotten.
 
 Example OCaml dune spec using `BuildSystem: dune`:
