@@ -98,14 +98,20 @@ If can't dynamically link all deps / no deps to link, `%zig_build_target` with `
 
 ## Terra Packaging Guidelines
 
-### Usage of the `mold` Linker
+### Usage of the `lld` Linker
 
-We encourage the use of [`mold`](https://github.com/rui314/mold), which can speed up build times, especially in large projects.
-You MAY enable it in C/++ projects by adding `-fuse-ld=mold` in `CFLAGS`/`CXXFLAGS`.
+Terra uses [`lld`](https://lld.llvm.org/), LLVM's linker, as the default linker for Rust and Nim packages.
+It is significantly faster than GNU `ld` and, since the Rust toolchain is built around LLVM, more reliable for Rust builds than other alternative linkers.
+You MAY enable it in C/++ projects by adding `-fuse-ld=lld` in `CFLAGS`/`CXXFLAGS`/`LDFLAGS`. 
+You can do this by adding `%global _pkg_extra_ldflags -fuse-ld=lld` in your spec.
 
-The `%with_mold` flag is enabled by default in `anda-srpm-macros`. `mold` is also preinstalled in the builders.
+`lld` is enabled by default for Rust packages on Fedora via the `%__terra_use_lld` macro in `anda-srpm-macros`. `lld` is also preinstalled in the builders (see [terrapkg/builder](https://github.com/terrapkg/builder)).
 
-You can disable `mold` for Rust and Nim by using `%bcond_with mold`.
+You can disable `lld` for Rust by adding `%global __terra_use_lld 0` to your spec file.
+
+<Aside type="caution">
+`mold` was previously Terra's default linker. Packages SHOULD NOT add new `mold` build dependencies; use `lld` instead.
+</Aside>
 
 ## Language Specific Packaging Guidelines
 
