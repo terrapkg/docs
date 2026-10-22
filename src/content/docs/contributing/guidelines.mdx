@@ -628,9 +628,6 @@ BuildRequires:  desktop-file-utils
 %{_appsdir}/NeoHtop.desktop
 ```
 
-### Usage of Periods in Various Package Fields
-You MUST NOT have a period at the end of any <Code code={`Summary:`} lang={RPMSpec} inline /> tags, and you SHOULD have a period at the end of all <Code code={`%description`} lang={RPMSpec} inline />s.
-
 ### Usage of %elifarch
 
 To make specs easier to read, you SHOULD use <Code code={`%ifarch`} lang={RPMSpec} inline /> followed by <Code code={`%elifarch`} lang={RPMSpec} inline /> before <Code code={`%endif`} lang={RPMSpec} inline /> in specs where build steps are arch dependent.
