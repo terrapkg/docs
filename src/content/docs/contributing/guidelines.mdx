@@ -525,7 +525,7 @@ It is also acceptable to add more to previous changelogs (for example, adding mi
 
 ### Patches
 
-- Packages SHOULD apply patches (usually via the `-p#` flag) in <Code code={`%autosetup`} lang={RPMSpec} inline />. If this is not possible (typically when <Code code={`%autosetup`} lang={RPMSpec} inline /> is not used), you SHOULD use [%autopatch](https://developer.fyralabs.com/rpm/macros#autopatch).
+- If you cannot use <Code code={`%autosetup`} lang={RPMSpec} inline /> to apply your patches for whatever reason, you SHOULD use [%autopatch](https://developer.fyralabs.com/rpm/macros#autopatch).
 
 ### Providing Your Own .desktop File
 
