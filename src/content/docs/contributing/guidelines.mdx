@@ -453,8 +453,14 @@ For projects where dynamic linking of all dependencies is simply not possible (s
 
 ## Shell Completions
 
-- SHOULD be a subpackage.
+- Each shell completion file SHOULD be in its own subpackage.
 - SHOULD use the [`%pkg_completion` macro](/contributing/srpm#pkg_completion).
+  - Currently supported shell completions:
+    - bash
+    - elvish
+    - fish
+    - nushell
+    - zsh
 
 ## Development and Shared Libraries
 
