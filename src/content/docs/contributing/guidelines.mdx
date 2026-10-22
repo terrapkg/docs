@@ -361,7 +361,7 @@ Summary:        %{summary}
 #### Manual
 
 For rust programs not on crates.io, you will need to manually create the spec.
-What you can probably do is to copy an existing rust spec file like this and edit it out. Here's a pretty simple one for reference:[^3]
+We recommend copying an existing rust spec file (like ths one below) as a template. Here's a pretty simple one for reference:[^3]
 
 ```rpmspec
 %global ver brush-shell-v0.4.0
@@ -398,8 +398,7 @@ install -Dm755 target/rpm/brush %{buildroot}%{_bindir}/brush
 
 %files
 %{_bindir}/brush
-%license LICENSE
-%license LICENSE.dependencies
+%license LICENSE LICENSE.dependencies
 %doc README.md
 
 %changelog
