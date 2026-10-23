@@ -1,5 +1,7 @@
 import { defineConfig } from "@lunariajs/core/config";
 
+export const locales = [{ label: "Placeholder", lang: "ph" }] satisfies [Locale, ...Locale[]];
+
 export default defineConfig({
   repository: {
     name: "terrapkg/docs",
@@ -8,6 +10,7 @@ export default defineConfig({
     label: "English",
     lang: "en",
   },
+  locales,
   files: [
     {
       include: ["src/content/docs/**/*.{md,mdx}"],
