@@ -1,3 +1,4 @@
+import { type Locale } from '@lunariajs/core';
 import { defineConfig } from "@lunariajs/core/config";
 
 export const locales = [{ label: "Placeholder", lang: "ph" }] satisfies [Locale, ...Locale[]];
