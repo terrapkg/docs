@@ -172,13 +172,14 @@ For example, `terra-mesa` should be in extra as the dependency solver will resol
 `libadwaita-nightly` should be in extra since it provides `pkgconfig(libadwaita-1)`, which is required by existing packages as a build dependency.
 `yt-dlp-nightly` **can be included normally** because it has no common provides with Fedora's `yt-dlp`.
 
+
+## Miscellaneous Terra Policies
+
 ### AppStream MetaInfo & Desktop Files
 
 <Aside title="Note" icon="comment-alt">Our AppStream guidelines are documented [here](/contributing/appstream).</Aside>
 
 All graphical applications that can be started by the user MUST provide a [desktop entry](/contributing/guidelines#providing-your-own-desktop-file) and [AppStream MetaInfo](https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html#qsr-app-example) file. Other applications are also RECOMMENDED to do so.
-
-## Miscellaneous Terra Policies
 
 ### Security Policy
 
