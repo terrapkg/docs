@@ -525,7 +525,7 @@ It is also acceptable to add more to previous changelogs (for example, adding mi
 
 ### Patches
 
-- If you cannot use <Code code={`%autosetup`} lang={RPMSpec} inline /> to apply your patches for whatever reason, you SHOULD use [%autopatch](https://developer.fyralabs.com/rpm/macros#autopatch).
+If you cannot use <Code code={`%autosetup`} lang={RPMSpec} inline /> to apply your patches, you SHOULD use [%autopatch](https://developer.fyralabs.com/rpm/macros#autopatch). If you need to revert a patch, you SHOULD use [%patch](https://developer.fyralabs.com/rpm/macros#patch).
 
 ### Providing Your Own .desktop File
 
