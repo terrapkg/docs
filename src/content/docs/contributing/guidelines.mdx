@@ -253,7 +253,7 @@ then modify the spec file to match our packaging guidelines.
 - Replace `%cargo_install` with `%terra_cargo_install`, or install files manually with `install`
 - Replace `%autochangelog` with a manual changelog entry, in accordance with out [changelog](/contributing/guidelines#changelog-entries) policy.
 - Now use anda to build the package, and wait until you see a list of licenses starting with `# ` in the log output, then stop the build
-- Use [`format-license`](https://github.com/terrapkg/cli-tools/blob/main/format-license.sh) to format the license, and paste the final license into `License:` in the spec file.
+- Use [`format-license`](https://github.com/terrapkg/cli-tools/blob/main/format-license.sh) to format the <Code code={`License:`} lang={RPMSpec} inline /> tag, or use <Code code={`%cargo_license_preamble_online`} lang={RPMSpec} inline /> to output a formatted summary. Paste the final license into <Code code={`License:`} lang={RPMSpec} inline /> in the spec file. The package's source code license(s) SHOULD be specified in <Code code={`SourceLicense:`} lang={RPMSpec} inline />
 
 Your final spec would like something like this:[^2]
 
