@@ -375,7 +375,7 @@
           ]
         },
         {
-          "begin": "^(License:)[ \\t]*",
+          "begin": "^((?:Source)?License:)[ \\t]*",
           "end": "$",
           "beginCaptures": {
             "1": {
