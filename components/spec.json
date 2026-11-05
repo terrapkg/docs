@@ -231,17 +231,20 @@
     "architectures": {
       "patterns": [
         {
-          "match": "(?:noarch|i386|i586|i686|x86_64|local)",
+          "match": "(?:noarch|i386|i586|x86_64|x86_64_v2|x86_64_v3|x86_64_v4|ia64|local)",
           "name": "constant.language.spec"
         },
         {
-          "match": "(?:s390x|armv6l|armv7l|aarch64|riscv64)",
+          "match": "(?:s390x|s390|armv6l|armv7hl|armv7l)",
           "name": "constant.language.spec"
         },
         {
-          "match": "(?:ppc64p7|ppc64leppc64|ppc)",
+          "match": "(?:ppc64p7|ppc64le|ppc64|ppc|aarch64|riscv64)",
           "name": "constant.language.spec"
         }
+        {
+          "match": "(?:alpha|sparc64|sparcv9|sparc)",
+          "name": "constant.language.spec"
       ]
     },
     "metadata": {
