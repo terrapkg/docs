@@ -1,9 +1,9 @@
 {
   "name": "RPM Spec",
-  "comment": "Base on https://github.com/waveclaw/language-rpm-spec",
+  "comment": "Base on https://github.com/terrapkg/linguist-rpm-spec",
   "scopeName": "source.spec",
   "fileTypes": ["spec"],
-  "foldingStartMarker": "(^%(build$|changelog|check$|clean$|description|files|install$|package|(pre($| .*))|prep$|preun|post|postun|trigger|triggerin|triggerpostun|triggerun|verifyscript)\\s*$)",
+  "foldingStartMarker": "(^%(build$|changelog|check$|clean$|description|files|install$|package|(pre($| .*))|pretrans|posttrans|prep$|preun|post|postun|sourcelist|trigger|triggerin|triggerpostun|triggerun|verifyscript)\\s*$)",
   "foldingStopMarker": "(^$)",
   "patterns": [
     {
@@ -229,17 +229,86 @@
       ]
     },
     "architectures": {
+      "comment": "https://github.com/rpm-software-management/rpm/blob/master/rpmrc.in",
       "patterns": [
         {
-          "match": "(?:noarch|i386|i586|i686|x86_64|local)",
+          "match": "(?:noarch|i386|i486|i586|i686|pentium3|pentium4|athlon|geode|local)",
           "name": "constant.language.spec"
         },
         {
-          "match": "(?:s390x|armv6l|armv7l|aarch64)",
+          "match": "(?:x86_64|x86_64_v2|x86_64_v3|x86_64_v4|amd64|em64t|ia32e|ia64)",
           "name": "constant.language.spec"
         },
         {
-          "match": "(?:ppc64p7|ppc64leppc64|ppc)",
+          "match": "(?:s390x|s390|i370)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:armv3l|armv4b|armv4l|armv4tl|armv5tl|armv5tel|armv5tejl|armv6l|armv6hl|armv7l|armv7hl|armv7hnl|armv8l|armv8hl|armv8hnl|armv8hcnl)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:aarch64)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:mips|mipsel|mipsr6|mipsr6el)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:mips64|mips64el|mips64r6|mips64r6el)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:sparc|sparcv8|sparcv9|sparcv9v|sparc64|sparc64v)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:alpha|alphaev5|alphaev56|alphapca56|alphaev6|alphaev67)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:ppc64pseries|ppc64iseries|ppc64p7|ppc64le|ppc64|ppc8260|ppc8560|ppc32dy4|ppciseries|ppcpseries|ppc)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:riscv32)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:riscv64)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:riscv128)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:loongarch64)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:e2k|e2kv4|e2kv5|e2kv6|e2k4c|e2k8c|e2k1cp|e2k8c2|e2k12c|e2k16c|e2k2c3)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:m68kmint|m68k)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:atariste|atarist|ataritt|atariclone|falcon|milan|hades)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:sh4a|sh4|sh3|sh)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:xtensa)",
+          "name": "constant.language.spec"
+        },
+        {
+          "match": "(?:rs6000)",
           "name": "constant.language.spec"
         }
       ]
@@ -260,12 +329,16 @@
         },
 
         {
-          "match": "^(Enhances|Suggests|BuildConflicts|BuildRequires|Recommends):",
+          "match": "^(Enhances|OrderWithRequires|Suggests|BuildConflicts|BuildRequires|Recommends):",
           "name": "keyword.spec"
         },
         {
-          "match": "^(PreReq|Supplements|Epoch|Serial|Nosource|Nopatch):",
+          "match": "^(BuildPreReq|PreReq|Supplements|Epoch|Serial|Nosource|Nopatch):",
           "name": "keyword.spec"
+        },
+        {
+          "match": "^(?:BuildSystem|BuildOption(?:\\([^)]*\\))?):",
+          "name": "keyword.rpm-spec"
         },
         {
           "match": "^(AutoReq|AutoProv|AutoReqProv):",
@@ -302,7 +375,7 @@
           ]
         },
         {
-          "begin": "^(License:)[ \\t]*",
+          "begin": "^((?:Source)?License:)[ \\t]*",
           "end": "$",
           "beginCaptures": {
             "1": {
@@ -441,7 +514,7 @@
           ]
         },
         {
-          "begin": "^(%(?:build|check|clean|install|verifyscript))$",
+          "begin": "^(%(?:build|check|clean|conf|generate_buildrequires|install|verifyscript))(?:[ \\t]+-[ap])?[ \\t]*$",
           "beginCaptures": {
             "1": {
               "name": "entity.name.section.spec"
@@ -459,7 +532,7 @@
           "name": "entity.name.section.spec"
         },
         {
-          "begin": "^(%(?:preun|prep|pre|postun|post|packagepreun))",
+          "begin": "^(%(?:filetriggerin|filetriggerun|filetriggerpostun|pre|pretrans|preuntrans|preun|prep|pretrans|pre|posttrans|postun|postuntrans|post|packagepreun|transfiletriggerin|transfiletriggerpostun|transfiletriggerun|triggerprein|triggerin|triggerun|triggerpostun))",
           "beginCaptures": {
             "1": {
               "name": "entity.name.section.spec"
@@ -702,7 +775,7 @@
     "modifiers": {
       "patterns": [
         {
-          "match": "^%(?:define|global|undefine|docdir|doc|license)",
+          "match": "^%(?:artifact|define|dir|doc|docdir|ghost|global|license|missingok|readme|undefine)",
           "name": "storage.modifier.spec"
         },
         {
@@ -741,7 +814,7 @@
       "conditionals": {
         "patterns": [
           {
-            "match": "%(?:ifarch|ifnarch|ifnos|ifos|if|else|endif)",
+            "match": "%(?:ifarch|ifnarch|ifnos|ifos|if|else|endif|elifarch|elifos|elif)",
             "name": "keyword.control.spec"
           }
         ]
