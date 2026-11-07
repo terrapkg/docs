@@ -338,7 +338,7 @@
         },
         {
           "match": "^(?:BuildSystem|BuildOption(?:\\([^)]*\\))?):",
-          "name": "keyword.rpm-spec"
+          "name": "keyword.spec"
         },
         {
           "match": "^(AutoReq|AutoProv|AutoReqProv):",
