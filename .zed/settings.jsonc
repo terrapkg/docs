@@ -3,6 +3,7 @@
   "auto_install_extensions": {
     "MDX": true,
     "Astro": true,
+    "Oxc": true,
   },
   "languages": {
     "Markdown": {

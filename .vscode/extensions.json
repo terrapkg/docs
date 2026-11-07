@@ -3,7 +3,8 @@
   "recommendations": [
     "astro-build.astro-vscode",
     "bradlc.vscode-tailwindcss",
-    "hideoo.starlight-links"
+    "hideoo.starlight-links",
+    "oxc.oxc-vscode"
   ],
   "unwantedRecommendations": []
 }
