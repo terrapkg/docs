@@ -1615,6 +1615,23 @@ Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `r
 
 <SearchTerra macroname="rustup_nightly" />
 
+### %terra_cargo_install
+
+Used in the `%install` section to automatically install built binaries and `.so` files.
+
+Usage example:
+
+```rpmspec
+%install
+%terra_cargo_install
+
+%files
+%{_bindir}/%{crate}
+%{_libdir}/%{crate}.so
+```
+
+<SearchTerra macroname="terra_cargo_install" />
+
 ## Subpackages
 
 These macros assist with packages that require certain subpackage types.
@@ -1878,3 +1895,55 @@ Common opts passed to Tauri. Used by macros which call Tauri.
 ### %terra_rustflags
 
 This macro simply appends the [lld linker arguments](/contributing/guidelines#usage-of-the-lld-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
+
+### BuildSystem Macros
+
+Macros used only to define Terra specific [`BuildSystem`](https://rpm-software-management.github.io/rpm/manual/buildsystem.html) macro definitions.
+
+#### %buildsystem_terra_cargo_prep
+
+Expands to:
+
+```rpmspec
+%autosetup -C -p1 \
+%cargo_prep_online %{*}
+```
+
+#### %buildsystem_terra_cargo_generate_buildrequires
+
+Expands to:
+
+```rpmspec
+%terra_cargo_generate_buildrequires %{*}
+```
+
+#### %buildsystem_terra_cargo_conf
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+#### %buildsystem_terra_cargo_build
+
+Expands to:
+
+```rpmspec
+%cargo_build_crate %{*}
+```
+
+#### %buildsystem_terra_cargo_install
+
+Expands to:
+
+```rpmspec
+%terra_cargo_install %{*}
+```
+
+#### %buildsystem_terra_cargo_check
+
+Expands to:
+
+```rpmspec
+%{?with_check:%cargo_test %{*}} %{!?with_check:%{nil}}
+```

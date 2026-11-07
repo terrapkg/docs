@@ -494,6 +494,63 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
 - You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
 - You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.
 
+## Declarative Builds
+
+Starting in RPM 4.20 (note, EL10 is on RPM 4.19), you can declare a `BuildSystem` in your spec file to automatically populate the following RPM spec sections:
+
+```rpmspec
+%prep
+%generate_buildrequires
+%conf
+%build
+%install
+%check
+```
+
+Note, this does NOT populate `%dscription`, `%files`, `%changelog`, or any of the preamble tags.
+
+Currently, Terra supports all `BuildSystem`s that Fedora does, except `BuildSystem: cargo`.
+To build declarative rust packages in Terra, we have our own `BuildSystem: terra_cargo`. 
+
+Example spec:
+
+```rpmspec
+%global crate cargo-binstall
+
+Name:           cargo-binstall
+Version:        1.26.2
+Release:        1%{?dist}
+Summary:        Binary installation for rust projects
+SourceLicense:  GPL-3.0-only
+License:        (dep licenses)
+URL:            https://crates.io/crates/cargo-binstall
+Source:         %{terra_crates_source}
+BuildSystem:    terra_cargo
+BuildOption(install): %desktop_file_install
+BuildRequires:  cargo-rpm-macros
+Packager:       Owen Zimmerman <owen@fyralabs.com>
+
+%description
+%{summary}.
+
+%prep -a
+(some sed command)
+
+%files
+%doc README.md
+%license LICENSE LICENSE.dependencies
+%{_bindir}/cargo-binstall
+
+%changelog
+* Tue Oct 20 2026 Owen Zimmerman <owen@fyralabs.com> - 1.26.0-1
+- Initial commit
+```
+
+`terra_cargo` section difference notes:
+  - `%generate_buildrequires` uses `%terra_cargo_generate_buildrequires`, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
+  - `%build` uses `%cargo_build_crate`, which REQUIRES `%global crate CRATENAME` be defined.
+  - `%install` uses `%terra_cargo_install`, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
+
 ## Shell Completions
 
 - Each shell completion file SHOULD be in its own subpackage.
