@@ -515,8 +515,6 @@ To build declarative rust packages in Terra, we have our own <Code code={`BuildS
 Example spec:
 
 ```rpmspec
-%global crate cargo-binstall
-
 Name:           cargo-binstall
 Version:        1.26.2
 Release:        1%{?dist}
@@ -549,7 +547,7 @@ Packager:       Owen Zimmerman <owen@fyralabs.com>
 `terra_cargo` section difference notes:
   - <Code code={`%prep`} lang={RPMSpec} inline /> outputs the formatted license text for you to populate the `License:` preamble tag.
   - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_generate_buildrequires`} lang={RPMSpec} inline />, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
-  - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />, which REQUIRES <Code code={`%global crate CRATENAME`} lang={RPMSpec} inline /> be defined.
+  - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />.
   - <Code code={`%install`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_install`} lang={RPMSpec} inline />, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
 
 ## Shell Completions
