@@ -1905,8 +1905,11 @@ Macros used only to define Terra specific [`BuildSystem`](https://rpm-software-m
 Expands to:
 
 ```rpmspec
+%buildsystem_terra_cargo_prep() \
 %autosetup -C -p1 \
-%cargo_prep_online %{*}
+%cargo_prep_online %{*} \
+echo "Printing license summary for License field..." \
+%cargo_license_preamble_online
 ```
 
 #### %buildsystem_terra_cargo_generate_buildrequires
