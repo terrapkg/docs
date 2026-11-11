@@ -496,7 +496,7 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
 
 ## Declarative Builds
 
-Starting in RPM 4.20 (note, EL10 is on RPM 4.19), you can declare a `BuildSystem` in your spec file to automatically populate the following RPM spec sections:
+Starting in RPM 4.20 (note, EL10 is on RPM 4.19), you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
 
 ```rpmspec
 %prep
@@ -507,10 +507,10 @@ Starting in RPM 4.20 (note, EL10 is on RPM 4.19), you can declare a `BuildSystem
 %check
 ```
 
-Note, this does NOT populate `%dscription`, `%files`, `%changelog`, or any of the preamble tags.
+Note, this does NOT populate <Code code={`%description`} lang={RPMSpec} inline />, <Code code={`%files`} lang={RPMSpec} inline />, <Code code={`%changelog`} lang={RPMSpec} inline />, or any of the preamble tags.
 
-Currently, Terra supports all `BuildSystem`s that Fedora does, except `BuildSystem: cargo`.
-To build declarative rust packages in Terra, we have our own `BuildSystem: terra_cargo`. 
+Currently, Terra supports all <Code code={`BuildSystem`} lang={RPMSpec} inline />s that Fedora does, except <Code code={`BuildSystem: cargo`} lang={RPMSpec} inline />.
+To build declarative rust packages in Terra, we have our own <Code code={`BuildSystem: terra_cargo`} lang={RPMSpec} inline />. 
 
 Example spec:
 
@@ -547,10 +547,10 @@ Packager:       Owen Zimmerman <owen@fyralabs.com>
 ```
 
 `terra_cargo` section difference notes:
-  - `%prep` outputs the formatted license text for you to populate the `License:` preamble tag.
-  - `%generate_buildrequires` uses `%terra_cargo_generate_buildrequires`, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
-  - `%build` uses `%cargo_build_crate`, which REQUIRES `%global crate CRATENAME` be defined.
-  - `%install` uses `%terra_cargo_install`, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
+  - <Code code={`%prep`} lang={RPMSpec} inline /> outputs the formatted license text for you to populate the `License:` preamble tag.
+  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_generate_buildrequires`} lang={RPMSpec} inline />, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
+  - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />, which REQUIRES <Code code={`%global crate CRATENAME`} lang={RPMSpec} inline /> be defined.
+  - <Code code={`%install`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_install`} lang={RPMSpec} inline />, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
 
 ## Shell Completions
 
