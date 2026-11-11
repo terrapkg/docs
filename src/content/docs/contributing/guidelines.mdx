@@ -547,6 +547,7 @@ Packager:       Owen Zimmerman <owen@fyralabs.com>
 ```
 
 `terra_cargo` section difference notes:
+  - `%prep` outputs the formatted license text for you to populate the `License:` preamble tag.
   - `%generate_buildrequires` uses `%terra_cargo_generate_buildrequires`, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
   - `%build` uses `%cargo_build_crate`, which REQUIRES `%global crate CRATENAME` be defined.
   - `%install` uses `%terra_cargo_install`, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
