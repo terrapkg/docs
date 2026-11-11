@@ -532,7 +532,7 @@
           "name": "entity.name.section.spec"
         },
         {
-          "begin": "^(%(?:filetriggerin|filetriggerun|filetriggerpostun|pre|pretrans|preuntrans|preun|prep|pretrans|pre|posttrans|postun|postuntrans|post|packagepreun|transfiletriggerin|transfiletriggerpostun|transfiletriggerun|triggerprein|triggerin|triggerun|triggerpostun))",
+          "begin": "^(%(?:filetriggerin|filetriggerun|filetriggerpostun|pretrans|preuntrans|preun|prep|pre|posttrans|postuntrans|postun|post|packagepreun|transfiletriggerin|transfiletriggerpostun|transfiletriggerun|triggerprein|triggerin|triggerun|triggerpostun)\\b)",
           "beginCaptures": {
             "1": {
               "name": "entity.name.section.spec"
@@ -775,7 +775,7 @@
     "modifiers": {
       "patterns": [
         {
-          "match": "^%(?:artifact|define|dir|doc|docdir|ghost|global|license|missingok|readme|undefine)",
+          "match": "^%(?:artifact|define|dir|docdir|doc|ghost|global|license|missingok|readme|undefine)",
           "name": "storage.modifier.spec"
         },
         {
