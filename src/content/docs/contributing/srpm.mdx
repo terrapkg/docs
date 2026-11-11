@@ -1679,11 +1679,13 @@ For example:
 ```rpmspec
 %package devel
 # generates Summary:, %description devel and the file lists
-# -F to omit %files
 # -n <pkgname>: name of the devel package
 # -N <mainpkg>: name of the main package
+# -r: do not require the base package (should not be used unless necessary)
 %pkg_devel_files
 ```
+
+If `-r` is passed, you MUST install a license file in the subpackage.
 
 <SearchTerra macroname="pkg_devel_files" />
 
@@ -1700,8 +1702,11 @@ For example:
 %package static
 # -n <pkgname>: name of the static package
 # -N <mainpkg>: name of the main package
+# -r: do not require the -devel package
 %pkg_static_files
 ```
+
+If `-r` is passed, you MUST install a license file in the subpackage.
 
 <SearchTerra macroname="pkg_static_files" />
 
