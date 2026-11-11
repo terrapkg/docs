@@ -2,7 +2,7 @@
   "name": "Terra Docs",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": ".",
+    "context": "..",
     "args": {
       "USERNAME": "${localEnv:USER}",
       "PNPM_VERSION": "12"
