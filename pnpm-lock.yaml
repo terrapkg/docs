@@ -24,8 +24,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(@astrojs/starlight@0.42.10(astro@7.4.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3))(tailwindcss@4.3.4)
       '@lunariajs/core':
-        specifier: ^0.2.1
-        version: 0.2.1(supports-color@10.2.2)
+        specifier: ^0.3.0
+        version: 0.3.0(supports-color@10.2.2)
       '@tailwindcss/vite':
         specifier: ^4.3.4
         version: 4.3.4(vite@8.3.7(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
@@ -923,8 +923,8 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
-  '@lunariajs/core@0.2.1':
-    resolution: {integrity: sha512-TSqlYWJM8XiiSLit7UlPI4hQq0gpX5g4f5L89/XsVvef+EPX3mp5J+JFFMN+M2Mzjof//duKx0xjGIKcNXiNQA==}
+  '@lunariajs/core@0.3.0':
+    resolution: {integrity: sha512-Bm9wNvUW1mvnTnGyDKkafUISKRSqbxn1qSENFHW9s14quyygLAPOH+L5bi688Cx69vpw0EtK1zgkoMKX5bnBjg==}
     engines: {node: '>=18.17.0'}
     hasBin: true
 
@@ -2155,8 +2155,8 @@ packages:
     resolution: {integrity: sha512-X6fBC0pmImC70gvX2zm56go9hx0MyoGVdG0tUCkg/D+Xnh5TJsOZ7iDbOdI3PvmtrDxnu1YdDufpK2QJX1Meqw==}
     engines: {node: '>=20.20.0'}
 
-  gettext-parser@9.1.1:
-    resolution: {integrity: sha512-ZLeqWPz9OMNrTgMuww0C22kkcNqis+e4059R94t7L7ERlZ2rUNpiDbaAUus+esBC6uBAQWbS9N+R5vJIJg//lw==}
+  gettext-parser@10.0.0:
+    resolution: {integrity: sha512-hELgK4pFrOrqFiUOo4GQ6kFg0ywhlEJXN6R22cgZ1dxzZj9LUXA2NnwmyoUqxLyunm0yrSPwd6fA5bNqjuvmYA==}
     engines: {node: '>=20'}
 
   github-slugger@2.0.0:
@@ -3458,9 +3458,6 @@ packages:
   youch@4.1.0-beta.10:
     resolution: {integrity: sha512-rLfVLB4FgQneDr0dv1oddCVZmKjcJ6yX6mS4pU82Mq/Dt9a3cLZQ62pDBL4AUO+uVrCvtWz3ZFUL2HFAFJ/BXQ==}
 
-  zod@4.6.5:
-    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
-
   zod@4.6.7:
     resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
@@ -4198,20 +4195,19 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
-  '@lunariajs/core@0.2.1(supports-color@10.2.2)':
+  '@lunariajs/core@0.3.0(supports-color@10.2.2)':
     dependencies:
       consola: 3.4.2
-      gettext-parser: 9.1.1
+      gettext-parser: 10.0.0
       jiti: 2.7.0
       neotraverse: 1.0.1
       p-all: 5.0.1
-      path-to-regexp: 6.3.0
       picomatch: 4.0.7
       simple-git: 4.0.2(supports-color@10.2.2)
       tinyglobby: 0.2.17
       ultramatter: 0.0.4
       yaml: 2.9.1
-      zod: 4.6.5
+      zod: 4.6.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5231,7 +5227,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  gettext-parser@9.1.1:
+  gettext-parser@10.0.0:
     dependencies:
       content-type: 1.0.5
       encoding: 0.1.13
@@ -6715,8 +6711,6 @@ snapshots:
       '@speed-highlight/core': 1.2.24
       cookie: 1.1.1
       youch-core: 0.3.3
-
-  zod@4.6.5: {}
 
   zod@4.6.7: {}
 
