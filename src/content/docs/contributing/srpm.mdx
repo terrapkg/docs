@@ -1900,7 +1900,9 @@ This macro simply appends the [lld linker arguments](/contributing/guidelines#us
 
 Macros used only to define Terra specific [`BuildSystem`](https://rpm-software-management.github.io/rpm/manual/buildsystem.html) macro definitions.
 
-#### %buildsystem_terra_cargo_prep
+#### terra_cargo
+
+##### %buildsystem_terra_cargo_prep
 
 Expands to:
 
@@ -1912,7 +1914,7 @@ echo "Printing license summary for License field..." \
 %cargo_license_preamble_online
 ```
 
-#### %buildsystem_terra_cargo_generate_buildrequires
+##### %buildsystem_terra_cargo_generate_buildrequires
 
 Expands to:
 
@@ -1920,14 +1922,14 @@ Expands to:
 %terra_cargo_generate_buildrequires %{*}
 ```
 
-#### %buildsystem_terra_cargo_conf
+##### %buildsystem_terra_cargo_conf
 Expands to:
 
 ```rpmspec
 %{nil}
 ```
 
-#### %buildsystem_terra_cargo_build
+##### %buildsystem_terra_cargo_build
 
 Expands to:
 
@@ -1935,7 +1937,7 @@ Expands to:
 %cargo_build_crate %{*}
 ```
 
-#### %buildsystem_terra_cargo_install
+##### %buildsystem_terra_cargo_install
 
 Expands to:
 
@@ -1943,10 +1945,61 @@ Expands to:
 %terra_cargo_install %{*}
 ```
 
-#### %buildsystem_terra_cargo_check
+##### %buildsystem_terra_cargo_check
 
 Expands to:
 
 ```rpmspec
 %{?with_check:%cargo_test %{*}} %{!?with_check:%{nil}}
+```
+
+#### nimble
+
+##### %buildsystem_nimble_prep
+
+Expands to:
+
+```rpmspec
+%autosetup -C -p1 \
+%nimble_prep
+```
+
+##### %buildsystem_nimble_generate_buildrequires
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_nimble_conf
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_nimble_build
+
+Expands to:
+
+```rpmspec
+%nimble_build %{*}
+```
+
+##### %buildsystem_nimble_install
+
+Expands to:
+
+```rpmspec
+%nimble_install %{*}
+```
+
+##### %buildsystem_nimble_check
+
+Expands to:
+
+```rpmspec
+%{nil}
 ```

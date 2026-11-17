@@ -182,10 +182,46 @@ atlas rep atlas.lock
 %nim_c src/netto
 ```
 
+#### BuildSystem (nimble)
+
+The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps may be forgotten/miss handled by using a declarative build.
+To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below.
+
+To build declarative nim packages (that use `nimble`) in Terra, we have our own <Code code={`BuildSystem: nimble`} lang={RPMSpec} inline />.
+
+Example spec:
+
+```rpmspec
+Name:           umdive
+Version:        0.1.5
+Release:        1%{?dist}
+Summary:        Chroot utility (just like arch-chroot)
+License:        MIT
+URL:            https://github.com/Ultramarine-Linux/dive
+Source0:		    %{url}/archive/refs/tags/v%{version}.tar.gz
+Requires:       %{_bindir}/chroot
+Requires:       %{_bindir}/mount
+BuildRequires:  nim
+BuildSystem:    nimble
+Provides:       dive = %{evr}
+
+%description
+%{summary}.
+
+%files
+%doc README.md
+%license LICENSE
+%{_bindir}/dive
+
+%changelog
+* Tue Nov 17 2026 Owen Zimmerman <owen@fyralabs.com> - 0.1.5-1
+- Adopt to example spec
+```
+
 ### OCaml
 
 OCaml packages in Terra MUST follow the [Fedora OCaml Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/OCaml/), except when it comes to the spec format if using the [`dune`](https://dune.build/) build system.
-If this is the case, we recommend you use `BuildSystem: dune`, which declaritively defines the `%prep`, `%build`, `%install`, and `%check` sections for the dune build system. This makes the specs more simple, and helps to ensure no steps are forgotten.
+If this is the case, we recommend you use `BuildSystem: dune` (for more information, see our [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below). This makes the specs cleaner, and helps to ensure no steps are forgotten.
 
 Example OCaml dune spec using `BuildSystem: dune`:
 
@@ -311,6 +347,51 @@ Summary:        %{summary}
 * Wed Jul 22 2026 Owen Zimmerman <owen@fyralabs.com>
 - Initial commit
 ```
+
+#### BuildSystem (terra_cargo)
+
+The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps may be forgotten/miss handled by using a declarative build.
+To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below.
+
+To build declarative rust packages in Terra, we have our own <Code code={`BuildSystem: terra_cargo`} lang={RPMSpec} inline />.
+
+Example spec:
+
+```rpmspec
+Name:           cargo-binstall
+Version:        1.26.2
+Release:        1%{?dist}
+Summary:        Binary installation for rust projects
+SourceLicense:  GPL-3.0-only
+License:        (dep licenses)
+URL:            https://crates.io/crates/cargo-binstall
+Source:         %{terra_crates_source}
+BuildSystem:    terra_cargo
+BuildOption(install): %desktop_file_install
+BuildRequires:  cargo-rpm-macros
+Packager:       Owen Zimmerman <owen@fyralabs.com>
+
+%description
+%{summary}.
+
+%prep -a
+(some sed command)
+
+%files
+%doc README.md
+%license LICENSE LICENSE.dependencies
+%{_bindir}/cargo-binstall
+
+%changelog
+* Tue Oct 20 2026 Owen Zimmerman <owen@fyralabs.com> - 1.26.0-1
+- Initial commit
+```
+
+`terra_cargo` section difference notes:
+  - <Code code={`%prep`} lang={RPMSpec} inline /> outputs the formatted license text for you to populate the `License:` preamble tag.
+  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_generate_buildrequires`} lang={RPMSpec} inline />, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
+  - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />.
+  - <Code code={`%install`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_install`} lang={RPMSpec} inline />, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
 
 #### Manual
 
@@ -496,7 +577,7 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
 
 ## Declarative Builds
 
-Starting in RPM 4.20 (note, EL10 is on RPM 4.19), you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
+Starting in RPM 4.20 (please not that EL10 is on RPM 4.19. If you want your package to work in EL10, don't use this), you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
 
 ```rpmspec
 %prep
@@ -507,48 +588,31 @@ Starting in RPM 4.20 (note, EL10 is on RPM 4.19), you can declare a <Code code={
 %check
 ```
 
+There are cases where <Code code={`%prep`} lang={RPMSpec} inline /> is not defined, due to [BuildSystem Global Defaults](https://rpm-software-management.github.io/rpm/manual/buildsystem.html#global-defaults).
+
 Note, this does NOT populate <Code code={`%description`} lang={RPMSpec} inline />, <Code code={`%files`} lang={RPMSpec} inline />, <Code code={`%changelog`} lang={RPMSpec} inline />, or any of the preamble tags.
 
+For more information on using a declarative build, the [upstream docs](https://rpm-software-management.github.io/rpm/manual/buildsystem.html) are a great reference.
+
 Currently, Terra supports all <Code code={`BuildSystem`} lang={RPMSpec} inline />s that Fedora does, except <Code code={`BuildSystem: cargo`} lang={RPMSpec} inline />.
-To build declarative rust packages in Terra, we have our own <Code code={`BuildSystem: terra_cargo`} lang={RPMSpec} inline />. 
 
-Example spec:
+A (potentially non exhaustive list) of <Code code={`BuildSystem`} lang={RPMSpec} inline />s supported in Fedora:
 
-```rpmspec
-Name:           cargo-binstall
-Version:        1.26.2
-Release:        1%{?dist}
-Summary:        Binary installation for rust projects
-SourceLicense:  GPL-3.0-only
-License:        (dep licenses)
-URL:            https://crates.io/crates/cargo-binstall
-Source:         %{terra_crates_source}
-BuildSystem:    terra_cargo
-BuildOption(install): %desktop_file_install
-BuildRequires:  cargo-rpm-macros
-Packager:       Owen Zimmerman <owen@fyralabs.com>
+- cmake
+- gap
+- maven
+- dune
+- topkg
+- meson
+- tree_sitter
+- pyproject
+- rebar3
+- cargo (NOT supported in Terra, see below)
 
-%description
-%{summary}.
+Terra's `anda-srpm-macros` currently provides the following <Code code={`BuildSystem`} lang={RPMSpec} inline />s:
 
-%prep -a
-(some sed command)
-
-%files
-%doc README.md
-%license LICENSE LICENSE.dependencies
-%{_bindir}/cargo-binstall
-
-%changelog
-* Tue Oct 20 2026 Owen Zimmerman <owen@fyralabs.com> - 1.26.0-1
-- Initial commit
-```
-
-`terra_cargo` section difference notes:
-  - <Code code={`%prep`} lang={RPMSpec} inline /> outputs the formatted license text for you to populate the `License:` preamble tag.
-  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_generate_buildrequires`} lang={RPMSpec} inline />, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
-  - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />.
-  - <Code code={`%install`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_install`} lang={RPMSpec} inline />, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
+- terra_cargo (/contributing/guidelines#buildsystem-terra_cargo)
+- nimble (/contributing/guidelines#buildsystem-nimble)
 
 ## Shell Completions
 
