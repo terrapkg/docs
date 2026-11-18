@@ -577,7 +577,11 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
 
 ## Declarative Builds
 
-Starting in RPM 4.20 (please not that EL10 is on RPM 4.19. If you want your package to work in EL10, don't use this), you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
+<Aside type = "caution>
+  EL10 is on RPM 4.19. If you want your package to work in EL10, don't use this!
+</Aside>
+
+Starting in RPM 4.20, you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
 
 ```rpmspec
 %prep
