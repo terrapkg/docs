@@ -5,6 +5,7 @@ description: "How automatic updates can be set up for your package."
 
 import { Aside } from "@astrojs/starlight/components";
 import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
 
 # Overview
 
@@ -300,21 +301,61 @@ The random number decides which day in the week will the auto-update script run.
 
 ## Packages with Git submodules
 
-```rhai
+For packages that pull in Git submodules as separate sources (see [Projects with Git submodules](/contributing/guidelines#projects-with-git-submodules)), the update script also keeps each `submodule_*` global in sync with the commit upstream pins.
+
+```ts
 let tag = gh("SevenTV/chatterino7");
 rpm.version(tag);
-rpm.submodules(gh_submodules("SevenTV/chatterino7", tag), #{
-    ignore: ["lib/WinToast", "lib/googletest"], // submodules the build doesn't need
-});
+if rpm.changed() {}
+    rpm.submodules(gh_submodules("SevenTV/chatterino7", tag), #{
+        ignore: ["lib/WinToast", "lib/googletest"], // submodules the build doesn't need
+    });
+}
 ```
 
-`rpm.submodules()` updates every `submodule_*` global to the commit upstream pins at that tag. It warns
-when upstream adds a submodule the spec doesn't have a global for (unless it's in `ignore`), or when a
-`submodule_*` global no longer matches anything upstream. For repos outside GitHub, use
-`git_submodules(REPOURL, tag)`, replacing `REPOURL` with the Git link to the repository.
+Pass the same tag or commit the spec builds, not the default branch, so the submodule commits match <Code code={`Version:`} lang={RPMSpec} inline />.
 
-`gh_submodules()` uses one GitHub API request per run. `git_submodules()` fetches with Git and doesn't use the GitHub API at all,
-so `git_submodules("https://github.com/owner/repo", tag)` works for GitHub repos too if you need to avoid the API rate limit.
+### Looking up submodules
+
+Each of these returns the submodules of a repository at a tag, branch or commit, as an array of `#{ path, url, commit }`:
+
+| Function | Repository |
+| --- | --- |
+| `gh_submodules("owner/repo", ref)` | GitHub. Needs `GITHUB_TOKEN`, like the other `gh` functions |
+| `gitlab_submodules("group/project", ref)` | gitlab.com. Also takes a numeric project ID |
+| `gitlab_submodules("gitlab.example.org", "group/project", ref)` | Self-hosted GitLab |
+| `codeberg_submodules("owner/repo", ref)` | Codeberg |
+| `forgejo_submodules("git.example.org", "owner/repo", ref)` | Forgejo |
+| `gitea_submodules("gitea.example.org", "owner/repo", ref)` | Gitea |
+| `git_submodules("https://example.org/owner/repo.git", ref)` | Any Git repository |
+
+`gh_submodules()` uses one GitHub API request per run. `git_submodules()` fetches with Git instead of an API, so `git_submodules("https://github.com/owner/repo", tag)` also works for GitHub repos if you need to avoid the API rate limit.
+
+### Updating the spec
+
+`rpm.submodules(list)` and `rpm.submodules(list, #{ ignore: [...] })` compare the list against the spec's `submodule_*` globals:
+
+- A submodule with a matching global gets its commit updated.
+- A submodule without a matching global is reported as added, unless its path is in `ignore`. Add a global and a source for it, or add its path to `ignore` if the build doesn't need it.
+- A `submodule_*` global that doesn't match any upstream submodule is reported as dropped. Remove it, its source and its <Code code={`%submodule_setup`} lang={RPMSpec} inline /> line.
+
+Added and dropped submodules are logged as warnings by `anda update`.
+
+### Nightly packages with submodules
+
+Use the commit the spec builds as the ref:
+
+```ts
+let commit = gh_commit("SevenTV/chatterino7");
+rpm.global("commit", commit);
+rpm.submodules(gh_submodules("SevenTV/chatterino7", commit), #{
+    ignore: ["lib/WinToast", "lib/googletest"],
+});
+if rpm.changed() {
+  rpm.release();
+  rpm.global("commit_date", date());
+}
+```
 
 ## Guidelines
 
