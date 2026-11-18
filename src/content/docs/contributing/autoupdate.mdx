@@ -298,6 +298,24 @@ project pkg {
 To decide the random number, just search for "_random number between 0 and 6_" with your favourite search engine.
 The random number decides which day in the week will the auto-update script run.
 
+## Packages with Git submodules
+
+```rhai
+let tag = gh("SevenTV/chatterino7");
+rpm.version(tag);
+rpm.submodules(gh_submodules("SevenTV/chatterino7", tag), #{
+    ignore: ["lib/WinToast", "lib/googletest"], // submodules the build doesn't need
+});
+```
+
+`rpm.submodules()` updates every `submodule_*` global to the commit upstream pins at that tag. It warns
+when upstream adds a submodule the spec doesn't have a global for (unless it's in `ignore`), or when a
+`submodule_*` global no longer matches anything upstream. For repos outside GitHub, use
+`git_submodules(REPOURL, tag)`, replacing `REPOURL` with the Git link to the repository.
+
+`gh_submodules()` uses one GitHub API request per run. `git_submodules()` fetches with Git and doesn't use the GitHub API at all,
+so `git_submodules("https://github.com/owner/repo", tag)` works for GitHub repos too if you need to avoid the API rate limit.
+
 ## Guidelines
 
 - If possible, avoid using the `gh` and `gh_tag` version functions due to GitHub API rate limit issues. See if you can use something like crates.io, PyPi, Hackage, etc. instead.

@@ -54,6 +54,8 @@ Prefer upstream provided ones over manually generating one.
 Use [`%desktop_file_install`](/contributing/srpm#desktop_file_install) / [`%desktop_file_validate`](/contributing/srpm#desktop_file_validate).
 See [our macros](/contributing/srpm#desktop-file-macros).
 
+Use [`%submodule_setup`](/contributing/srpm#submodule_setup) instead of `%git_clone` for Git submodules. [Guide here](#projects-with-git-submodules).
+
 Follow Fedora guidelines for interpreted (ex. Python/Ruby) & dynamically (ex. C/++) compiled langs.
 Statically compiled lang guidelines follow.
 
@@ -683,6 +685,65 @@ BuildRequires:  desktop-file-utils
 ...
 %{_appsdir}/NeoHtop.desktop
 ```
+
+### Projects with Git submodules
+
+You SHOULD use our Git submodule tooling if a project uses submodules.
+
+#### Defining submodule commits
+
+Define <Code code={`%global`} lang={RPMSpec} inline /> variables for each submodule. Each variable MUST be named `submodule_` followed by the submodule's path,
+with every character that isn't a letter or digit replaced by an underscore. For example, `lib/libcommuni` becomes `submodule_lib_libcommuni` and `lib/twitch-eventsub-ws/lib/date` becomes `submodule_lib_twitch_eventsub_ws_lib_date`.
+
+```rpmspec
+%global submodule_lib_libcommuni 9dc0de7c91d362abc431f680dd94e81eadf41622
+%global submodule_lib_signals    d5fdf0e823a6cd3153e5982ec9aa40f737f59b21
+```
+
+Where the paths for those submodules are <Code code={`lib/libcommuni`} lang={RPMSpec} inline /> and <Code code={`lib/signals`} lang={RPMSpec} inline /> respectively.
+
+The global variables SHOULD go in the spec's preamble, before the name of the package.
+
+These variables are kept up to date by `rpm.submodules()` in your update script. See [Packages with Git submodules](/contributing/autoupdate#packages-with-git-submodules).
+
+#### Defining sources
+
+Submodule sources SHOULD come after the project's main source(s). As an example from Chatterino:
+
+```rpmspec
+Source0:  %{url}/archive/v%{version}/chatterino7-%{version}.tar.gz
+Source1:  https://github.com/Chatterino/libcommuni/archive/%{submodule_lib_libcommuni}.tar.gz
+Source2:  https://github.com/pajlada/signals/archive/%{submodule_lib_signals}.tar.gz
+```
+
+#### Setting up submodules
+
+The easiest way to set up submodules is using our <Code code={`%submodule_setup`} lang={RPMSpec} inline /> macro. Here is an example <Code code={`%prep`} lang={RPMSpec} inline /> section:
+
+```rpmspec
+%prep
+%autosetup -n chatterino7-%{version}
+%submodule_setup lib/libcommuni
+%submodule_setup lib/signals
+```
+
+If a submodule source's filename does not contain the commit, you MAY use <Code code={`%submodule_setup -s`} lang={RPMSpec} inline />, placing the source number after `-s`:
+
+```rpmspec
+%submodule_setup -s 12 third_party/foo
+```
+
+In this case, the source would be <Code code={`Source12`} lang={RPMSpec} inline />.
+
+See the [`%submodule_setup` macro](/contributing/srpm#submodule_setup)'s documentation.
+
+#### Notes
+
+<Code code={`%submodule_setup`} lang={RPMSpec} inline /> only handles tarballs (such as `.tar.gz`, `.tar.xz` and `.tar.zst`), not `.zip` files.
+
+If you need to apply a patch that touches files in a submodule, you MUST use <Code code={`%autosetup -N`} lang={RPMSpec} inline />, then run <Code code={`%submodule_setup`} lang={RPMSpec} inline /> for each submodule, then run <Code code={`%autopatch`} lang={RPMSpec} inline />. This is an exception to preferring patching at <Code code={`%autosetup`} lang={RPMSpec} inline />.
+
+If your project requires a git clone layout (for example, if it uses the current checkout's HEAD for the current commit hash), you MUST use <Code code={`%git_clone`} lang={RPMSpec} inline /> instead. See the [`%git_clone` macro](/contributing/srpm#git_clone) documentation.
 
 ### Usage of %elifarch
 
