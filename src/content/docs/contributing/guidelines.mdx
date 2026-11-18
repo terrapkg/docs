@@ -144,7 +144,7 @@ You may also use a `sed` script to drop dependency versions instead of `cabal-tw
 
 Haskell packages in Terra SHOULD have a `%check` section.
 
-When using `cabal-rpm spec`, if your spec is generated with a header `# testsuite missing deps:`, then you need to install these dependancies locally and regenerate the spec.
+When using `cabal-rpm spec`, if your spec is generated with a header `# testsuite missing deps:`, then you need to install these dependencies locally and regenerate the spec.
 If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency, in a seperate pull request (to ensure all packages build).
 
 ### Java
