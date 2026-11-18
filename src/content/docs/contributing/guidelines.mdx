@@ -692,7 +692,8 @@ You SHOULD use our Git submodule tooling if a project uses submodules.
 
 #### Generating the submodule lines
 
-You MAY use [`getsubmodules`](https://github.com/terrapkg/cli-tools/blob/main/getsubmodules.sh) to list a project's submodules at a tag or commit. It prints the <Code code={`%global`} lang={RPMSpec} inline />, <Code code={`Source`} lang={RPMSpec} inline /> and <Code code={`%submodule_setup`} lang={RPMSpec} inline /> lines described below, plus the `rpm.submodules()` line for your update script:
+You MAY use [`getsubmodules`](https://github.com/terrapkg/cli-tools/blob/main/getsubmodules.sh) to list a project's submodules at a tag or commit. You can use it by installing `terra-cli-tools` from Terra. 
+It prints the <Code code={`%global`} lang={RPMSpec} inline />, <Code code={`Source`} lang={RPMSpec} inline /> and <Code code={`%submodule_setup`} lang={RPMSpec} inline /> lines described below, plus the `rpm.submodules()` line for your update script:
 
 ```sh
 getsubmodules https://github.com/SevenTV/chatterino7 v2.5.6
