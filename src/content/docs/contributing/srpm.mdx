@@ -646,7 +646,7 @@ Available flags:
 - <Code code={`-d`} lang={RPMSpec} inline /> will run with <Code code={`--dry-run`} lang={RPMSpec} inline /> so you can check what the fix would do.
 - <Code code={`-f`} lang={RPMSpec} inline /> will run with <Code code={`--force`} lang={RPMSpec} inline />, ignoring package locks or other requirements set by the module to fix the dependencies. This MUST be tested locally and verified to not cause breakage.
 - `-o <…>` will omit a dependency or group (such as <Code code={`dev`} lang={RPMSpec} inline />) from being fixed.
-- `-O <…>` will only fix a specified depency or group.
+- `-O <…>` will only fix a specified dependency or group.
 - <Code code={`-p`} lang={RPMSpec} inline /> will limit the run to the package lock.
 
 LIMITATION: Cannot be used on modules installed using the <Code code={`-g`} lang={RPMSpec} inline /> flag (which is done in <Code code={`%npm_prep`} lang={RPMSpec} inline />) which use a package lock.
