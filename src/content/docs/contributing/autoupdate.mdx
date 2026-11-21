@@ -298,6 +298,31 @@ project pkg {
 To decide the random number, just search for "_random number between 0 and 6_" with your favourite search engine.
 The random number decides which day in the week will the auto-update script run.
 
+## Haskell Freeze Files
+
+[Haskell applications](/contributing/guidelines#haskell) ship a `cabal.project.freeze` that pins their dependencies.
+When the version changes, regenerate the freeze in the same update with `cabal::freeze` from `andax/cabal.rhai`:
+
+```rhai
+import "andax/cabal.rhai" as cabal;
+
+rpm.version(hackage("foo"));
+if rpm.changed() {
+    cabal::freeze(rpm.f, __script_path);
+}
+```
+
+`cabal::freeze(spec, script_path)` takes:
+
+- `spec`: the spec content. Pass `rpm.f`, which already has this run's edits. The spec on disk isn't written until the script finishes.
+- `script_path`: pass `__script_path`, the path of the running `update.rhai`. The package directory is taken from it, and imported modules can't read the caller's variables, so it has to be passed in.
+
+It copies the package directory and spec into a temporary directory, downloads the sources with `spectool`, and runs `rpmbuild -bp` with `%cabal_regenerate_freeze HEAD` so prep resolves against the latest Hackage index.
+Only the new freeze is written back to the package directory.
+If regeneration fails, the function throws, the spec isn't saved, and the version bump doesn't land with an outdated freeze.
+
+The update runner needs `cabal-install`, `ghc9.12`, `jq`, `rpmdevtools` and `anda-srpm-macros` installed.
+
 ## Guidelines
 
 - If possible, avoid using the `gh` and `gh_tag` version functions due to GitHub API rate limit issues. See if you can use something like crates.io, PyPi, Hackage, etc. instead.
