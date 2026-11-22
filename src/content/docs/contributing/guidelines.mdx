@@ -135,7 +135,7 @@ Terra's Mock sandbox has networking enabled, so builders can download the depend
 
 ### Haskell
 
-Haskell packages in Terra MUST follow the [Fedora Haskell Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/Haskell/), although if using `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](#changelog-entries), and you MUST add the `Packager:` line.
+Haskell packages in Terra MUST follow the [Fedora Haskell Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/Haskell/), although if using `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](#changelog), and you MUST add the `Packager:` line.
 You may also use a `sed` script to drop dependency versions instead of `cabal-tweak-dep-ver` or `cabal-tweak-drop-dep`, up to you.
 
 `ghc-*` haskell packages (lib packages) SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
@@ -294,7 +294,7 @@ then modify the spec file to match our packaging guidelines.
 - Replace `%cargo_prep` with `%cargo_prep_online`
 - Remove `%generate_buildrequires` and `%cargo_generate_buildrequires`
 - Replace `%cargo_install` with `%terra_cargo_install`, or install files manually with `install`
-- Replace `%autochangelog` with a manual changelog entry, in accordance with out [changelog](/contributing/guidelines#changelog-entries) policy.
+- Replace `%autochangelog` with a manual changelog entry, in accordance with out [changelog](#changelog) policy.
 - Now use anda to build the package, and wait until you see a list of licenses starting with `# ` in the log output, then stop the build
 - Use [`format-license`](https://github.com/terrapkg/cli-tools/blob/main/format-license.sh) to format the <Code code={`License:`} lang={RPMSpec} inline /> tag, or use <Code code={`%cargo_license_preamble_online`} lang={RPMSpec} inline /> to output a formatted summary. Paste the final license into <Code code={`License:`} lang={RPMSpec} inline /> in the spec file. The package's source code license(s) SHOULD be specified in <Code code={`SourceLicense:`} lang={RPMSpec} inline />
 
@@ -670,25 +670,35 @@ These packages SHOULD NOT contain anything **except**:
 
 ## Miscellaneous
 
-### Changelog Entries
+### %changelog
 
 You MUST add a Changelog entry when you submit a new package, and you MUST NOT use `%autochangelog`.
-We typically use `Initial package`/`Initial commit`, but anything that describes adding the package is fine.
+We typically use `Initial package`/`Initial commit`, but anything that describes adding the package is fine. Please note that to refer to a macro in a changelog entry, you MUST escape it with two `%%`, like so: `- Added %%make_install`
 
 #### Changing an Existing Package
 
 You SHOULD add a <Code code={`%changelog`} lang={RPMSpec} inline /> entry for large changes, such as file renames, new build process, etc.
 Small changes like adding build dependencies or adding one-liners to make a build work MAY be omitted from adding a <Code code={`%changelog`} lang={RPMSpec} inline /> entry, it is up to you.
+If it is a substantial change, please note this is valid syntax:
+
+```rpmspec
+%changelog
+* (date name email version)
+- Change 1
+- Change 2
+- Change 3
+- Change 4
+```
 
 #### Copying a Spec from a Different Repository
 
 When copying/porting/using a spec file from a different repository (SUSE, Mandriva, RPMfusion, Copr, etc.), you MUST preserve any changelogs in the spec, and then add your own changelog entry as `Port to Terra`.
-You MAY specify which repo it has been ported from.
+You MAY specify which repo it has been ported from (`Port to Terra from X repo`).
 
 #### Modifying Changelog Entries
 
-This _should_ not need to be done, the only reasons are if there was a formatting error, date error, or updated name/emails.
-It is also acceptable to add more to previous changelogs (for example, adding missing emails/version), but there has to be a reason to do this.
+This _should_ not need to be done, the only reasons are if there is a formatting error, date error, spelling mistake, or updated name/emails.
+It is also acceptable to add more to previous changelogs (for example, adding missing emails/version), but there has to be a reason to do this (Don't open a PR editing a changelog because you are bored).
 
 ### Fixing Packages
 
@@ -700,6 +710,7 @@ It is also acceptable to add more to previous changelogs (for example, adding mi
 - If a package fix PR is _not_ fixing/changing anything build-facing, the <Code code={`Release:`} lang={RPMSpec} inline /> tag SHOULD NOT need to be bumped.
   - Some (not all!) examples of changes which **don't** require a <Code code={`Release:`} lang={RPMSpec} inline /> bump:
     - Fixing a package that failed to build when the <Code code={`Version:`} lang={RPMSpec} inline /> tag is bumped.
+    - Clarifying/editing a comment within a spec
     - Any changes that do not affect the final package.
 - If you are unsure if a bump is needed, bump it.
 - Follow appropriate changelog procedures outlined in the above section.
