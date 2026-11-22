@@ -25,7 +25,7 @@ import RPMSpec from "@/components/spec.json";
 
 Currently, these are guidelines for packaging projects written in or which utilize [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [TypeScript](https://www.typescriptlang.org), as there are many different methods for packaging these applications
 
-### Node Modules
+# Node Modules
 
 Guidelines for packaging Node modules in Terra.
 
@@ -45,7 +45,7 @@ Guidelines for packaging Node modules in Terra.
 - You SHOULD use `%npm_license` to create the license of the bundled dependencies.
 - You MAY opt instead to follow Fedora's Node.js packaging methods but keep in mind this is very difficult to maintain and may not work on all modules.
 
-### Web Applications
+# Web Applications
 
 These are guidelines for building [web applications](https://en.wikipedia.org/wiki/Web_application) (hereafter referred to as "webapps"), which refers to apps built using technologies such as Electron or Tauri.
 
@@ -64,7 +64,7 @@ The general guidelines for building webapps are:
     BuildRequires: yarnpkg
     ```
 
-### Electron
+# Electron
 
 These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
 
@@ -87,7 +87,7 @@ These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
   - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
 - You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
 
-### Tauri
+# Tauri
 
 These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
 

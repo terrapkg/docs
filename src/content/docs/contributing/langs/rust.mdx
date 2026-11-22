@@ -28,7 +28,7 @@ If the software you would like to package is available on https://crates.io,
 we recommend generating the spec file first using `rust2rpm`[^1],
 then modify the spec file to match our packaging guidelines.
 
-### rust2rpm
+# rust2rpm
 
 - Generate the spec file using `rust2rpm name-of-crate`
 - Remove the line starting with `Patch:` (and the `.patch` file too) if it exists
@@ -98,7 +98,7 @@ Summary:        %{summary}
 - Initial commit
 ```
 
-### BuildSystem (terra_cargo)
+# BuildSystem (terra_cargo)
 
 The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps are forgotten or mishandled within a declarative build.
 To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below.
@@ -144,7 +144,7 @@ install -Dm644 binstall.metainfo.xml %{buildroot}%{_metainfodir}/binstall.metain
   - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />.
   - <Code code={`%install`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_install`} lang={RPMSpec} inline />, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
 
-### Manual
+# Manual
 
 For rust programs not on crates.io, you will need to manually create the spec.
 We recommend copying an existing rust spec file (like the one below) as a template. Here's a pretty simple one for reference:[^3]

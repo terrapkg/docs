@@ -3,7 +3,7 @@ title: Nim Guidelines
 description: "Guidelines for packaging software written in Nim."
 ---
 
-### General
+# General
 
 import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
 import { Code } from "astro:components";
@@ -60,7 +60,7 @@ atlas rep atlas.lock
 %nim_c src/netto
 ```
 
-### BuildSystem (nimble)
+# BuildSystem (nimble)
 
 The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no step is forgotten or mishandled within a declarative build.
 To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below.
