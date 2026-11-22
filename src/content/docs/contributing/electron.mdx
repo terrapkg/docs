@@ -1,0 +1,71 @@
+---
+title: Electron Guidelines
+description: "Guidelines for packaging software using Electron."
+---
+
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
+
+<Aside>
+  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+  NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+  "OPTIONAL" in this document are to be interpreted as described in
+  [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and
+  [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174).
+</Aside>
+
+<Aside title="Macro Argument Syntax" type="tip">
+  All macro flags followed by `<…>` REQUIRE an argument passed to them.<br />
+  All macro flags followed by `[…]` MAY have an argument passed to them.<br />
+  All macro flags with `<#>` or `[#]` take only numbers as arguments.<br />
+  Additionally, if there is no space between the flag `<…>`/`<#>` or `[…]`/`[#]`, you MUST NOT have a space between the flag and the argument passed to it.<br />
+  Conversely, if there *is* a space you SHOULD assume the flag needs a space between them.
+</Aside>
+
+#### Electron
+
+These are guidelines for packaging [Electron](https://www.electronjs.org) apps.
+
+<Aside>
+  Many Electron projects will default to building distro binary packages (such as RPMs and Debs) and this rarely works well in RPM builds. Packagers should be prepared to patch or otherwise modify the Electron Builder config to rectify this.
+</Aside>
+
+- You SHOULD add `%electronmeta` and make sure it is in the correct location in the spec file. The other macros for Electron also depend on the information in this being set.
+  - This meta macro automatically handles MANY common issues that can happen with Electron packages including incorrect dependencies due to bundled (or private) [shared object (`*.so`) libraries](https://en.wikipedia.org/wiki/Shared_library).
+  - It also pulls all basic build dependencies for Electron apps.
+  - Like all meta macros, must be placed carefully:
+    - MUST always come after <Code code={`Name:`} lang={RPMSpec} inline /> is defined and before the first <Code code={`%description`} lang={RPMSpec} inline />.
+    - SHOULD come before the <Code code={`License:`} lang={RPMSpec} inline /> field if using [`%{electron_license}`](/contributing/srpm#electron_license).
+    - MAY be used under preambles but before <Code code={`%description`} lang={RPMSpec} inline /> if not using <Code code={`%{electron_license}`} lang={RPMSpec} inline />.
+    - For more information on what all this meta macro does, please read [its section in our SRPM documentation page](/contributing/srpm#electronmeta).
+- You SHOULD append any additional private (bundled) libraries that the Electron app has that are picked up by RPM [AutoReqProv](http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html) to `%{__requires_exclude}` and `%{__provides_exclude}` using a <Code code={`%global`} lang={RPMSpec} inline /> similar to the below examples.
+  - <Code code={`%global __requires_exclude %{__requires_exclude}|private_library\\.so`} lang={RPMSpec} inline />
+  - <Code code={`%global __provides_exclude %{__provides_exclude}|private_library\\.so`} lang={RPMSpec} inline />
+- You MAY use the macro `%{electron_license}` which contains the licenses for bundled Electron. You SHOULD double check any additional licenses you should list and make sure any other listed licenses are not duplicated or overlapping.
+  - You can double check what the macro expands to with the command <Code code={`rpm --eval '%{electron_license}'`} lang="sh" inline /> if you have `anda-srpm-macros` installed.
+- You SHOULD use our [`%electron_install` macro](/contributing/srpm#electron_install) for installing Electron apps.
+
+#### Tauri
+
+These are guidelines for packaging [Tauri](https://v2.tauri.app) apps.
+
+Tauri builds webapps using Cargo and the system WebKit. For these reasons some of the [Rust](#rust) guidelines also apply to Tauri. Most relevant Cargo macros have been ported into Tauri compatible ones, however it will likely still be helpful to make yourself familiar with the original macros.
+<Aside>
+  It is important to note that unlike the original Cargo macros, Tauri macros only support passing features with the `-f` flag due to how Tauri works.
+</Aside>
+
+- You SHOULD use one of the following in your spec:
+  - <Code code={`BuildRequires: %{tauri_buildrequires}`} lang={RPMSpec} inline />
+  - ```rpmspec
+    %generate_buildrequires
+    %tauri_generate_buildrequires
+    ```
+  <Aside type="caution">
+    BuildRequires generation only works in Mock.
+  </Aside>
+- You SHOULD use <Code code={`%tauri_prep`} lang={RPMSpec} inline /> in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
+- You SHOULD use either a [webapp build macro](/contributing/srpm#webapp-build-macros) or the [`%tauri_build` macro](/contributing/srpm#tauri_build), however the latter will not work with *all* Tauri projects. See its entry on our SRPM macros page for more information.
+- You SHOULD use `%{tauri_cargo_license} > LICENSE.dependencies` in your spec to package the Cargo dependency licenses.
+- You MAY use the `%tauri_cargo_license_summary` and `%tauri_cargo_vendor_manifest` macros in your spec for addition license and Cargo information.
+- You MAY use the [configurable macros for Tauri builds](/contributing/srpm#configurable-tauri-macros) if necessary, but it should rarely be needed.

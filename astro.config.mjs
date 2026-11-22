@@ -99,6 +99,20 @@ export default defineConfig({
               items: [
                 { label: "General Guidelines", slug: "contributing/guidelines" },
                 {
+                  label: "Language Guidelines",
+                  items: [
+                    { label: "Electron", slug: "contributing/electron" },
+                    { label: "Go", slug: "contributing/go" },
+                    { label: "Haskell", slug: "contributing/haskell" },
+                    { label: "Java", slug: "contributing/java" },
+                    { label: "JavaScript, TypesScript, and Webapps", slug: "contributing/js-ts" },
+                    { label: "Nim", slug: "contributing/nim" },
+                    { label: "Ocaml", slug: "contributing/ocaml" },
+                    { label: "Rust", slug: "contributing/rust" },
+                    { label: "Zig", slug: "contributing/zig" }
+                  ],
+                },
+                {
                   label: "Special Guidelines",
                   items: ["contributing/appstream"],
                 },
