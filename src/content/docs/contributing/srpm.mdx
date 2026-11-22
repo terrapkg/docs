@@ -377,6 +377,34 @@ Expands to: <Code code={`%{__update_desktop_database} --quiet || :`} lang={RPMSp
 
 <SearchTerra macroname="update_desktop_database" />
 
+## Assembly
+
+These macros assist with building [Assembly](https://en.wikipedia.org/wiki/Assembly_language) projects.
+
+### %__fasm
+
+Call the `fasm` binary directly.
+
+Expands to: <Code code={`/usr/bin/fasm`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="__fasm" />
+
+### %__nasm
+
+Call the `nasm` binary directly.
+
+Expands to: <Code code={`/usr/bin/nasm`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="__nasm" />
+
+### %__yasm
+
+Call the `yasm` binary directly.
+
+Expands to: <Code code={`/usr/bin/yasm`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="__yasm" />
+
 ## Go
 These macros assist with building [Go](https://go.dev) projects.
 
