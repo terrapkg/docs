@@ -198,7 +198,7 @@ Release:        1%{?dist}
 Summary:        Chroot utility (just like arch-chroot)
 License:        MIT
 URL:            https://github.com/Ultramarine-Linux/dive
-Source0:		    %{url}/archive/refs/tags/v%{version}.tar.gz
+Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 Requires:       %{_bindir}/chroot
 Requires:       %{_bindir}/mount
 BuildRequires:  nim
@@ -374,13 +374,14 @@ Packager:       Owen Zimmerman <owen@fyralabs.com>
 %description
 %{summary}.
 
-%prep -a
-(some sed command)
+%install -a
+install -Dm644 binstall.metainfo.xml %{buildroot}%{_metainfodir}/binstall.metainfo.xml
 
 %files
 %doc README.md
 %license LICENSE LICENSE.dependencies
 %{_bindir}/cargo-binstall
+%{_metainfodir}/binstall.metainfo.xml
 
 %changelog
 * Tue Oct 20 2026 Owen Zimmerman <owen@fyralabs.com> - 1.26.0-1
@@ -590,7 +591,7 @@ Starting in RPM 4.20 (please not that EL10 is on RPM 4.19. If you want your pack
 
 There are cases where <Code code={`%prep`} lang={RPMSpec} inline /> is not defined, due to [BuildSystem Global Defaults](https://rpm-software-management.github.io/rpm/manual/buildsystem.html#global-defaults).
 
-Note, this does NOT populate <Code code={`%description`} lang={RPMSpec} inline />, <Code code={`%files`} lang={RPMSpec} inline />, <Code code={`%changelog`} lang={RPMSpec} inline />, or any of the preamble tags.
+Note, this does **not** populate <Code code={`%description`} lang={RPMSpec} inline />, <Code code={`%files`} lang={RPMSpec} inline />, <Code code={`%changelog`} lang={RPMSpec} inline />, or any of the preamble tags.
 
 For more information on using a declarative build, the [upstream docs](https://rpm-software-management.github.io/rpm/manual/buildsystem.html) are a great reference.
 
