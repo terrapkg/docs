@@ -145,7 +145,7 @@ You may also use a `sed` script to drop dependency versions instead of `cabal-tw
 Haskell packages in Terra SHOULD have a `%check` section.
 
 When using `cabal-rpm spec`, if your spec is generated with a header `# testsuite missing deps:`, then you need to install these dependencies locally and regenerate the spec.
-If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency, in a seperate pull request (to ensure all packages build).
+If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency, in a separate pull request (to ensure all packages build).
 
 ### Java
 
@@ -240,7 +240,7 @@ Summary:        disables the many OCaml compiler warnings having to do with some
 
 License:        MIT
 URL:            https://github.com/janestreet/ppx_disable_unused_warnings
-Source:         %{url}/archive/v%{version}/ppx_disable_unnused_warnings-%{version}.tar.gz
+Source:         %{url}/archive/v%{version}/ppx_disable_unused_warnings-%{version}.tar.gz
 
 BuildSystem:    dune
 BuildRequires:  ocaml
@@ -404,7 +404,7 @@ install -Dm644 binstall.metainfo.xml %{buildroot}%{_metainfodir}/binstall.metain
 #### Manual
 
 For rust programs not on crates.io, you will need to manually create the spec.
-We recommend copying an existing rust spec file (like ths one below) as a template. Here's a pretty simple one for reference:[^3]
+We recommend copying an existing rust spec file (like the one below) as a template. Here's a pretty simple one for reference:[^3]
 
 ```rpmspec
 %global ver brush-shell-v0.4.0

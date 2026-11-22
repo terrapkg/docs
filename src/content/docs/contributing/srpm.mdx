@@ -448,7 +448,7 @@ Available flags:
 Fetch self-tests from a Git repo. MUST include all necessary test files and folders. If used, it SHOULD be placed in the <Code code={`%prep`} lang={RPMSpec} inline /> section.
 
 Available flags:
-- `-u <…>` MUST be used to define the URL if the one listed in the <Code code={`URL:`} lang={RPMSpec} inline /> tag for the package is not detectable as clonable.
+- `-u <…>` MUST be used to define the URL if the one listed in the <Code code={`URL:`} lang={RPMSpec} inline /> tag for the package is not detectable as cloneable.
 
 All necessary test files and folders MUST be listed after the macro. Test folders MUST start with <Code code={`/`} lang={RPMSpec} inline />.
 
@@ -612,7 +612,7 @@ Expands to: <Code code={`--userconfig=%{rpmbuilddir}/.npmrc --globalconfig=%{rpm
 
 ##### %__npm
 
-Macro to call NPM with predetermined enviroment variables.
+Macro to call NPM with predetermined environment variables.
 
 Expands to: <Code code={`/usr/bin/env %{npm_common_envvars} %{?with_vendored_nodejs:%{__nvm} exec npm --}%{!?with_vendored_nodejs:/usr/bin/npm}`} lang={RPMSpec} inline />
 
@@ -646,7 +646,7 @@ Available flags:
 - <Code code={`-d`} lang={RPMSpec} inline /> will run with <Code code={`--dry-run`} lang={RPMSpec} inline /> so you can check what the fix would do.
 - <Code code={`-f`} lang={RPMSpec} inline /> will run with <Code code={`--force`} lang={RPMSpec} inline />, ignoring package locks or other requirements set by the module to fix the dependencies. This MUST be tested locally and verified to not cause breakage.
 - `-o <…>` will omit a dependency or group (such as <Code code={`dev`} lang={RPMSpec} inline />) from being fixed.
-- `-O <…>` will only fix a specified depency or group.
+- `-O <…>` will only fix a specified dependency or group.
 - <Code code={`-p`} lang={RPMSpec} inline /> will limit the run to the package lock.
 
 LIMITATION: Cannot be used on modules installed using the <Code code={`-g`} lang={RPMSpec} inline /> flag (which is done in <Code code={`%npm_prep`} lang={RPMSpec} inline />) which use a package lock.
@@ -870,7 +870,7 @@ Expands to: <Code code={`NPM_CONFIG_AUDIT_LEVEL=low %{__pnpm} audit`} lang={RPMS
 Approve dependency scripts with PNPM if needed. Requires arguments for dependencies to approve. SHOULD only be used if necessary.
 
 Available flags:
-- <Code code={`-g`} lang={RPMSpec} inline /> can be used to trust depdendencies of globally installed packages.
+- <Code code={`-g`} lang={RPMSpec} inline /> can be used to trust dependencies of globally installed packages.
 
 Expands to: <Code code={`%{__pnpm} approve-builds`} lang={RPMSpec} inline />
 
@@ -894,7 +894,7 @@ For building webapps with Yarn, see [%yarn_build](#yarn_build).
 
 ##### %yarn_common_envvars
 
-Sets the NPM evironment variables and Yarn's cache folder.
+Sets the NPM environment variables and Yarn's cache folder.
 
 Expands to: <Code code={`%{npm_common_envvars} YARN_CACHE_FOLDER=%{_yarn_cache_dir}`} lang={RPMSpec} inline />
 
@@ -1101,7 +1101,7 @@ Tauri apps always require JavaScript package managers AND Cargo, so for this rea
   Take notice of the section [System Tauri](#system-tauri)'s description. Those are macros for using Tauri *installed via the repository,* AKA installed to the system.<br />
   You probably are *not* looking for these by default, especially because there are many cases that system Tauri may not match the version needed by a project.<br />
   You are welcome to try them, but if you hit a version mismatch (unless it is a bug, such as noted [here](#__tauri_ignore_version_mismatches)), use the [webapp build macros](#webapp-build-macros) instead.<br />
-  TL;DR: Use [system Tauri macros](#system-tauri) for Cargo Tauri installed from the repository, use [webapp build macros](#webapp-build-macros) for JavaSript Tauri installed as a JS module dependency, and note that the latter will fit most usecases.
+  TL;DR: Use [system Tauri macros](#system-tauri) for Cargo Tauri installed from the repository, use [webapp build macros](#webapp-build-macros) for JavaScript Tauri installed as a JS module dependency, and note that the latter will fit most usecases.
 </Aside>
 
 ##### %tauri_buildrequires
@@ -1335,7 +1335,7 @@ Available flags:
     - `webkitgtk6.0-devel`
     - `gtk4-devel`
 
-Can be used in any of the folowing configurations:
+Can be used in any of the following configurations:
 
 ```rpmspec
 BuildRequires:  %{wails3_buildrequires}
@@ -1420,7 +1420,7 @@ Available flags:
 - <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
 - <Code code={`-r <…>`} lang={RPMSpec} inline />: Executes files with <Code code={`%{__deno} run`} lang={RPMSpec} inline />. Can accept multiple arguments if they are comma separated.
 - `-x <…>`: Execute commands and modules within the Deno build environment. Can accept multiple arguments if they are separated using standard shell separators (`;` and `&&`).
-- <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the <Code code={`%{__deno} install`} lang={RPMSpec} inline /> step. This will overwite the existing dependency installation (if any exists).
+- <Code code={`-F`} lang={RPMSpec} inline />: Runs <Code code={`--force`} lang={RPMSpec} inline /> on the <Code code={`%{__deno} install`} lang={RPMSpec} inline /> step. This will overwrite the existing dependency installation (if any exists).
 - <Code code={`-N`} lang={RPMSpec} inline />: Runs <Code code={`--no-lock`} lang={RPMSpec} inline /> on the <Code code={`%{__deno} install`} lang={RPMSpec} inline /> step. This prevents updating or (re)creating a lockfile to prevent freezing.
 
 Example usage:
@@ -1444,7 +1444,7 @@ Available flags:
 - <Code code={`-v`} lang={RPMSpec} inline />: Run Electron Vite build steps. Not needed for all Electron apps.
 - <Code code={`-F`} lang={RPMSpec} inline />: Executes the <Code code={`%{__pnpm} install`} lang={RPMSpec} inline /> step with <Code code={`--frozen-lockfile`} lang={RPMSpec} inline />. May be necessary for projects expecting very strict build dependencies, but can also override projects that do not enforce a lock.
 - <Code code={`-N`} lang={RPMSpec} inline />: Executes the <Code code={`%{__pnpm} install`} lang={RPMSpec} inline /> step with <Code code={`--no-frozen-lockfile`} lang={RPMSpec} inline />. Overrides projects that try to enforce a lockfile.
-- <Code code={`-R`} lang={RPMSpec} inline />: Makes <Code code={`%{__pnpm} exec`} lang={RPMSpec} inline /> run on every project in the worspace recursively. SHOULD be used only if necessary and with caution.
+- <Code code={`-R`} lang={RPMSpec} inline />: Makes <Code code={`%{__pnpm} exec`} lang={RPMSpec} inline /> run on every project in the workspace recursively. SHOULD be used only if necessary and with caution.
 
 Example usage:
 ```rpmspec
@@ -1819,7 +1819,7 @@ Conflicts:		%realname-devel
 
 Downloads the source code via `git clone`, and passes useful (in this situation) flags such as`--depth 1`, `-q`, `--recursive-submodules`, and `-j${RPM_BUILD_NCPUS}`.
 A git URL and a <Code code={`%{version}`} lang={RPMSpec} inline /> or <Code code={`%{commit}`} lang={RPMSpec} inline /> MAY be passed to this macro.
-Below is an example of how a spec that tracks version tages from a GitHub repo, and needs to git clone the source could handle this:
+Below is an example of how a spec that tracks version tags from a GitHub repo, and needs to git clone, the source could handle this:
 
 ```rpmspec
 Version:        0.8.0
