@@ -109,7 +109,7 @@ export default defineConfig({
                     { label: "Nim", slug: "contributing/nim" },
                     { label: "Ocaml", slug: "contributing/ocaml" },
                     { label: "Rust", slug: "contributing/rust" },
-                    { label: "Zig", slug: "contributing/zig" }
+                    { label: "Zig", slug: "contributing/zig" },
                   ],
                 },
                 {
