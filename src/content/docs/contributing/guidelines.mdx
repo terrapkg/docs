@@ -138,7 +138,14 @@ Terra's Mock sandbox has networking enabled, so builders can download the depend
 Haskell packages in Terra MUST follow the [Fedora Haskell Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/Haskell/), although if using `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](#changelog-entries), and you MUST add the `Packager:` line.
 You may also use a `sed` script to drop dependency versions instead of `cabal-tweak-dep-ver` or `cabal-tweak-drop-dep`, up to you.
 
-`ghc-*` haskell packages SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
+`ghc-*` haskell packages (lib packages) SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
+
+#### Package Tests
+
+Haskell packages in Terra SHOULD have a `%check` section.
+
+When using `cabal-rpm spec`, if your spec is generated with a header `# testsuite missing deps:`, then you need to install these dependencies locally and regenerate the spec.
+If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency, in a seperate pull request (to ensure all packages build).
 
 ### Java
 
@@ -184,7 +191,7 @@ atlas rep atlas.lock
 
 #### BuildSystem (nimble)
 
-The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps may be forgotten/miss handled by using a declarative build.
+The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no step is forgotten or mishandled within a declarative build.
 To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below.
 
 To build declarative nim packages (that use `nimble`) in Terra, we have our own <Code code={`BuildSystem: nimble`} lang={RPMSpec} inline />.
@@ -215,13 +222,13 @@ Provides:       dive = %{evr}
 
 %changelog
 * Tue Nov 17 2026 Owen Zimmerman <owen@fyralabs.com> - 0.1.5-1
-- Adopt to example spec
+- Adapt to example spec
 ```
 
 ### OCaml
 
 OCaml packages in Terra MUST follow the [Fedora OCaml Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/OCaml/), except when it comes to the spec format if using the [`dune`](https://dune.build/) build system.
-If this is the case, we recommend you use `BuildSystem: dune` (for more information, see our [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below). This makes the specs cleaner, and helps to ensure no steps are forgotten.
+If this is the case, we recommend you use `BuildSystem: dune`. For more information, see our [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below. This creates cleaner specs, and ensures no steps are forgotten.
 
 Example OCaml dune spec using `BuildSystem: dune`:
 
@@ -350,7 +357,7 @@ Summary:        %{summary}
 
 #### BuildSystem (terra_cargo)
 
-The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps may be forgotten/miss handled by using a declarative build.
+The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps are forgotten or mishandled within a declarative build.
 To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below.
 
 To build declarative rust packages in Terra, we have our own <Code code={`BuildSystem: terra_cargo`} lang={RPMSpec} inline />.
@@ -390,7 +397,7 @@ install -Dm644 binstall.metainfo.xml %{buildroot}%{_metainfodir}/binstall.metain
 
 `terra_cargo` section difference notes:
   - <Code code={`%prep`} lang={RPMSpec} inline /> outputs the formatted license text for you to populate the `License:` preamble tag.
-  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_generate_buildrequires`} lang={RPMSpec} inline />, which uses [cargo4rpm](https://codeberg.org/rust2rpm/cargo-rpm-macros) to generate and install build dependancies.
+  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_generate_buildrequires`} lang={RPMSpec} inline />, which uses [cargo4rpm](https://codeberg.org/GildedRoach/cargo4rpm) to generate and install build dependencies.
   - <Code code={`%build`} lang={RPMSpec} inline /> uses <Code code={`%cargo_build_crate`} lang={RPMSpec} inline />.
   - <Code code={`%install`} lang={RPMSpec} inline /> uses <Code code={`%terra_cargo_install`} lang={RPMSpec} inline />, which installs all binaries and `.so` files from `target/rpm/` to the appropriate directories.
 
@@ -578,7 +585,11 @@ Tauri builds webapps using Cargo and the system WebKit. For these reasons some o
 
 ## Declarative Builds
 
-Starting in RPM 4.20 (please not that EL10 is on RPM 4.19. If you want your package to work in EL10, don't use this), you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
+<Aside type = "caution">
+  EL10 is on RPM 4.19, which doesn't support declarative builds. If you want your package to work in EL10, don't use this!
+</Aside>
+
+Starting in RPM 4.20, you can declare a <Code code={`BuildSystem:`} lang={RPMSpec} inline /> in your spec file to automatically populate the following RPM spec sections:
 
 ```rpmspec
 %prep
@@ -597,7 +608,7 @@ For more information on using a declarative build, the [upstream docs](https://r
 
 Currently, Terra supports all <Code code={`BuildSystem`} lang={RPMSpec} inline />s that Fedora does, except <Code code={`BuildSystem: cargo`} lang={RPMSpec} inline />.
 
-A (potentially non exhaustive list) of <Code code={`BuildSystem`} lang={RPMSpec} inline />s supported in Fedora:
+A (potentially non-exhaustive) list of <Code code={`BuildSystem`} lang={RPMSpec} inline />s supported in Fedora:
 
 - cmake
 - gap
