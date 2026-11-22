@@ -163,6 +163,26 @@ The package maintainer of a package MUST be added to the <Code code={`Packager:`
 Packager: Raboneko <raboneko@fyralabs.com>
 ```
 
+#### Multiple Packagers
+
+In rare cases, you may want to list multiple packagers.
+To do this, the proper syntax is:
+
+```rpmspec
+Packager:	Owen Zimmerman <owen@fyralabs.com>, madonuko <mado@fyralabs.com>
+```
+
+#### Terra Packaging Team Packager Entry
+
+In some packages maintained by multiple Terra team members, you may see the following:
+
+```rpmspec
+Packager:       Terra Packaging Team <terra@fyralabs.com>
+```
+
+This is added to core Terra dependency packages, Fyra Labs projects maintained by many team members, complicated packages the team uses, etc.
+This packager identifier MUST NOT be added by any external contributors, it is just to identify these packages as maintained by the core Terra team.
+
 ### Subrepos
 
 For `f*` branches, submissions that may introduce breaking changes MUST be included in our subrepos instead via the `subrepo = "extras"` label in `anda.hcl`.
