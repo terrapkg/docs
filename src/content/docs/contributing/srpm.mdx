@@ -426,6 +426,8 @@ You MAY define `_pkg_extra_hcflags` if wanting to add extra build flags. You MUS
 
 See [%__build_flags_lang_hc](#__build_flags_lang_hc).
 
+<SearchTerra macroname="build_hcflags" />
+
 ### %set_hc_build_flags
 
 Turns `%{build_hcflags}` into the environment variable `$HCFLAGS` which can be called instead of the macro. Fully optional.
@@ -434,17 +436,23 @@ Turns `%{build_hcflags}` into the environment variable `$HCFLAGS` which can be c
 
 Macros that can be easily redefined if needed.
 
+<SearchTerra macroname="set_hc_build_flags" />
+
 #### %__hcc_install_prefix
 
 The prefix HCC's `--install-dir` flag will point to.
 
 Defaults to `%{_prefix}`.
 
+<SearchTerra macroname="__hcc_install_prefix" />
+
 #### %__hcc_target_platform
 
 The target platform HolyC builds for. SHOULD NOT be redefined unless needed, for example if cross-compiling.
 
 Defaults to `%{_target_cpu}-unknown-linux-gnu`. Note: Does not currently use `%{_target_platform}` because HolyC has a limited number of targets it recognizes.
+
+<SearchTerra macroname="__hcc_target_platform" />
 
 ## JavaScript
 
