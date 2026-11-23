@@ -35,7 +35,7 @@ Generally, assembly packages are built with `nasm`, and you MUST specify <Code c
 Packages may use a different assembler, such as `yasm`.
 This is fine, but your assembler SHOULD be packaged in Fedora or Terra.
 
-If `nasm`, `fasm`, or `yasm`, is needed to be called directly in your spec, you SHOULD use the appropriate macro, like so: <Code code={`%{__Xasm}`} lang={RPMSpec} inline />
+If `nasm`, `fasm`, or `yasm`, is needed to be called directly in your spec, you SHOULD use the appropriate macro, for example: <Code code={`%{__nasm}`} lang={RPMSpec} inline />
 If the package uses a `Makefile` or other build script instead to build your package, you MAY use this instead.
 
 # Example Spec
