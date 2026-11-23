@@ -1673,6 +1673,24 @@ Can be used instead of <Code code={`%cargo_install`} lang={RPMSpec} inline /> wh
 
 <SearchTerra macroname="crate_install_bin" />
 
+### %install_cargo_bins
+
+Installs all executable binaries found (except `.so` files) in `target/rpm/`.
+
+<SearchTerra macroname="install_cargo_bins" />
+
+### %install_cargo_devel_libs
+
+Installs all executable `.so` files found in `target/rpm/`.
+
+<SearchTerra macroname="install_cargo_devel_libs" />
+
+### %install_cargo_static_libs
+
+Installs all `.a` files found in `target/rpm/`.
+
+<SearchTerra macroname="install_cargo_static_libs" />
+
 ### %rustup_nightly
 
 Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `rustc`/`cargo` from `rustup`.
@@ -1685,7 +1703,7 @@ Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `r
 
 ### %terra_cargo_install
 
-Used in the `%install` section to automatically install built binaries and `.so` files.
+Used in the `%install` section to automatically install built executable binaries, `.so`, and `.a` files.
 
 Example usage:
 
@@ -1696,6 +1714,9 @@ Example usage:
 %files
 %{_bindir}/%{crate}
 %{_libdir}/%{crate}.so
+
+%files static
+%{_libdir}/%{crate}.a
 ```
 
 <SearchTerra macroname="terra_cargo_install" />
