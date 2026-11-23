@@ -101,6 +101,7 @@ export default defineConfig({
                 {
                   label: "Language Guidelines",
                   items: [
+                    { label: "Assembly", slug: "contributing/langs/assembly" },
                     { label: "Go", slug: "contributing/langs/go" },
                     { label: "Haskell", slug: "contributing/langs/haskell" },
                     { label: "Java", slug: "contributing/langs/java" },

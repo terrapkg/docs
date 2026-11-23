@@ -1,0 +1,82 @@
+---
+title: Assembly Guidelines
+description: "Guidelines for packaging software written in an assembly language."
+---
+
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
+
+<Aside>
+  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+  NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+  "OPTIONAL" in this document are to be interpreted as described in
+  [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and
+  [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174).
+</Aside>
+
+<Aside title="Macro Argument Syntax" type="tip">
+  All macro flags followed by `<…>` REQUIRE an argument passed to them.<br />
+  All macro flags followed by `[…]` MAY have an argument passed to them.<br />
+  All macro flags with `<#>` or `[#]` take only numbers as arguments.<br />
+  Additionally, if there is no space between the flag `<…>`/`<#>` or `[…]`/`[#]`, you MUST NOT have a space between the flag and the argument passed to it.<br />
+  Conversely, if there *is* a space you SHOULD assume the flag needs a space between them.
+</Aside>
+
+These are guidelines for packaging projects written in an [assembly language](https://en.wikipedia.org/wiki/Assembly_language).
+
+# General Guidelines
+
+Assembly is different than your typical programming language, it is written for the target CPU architecture's specific machine code instructions. This means you will almost never have a multi-arch assembly package.
+
+Because of this, assembly packages SHOULD specify an <Code code={`ExclusiveArch:`} lang={RPMSpec} inline /> and architecture in the `anda.hcl` (this will almost always be `x86_64`).
+
+Generally, assembly packages are built with `nasm`, and you MUST specify <Code code={`BuildRequires: nasm`} lang={RPMSpec} inline />.
+Packages may use a different assembler, such as `yasm`.
+This is fine, but your assembler SHOULD be packaged in Fedora or Terra.
+
+If `nasm`, `fasm`, or `yasm`, is needed to be called directly in your spec, you SHOULD use the appropriate macro, for example: <Code code={`%{__nasm}`} lang={RPMSpec} inline />
+If the package uses a `Makefile` or other build script instead to build your package, you MAY use this instead.
+
+# Example Spec
+
+```rpmspec
+%global _hardened_ldflags %nil
+
+Name:           tile
+Release:        1%{?dist}
+Version:        0.1.42
+Summary:        Pure-asm tiling window manager (CHasm suite)
+License:        Unlicense
+URL:            https://github.com/isene/tile
+Source:         %{url}/archive/refs/tags/v%{version}.tar.gz
+BuildRequires:  nasm
+BuildRequires:  gcc
+Packager:       Owen Zimmerman <owen@fyralabs.com>
+ExclusiveArch:  x86_64
+
+%description
+Pure-asm tiling window manager (CHasm suite).
+x86_64 Linux, no libc, X11 wire protocol, single static binary.
+
+%prep
+%autosetup -C
+
+%build
+%{__nasm} -g -f elf64 tile.asm -o tile.o
+%{__nasm} -g -f elf64 strip.asm -o strip.o
+
+%install
+install -Dm755 tile %{buildroot}%{_bindir}/tile
+install -Dm755 strip %{buildroot}%{_bindir}/tile-strip
+
+%files
+%doc README.md PLAN.md CONFIG-FUTURE.md tilerc.example
+%license LICENSE
+%{_bindir}/%{name}
+%{_bindir}/tile-strip
+
+%changelog
+* Sun Jul 26 2026 Owen Zimmerman <owen@fyralabs.com> - 0.1.42-1
+- Initial commit
+```
