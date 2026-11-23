@@ -67,8 +67,8 @@ x86_64 Linux, no libc, X11 wire protocol, single static binary.
 %{__nasm} -g -f elf64 strip.asm -o strip.o
 
 %install
-install -Dm755 tile %buildroot%_bindir/tile
-install -Dm755 strip %buildroot%_bindir/tile-strip
+install -Dm755 tile %{buildroot}%{_bindir}/tile
+install -Dm755 strip %{buildroot}%{_bindir}/tile-strip
 
 %files
 %doc README.md PLAN.md CONFIG-FUTURE.md tilerc.example
