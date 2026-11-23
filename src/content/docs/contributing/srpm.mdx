@@ -386,6 +386,38 @@ MAY be used to prep a Go package for online builds. Replaces <Code code={`%gopre
 
 <SearchTerra macroname="goprep_online" />
 
+## HolyC
+These macros are for building projects written in [HolyC](https://holyc-lang.com).
+
+### %build_hcflags
+Build flags for HolyC. Can be called using `hcc %{build_hcflags} /path/to/file.HC`
+
+Expands to: <Code code={`%{__build_flags_lang_hc} %{?_distro_extra_hcflags} %{?_pkg_extra_hcflags}`} lang={RPMSpec} inline />
+
+You MAY define `_pkg_extra_hcflags` if wanting to add extra build flags. You MUST test the end result.
+
+See [%__build_flags_lang_hc](#__build_flags_lang_hc).
+
+### %set_hc_build_flags
+
+Turns `%{build_hcflags}` into the environment variable `$HCFLAGS` which can be called instead of the macro. Fully optional.
+
+### Configurable HolyC Macros
+
+Macros that can be easily redefined if needed.
+
+#### %__hcc_install_prefix
+
+The prefix HCC's `--install-dir` flag will point to.
+
+Defaults to `%{_prefix}`.
+
+#### %__hcc_target_platform
+
+The target platform HolyC builds for. SHOULD NOT be redfined unless needed, for example if cross-compiling.
+
+Defaults to `%{_target_cpu}-unknown-linux-gnu`. Note: Does not currently use `%{_target_platform}` because HolyC has a limited number of targets it recognizes.
+
 ## JavaScript
 
 These are macros to assist with the general packaging of applications that are written in JavaScript and/or use JavaScript runtimes such as Node.js or Bun.
@@ -1878,6 +1910,12 @@ Anda directory for scripts such as `find-develinfo.sh` used by <Code code={`%__a
 
 Expands to: <Code code={`%_anda_srpm_macros_dir/find-staticinfo.sh %buildroot > anda-staticfiles.list`} lang={RPMSpec} inline />
 Creates anda-staticfiles.list file in <Code code={`%{buildroot}`} lang={RPMSpec} inline /> to be used by [`%pkg_static_files`](#pkg_static_files).
+
+### %__build_flags_lang_hc
+
+Default flags to be used for HolyC.
+
+Expands to: `-O -Werror=format-security -fPIC --target="%{__hcc_target_platform}" --install-dir="%{__hcc_install_prefix}"`
 
 ### %__update_desktop_database
 
