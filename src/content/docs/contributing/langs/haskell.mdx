@@ -30,7 +30,7 @@ Applications get this through the Cabal macros. Libraries still follow Fedora.
 
 # Applications
 
-Packages that ship executables SHOULD use the [Cabal macros](/contributing/srpm#haskell) through `BuildSystem: terra_cabal`, instead of packaging every dependency as a `ghc-*` library.
+Packages that ship executables SHOULD use [`BuildSystem: terra_cabal`](#buildsystem-terra_cabal), instead of packaging every dependency as a `ghc-*` library.
 Dependencies come from Hackage during <Code code={`%prep`} lang={RPMSpec} inline /> and link statically into the executable, which is built with GHC 9.12's `-fobject-determinism`.
 
 - You MUST add <Code code={`BuildRequires: anda-srpm-macros`} lang={RPMSpec} inline /> and <Code code={`BuildRequires: %{cabal_buildrequires}`} lang={RPMSpec} inline /> to your spec.
@@ -51,6 +51,14 @@ The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSp
 Prep prints the `license:` field of every Hackage dependency.
 Convert legacy Cabal license names (`BSD3`, `GPL-3`, etc.) to SPDX before adding them to <Code code={`License:`} lang={RPMSpec} inline />.
 The GHC libraries linked into every executable (`base`, `ghc-internal`, `ghc-prim`, `ghc-bignum`, `rts`) aren't listed and are `BSD-3-Clause`.
+
+# BuildSystem (terra_cabal)
+
+The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps are forgotten or mishandled within a declarative build.
+To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline.
+
+To build Haskell applications in Terra, we have our own <Code code={`BuildSystem: terra_cabal`} lang={RPMSpec} inline />, which wraps the [Cabal macros](/contributing/srpm#haskell).
+Arguments from `BuildOption(<stage>):` are passed to that stage's macro.
 
 Example spec:
 
@@ -84,8 +92,12 @@ Example Haskell application.
 - Initial package
 ```
 
-The `terra_cabal` build system has no <Code code={`%check`} lang={RPMSpec} inline />.
-Running tests would add test dependencies to the build plan, and those aren't in the freeze.
+`terra_cabal` section difference notes:
+  - <Code code={`%prep`} lang={RPMSpec} inline /> runs <Code code={`%autosetup -C -p1`} lang={RPMSpec} inline /> and [`%cabal_prep_online`](/contributing/srpm#cabal_prep_online), then prints the dependency licenses with [`%cabal_license_summary_online`](/contributing/srpm#cabal_license_summary_online) for you to populate the `License:` preamble tag.
+  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> and <Code code={`%conf`} lang={RPMSpec} inline /> do nothing. Use <Code code={`BuildRequires: %{cabal_buildrequires}`} lang={RPMSpec} inline /> instead.
+  - <Code code={`%build`} lang={RPMSpec} inline /> uses [`%cabal_build_online`](/contributing/srpm#cabal_build_online).
+  - <Code code={`%install`} lang={RPMSpec} inline /> uses [`%cabal_install_bins_online`](/contributing/srpm#cabal_install_bins_online), which installs every built executable to <Code code={`%{_bindir}`} lang={RPMSpec} inline />.
+  - <Code code={`%check`} lang={RPMSpec} inline /> does nothing. Running tests would add test dependencies to the build plan, and those aren't in the freeze.
 
 # Libraries
 

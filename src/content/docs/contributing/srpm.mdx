@@ -419,29 +419,7 @@ MAY be used to prep a Go package for online builds. Replaces <Code code={`%gopre
 These macros build [Haskell](https://www.haskell.org) applications with Cabal by downloading dependencies from Hackage during <Code code={`%prep`} lang={RPMSpec} inline /> and linking them statically.
 Builds are deterministic. Dependencies are pinned by a `cabal.project.freeze` and objects are built with `-fobject-determinism`.
 See the [Haskell packaging guidelines](/contributing/langs/haskell) for when to use them.
-
-### BuildSystem: terra_cabal
-
-Declarative build system wrapping the macros below.
-
-| Stage | Runs |
-| --- | --- |
-| prep | <Code code={`%autosetup -C -p1`} lang={RPMSpec} inline />, <Code code={`%cabal_prep_online`} lang={RPMSpec} inline />, <Code code={`%cabal_license_summary_online`} lang={RPMSpec} inline /> |
-| build | <Code code={`%cabal_build_online`} lang={RPMSpec} inline /> |
-| install | <Code code={`%cabal_install_bins_online`} lang={RPMSpec} inline /> |
-| generate_buildrequires, conf, check | nothing |
-
-Arguments from `BuildOption(<stage>):` are passed to that stage's macro.
-
-```rpmspec
-Source1:           cabal.project.freeze
-BuildSystem:       terra_cabal
-BuildOption(prep): -f %{SOURCE1}
-BuildRequires:     anda-srpm-macros
-BuildRequires:     %{cabal_buildrequires}
-```
-
-<SearchTerra macroname="terra_cabal" />
+Most specs SHOULD use them through [`BuildSystem: terra_cabal`](/contributing/langs/haskell#buildsystem-terra_cabal) instead of calling them directly.
 
 ### %cabal_prep_online
 
@@ -2171,6 +2149,59 @@ Expands to:
 
 ```rpmspec
 %{?with_check:%cargo_test %{*}} %{!?with_check:%{nil}}
+```
+
+#### terra_cabal
+
+##### %buildsystem_terra_cabal_prep
+
+Expands to:
+
+```rpmspec
+%autosetup -C -p1 \
+%cabal_prep_online %{*} \
+echo "Printing license summary for License field..." \
+%cabal_license_summary_online
+```
+
+##### %buildsystem_terra_cabal_generate_buildrequires
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_terra_cabal_conf
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_terra_cabal_build
+
+Expands to:
+
+```rpmspec
+%cabal_build_online %{*}
+```
+
+##### %buildsystem_terra_cabal_install
+
+Expands to:
+
+```rpmspec
+%cabal_install_bins_online %{*}
+```
+
+##### %buildsystem_terra_cabal_check
+
+Expands to:
+
+```rpmspec
+%{nil}
 ```
 
 #### nimble
