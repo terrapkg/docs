@@ -377,6 +377,34 @@ Expands to: <Code code={`%{__update_desktop_database} --quiet || :`} lang={RPMSp
 
 <SearchTerra macroname="update_desktop_database" />
 
+## Assembly
+
+These macros assist with building [Assembly](https://en.wikipedia.org/wiki/Assembly_language) projects.
+
+### %__fasm
+
+Call the `fasm` binary directly.
+
+Expands to: <Code code={`/usr/bin/fasm`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="__fasm" />
+
+### %__nasm
+
+Call the `nasm` binary directly.
+
+Expands to: <Code code={`/usr/bin/nasm`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="__nasm" />
+
+### %__yasm
+
+Call the `yasm` binary directly.
+
+Expands to: <Code code={`/usr/bin/yasm`} lang={RPMSpec} inline />
+
+<SearchTerra macroname="__yasm" />
+
 ## Go
 These macros assist with building [Go](https://go.dev) projects.
 
@@ -390,7 +418,7 @@ MAY be used to prep a Go package for online builds. Replaces <Code code={`%gopre
 
 These macros build [Haskell](https://www.haskell.org) applications with Cabal by downloading dependencies from Hackage during <Code code={`%prep`} lang={RPMSpec} inline /> and linking them statically.
 Builds are deterministic. Dependencies are pinned by a `cabal.project.freeze` and objects are built with `-fobject-determinism`.
-See the [Haskell packaging guidelines](/contributing/guidelines#haskell) for when to use them.
+See the [Haskell packaging guidelines](/contributing/langs/haskell) for when to use them.
 
 ### BuildSystem: terra_cabal
 
@@ -506,6 +534,46 @@ The GHC options passed to every package: `-fobject-determinism`, Fedora's C and 
 #### %cabal_home
 
 Cabal's `CABAL_DIR`. Default: <Code code={`%{rpmbuilddir}/.cabal-home`} lang={RPMSpec} inline />.
+
+## HolyC
+These macros are for building projects written in [HolyC](https://holyc-lang.com).
+
+### %build_hcflags
+Build flags for HolyC. Can be called using `hcc %{build_hcflags} /path/to/file.HC`
+
+Expands to: <Code code={`%{__build_flags_lang_hc} %{?_distro_extra_hcflags} %{?_pkg_extra_hcflags}`} lang={RPMSpec} inline />
+
+You MAY define `_pkg_extra_hcflags` if wanting to add extra build flags. You MUST test the end result.
+
+See [%__build_flags_lang_hc](#__build_flags_lang_hc).
+
+<SearchTerra macroname="build_hcflags" />
+
+### %set_hc_build_flags
+
+Turns `%{build_hcflags}` into the environment variable `$HCFLAGS` which can be called instead of the macro. Fully optional.
+
+### Configurable HolyC Macros
+
+Macros that can be easily redefined if needed.
+
+<SearchTerra macroname="set_hc_build_flags" />
+
+#### %__hcc_install_prefix
+
+The prefix HCC's `--install-dir` flag will point to.
+
+Defaults to `%{_prefix}`.
+
+<SearchTerra macroname="__hcc_install_prefix" />
+
+#### %__hcc_target_platform
+
+The target platform HolyC builds for. SHOULD NOT be redefined unless needed, for example if cross-compiling.
+
+Defaults to `%{_target_cpu}-unknown-linux-gnu`. Note: Does not currently use `%{_target_platform}` because HolyC has a limited number of targets it recognizes.
+
+<SearchTerra macroname="__hcc_target_platform" />
 
 ## JavaScript
 
@@ -1726,6 +1794,24 @@ Can be used instead of <Code code={`%cargo_install`} lang={RPMSpec} inline /> wh
 
 <SearchTerra macroname="crate_install_bin" />
 
+### %install_cargo_bins
+
+Installs all executable binaries found (except `.so` files) in `target/rpm/`.
+
+<SearchTerra macroname="install_cargo_bins" />
+
+### %install_cargo_devel_libs
+
+Installs all executable `.so` files found in `target/rpm/`.
+
+<SearchTerra macroname="install_cargo_devel_libs" />
+
+### %install_cargo_static_libs
+
+Installs all `.a` files found in `target/rpm/`.
+
+<SearchTerra macroname="install_cargo_static_libs" />
+
 ### %rustup_nightly
 
 Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `rustc`/`cargo` from `rustup`.
@@ -1735,6 +1821,26 @@ Used in the <Code code={`%prep`} lang={RPMSpec} inline /> section for nightly `r
 </Aside>
 
 <SearchTerra macroname="rustup_nightly" />
+
+### %terra_cargo_install
+
+Used in the `%install` section to automatically install built executable binaries, `.so`, and `.a` files.
+
+Example usage:
+
+```rpmspec
+%install
+%terra_cargo_install
+
+%files
+%{_bindir}/%{crate}
+%{_libdir}/%{crate}.so
+
+%files static
+%{_libdir}/%{crate}.a
+```
+
+<SearchTerra macroname="terra_cargo_install" />
 
 ## Subpackages
 
@@ -1874,7 +1980,7 @@ Example:
   -Demit-docs
 ```
 
-More information can be found on our [Zig packaging guidelines](/contributing/guidelines#zig).
+More information can be found on our [Zig packaging guidelines](/contributing/langs/zig).
 
 <SearchTerra macroname="zig_build_target" />
 
@@ -1983,6 +2089,12 @@ Anda directory for scripts such as `find-develinfo.sh` used by <Code code={`%__a
 Expands to: <Code code={`%_anda_srpm_macros_dir/find-staticinfo.sh %buildroot > anda-staticfiles.list`} lang={RPMSpec} inline />
 Creates anda-staticfiles.list file in <Code code={`%{buildroot}`} lang={RPMSpec} inline /> to be used by [`%pkg_static_files`](#pkg_static_files).
 
+### %__build_flags_lang_hc
+
+Default flags to be used for HolyC.
+
+Expands to: `-O -Werror=format-security -fPIC --target="%{__hcc_target_platform}" --install-dir="%{__hcc_install_prefix}"`
+
 ### %__update_desktop_database
 
 Expands to: <Code code={`/usr/bin/update-desktop-database`} lang={RPMSpec} inline />
@@ -2004,3 +2116,110 @@ Common opts passed to Tauri. Used by macros which call Tauri.
 ### %terra_rustflags
 
 This macro simply appends the [lld linker arguments](/contributing/guidelines#usage-of-the-lld-linker) onto the `%build_rustflags` macro. It should not need to be manually used as `%build_rustflags` will be appended automatically when using `%cargo_prep_online`.
+
+### BuildSystem Macros
+
+Macros used only to define Terra specific [`BuildSystem`](https://rpm-software-management.github.io/rpm/manual/buildsystem.html) macro definitions.
+
+#### terra_cargo
+
+##### %buildsystem_terra_cargo_prep
+
+Expands to:
+
+```rpmspec
+%autosetup -C -p1 \
+%cargo_prep_online %{*} \
+echo "Printing license summary for License field..." \
+%cargo_license_preamble_online
+```
+
+##### %buildsystem_terra_cargo_generate_buildrequires
+
+Expands to:
+
+```rpmspec
+%terra_cargo_generate_buildrequires %{*}
+```
+
+##### %buildsystem_terra_cargo_conf
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_terra_cargo_build
+
+Expands to:
+
+```rpmspec
+%cargo_build_crate %{*}
+```
+
+##### %buildsystem_terra_cargo_install
+
+Expands to:
+
+```rpmspec
+%terra_cargo_install %{*}
+```
+
+##### %buildsystem_terra_cargo_check
+
+Expands to:
+
+```rpmspec
+%{?with_check:%cargo_test %{*}} %{!?with_check:%{nil}}
+```
+
+#### nimble
+
+##### %buildsystem_nimble_prep
+
+Expands to:
+
+```rpmspec
+%autosetup -C -p1 \
+%nimble_prep
+```
+
+##### %buildsystem_nimble_generate_buildrequires
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_nimble_conf
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_nimble_build
+
+Expands to:
+
+```rpmspec
+%nimble_build %{*}
+```
+
+##### %buildsystem_nimble_install
+
+Expands to:
+
+```rpmspec
+%nimble_install %{*}
+```
+
+##### %buildsystem_nimble_check
+
+Expands to:
+
+```rpmspec
+%{nil}
+```

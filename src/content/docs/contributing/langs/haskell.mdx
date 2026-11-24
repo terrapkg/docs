@@ -1,0 +1,100 @@
+---
+title: Haskell Guidelines
+description: "Guidelines for packaging software written in Haskell."
+---
+
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
+
+<Aside>
+  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+  NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+  "OPTIONAL" in this document are to be interpreted as described in
+  [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and
+  [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174).
+</Aside>
+
+<Aside title="Macro Argument Syntax" type="tip">
+  All macro flags followed by `<…>` REQUIRE an argument passed to them.<br />
+  All macro flags followed by `[…]` MAY have an argument passed to them.<br />
+  All macro flags with `<#>` or `[#]` take only numbers as arguments.<br />
+  Additionally, if there is no space between the flag `<…>`/`<#>` or `[…]`/`[#]`, you MUST NOT have a space between the flag and the argument passed to it.<br />
+  Conversely, if there *is* a space you SHOULD assume the flag needs a space between them.
+</Aside>
+
+These are guidelines for packaging projects written in [Haskell](https://www.haskell.org).
+
+Terra prefers deterministic Haskell builds, where rebuilding the same SRPM in the same buildroot produces byte-identical binaries.
+Applications get this through the Cabal macros. Libraries still follow Fedora.
+
+# Applications
+
+Packages that ship executables SHOULD use the [Cabal macros](/contributing/srpm#haskell) through `BuildSystem: terra_cabal`, instead of packaging every dependency as a `ghc-*` library.
+Dependencies come from Hackage during <Code code={`%prep`} lang={RPMSpec} inline /> and link statically into the executable, which is built with GHC 9.12's `-fobject-determinism`.
+
+- You MUST add <Code code={`BuildRequires: anda-srpm-macros`} lang={RPMSpec} inline /> and <Code code={`BuildRequires: %{cabal_buildrequires}`} lang={RPMSpec} inline /> to your spec.
+- You MUST ship a `cabal.project.freeze` as a <Code code={`Source:`} lang={RPMSpec} inline /> and pass it to the prep stage with <Code code={`BuildOption(prep): -f %{SOURCE1}`} lang={RPMSpec} inline />. The freeze pins every dependency version, the flags, and the Hackage index-state.
+- You SHOULD NOT set <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> once the spec ships a freeze. The freeze takes precedence and the build prints a warning.
+- You SHOULD NOT lower <Code code={`%cabal_ghc_version`} lang={RPMSpec} inline /> below 9.12, since older GHCs can't produce deterministic objects.
+- You SHOULD NOT define <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline />. C debug info and annobin notes record GHC's randomly named temporary files, which makes the build-id differ between rebuilds.
+- If the project is published on Hackage, you SHOULD use the Hackage tarball as <Code code={`Source0:`} lang={RPMSpec} inline /> and track Hackage in `update.rhai` with `hackage()` instead of GitHub.
+- Packages that auto-update MUST regenerate the freeze in `update.rhai` with [`cabal::freeze`](/contributing/autoupdate#haskell-freeze-files).
+
+To make the first freeze, set <Code code={`%global cabal_index_state`} lang={RPMSpec} inline /> to the current UTC time (`date -u +%Y-%m-%dT%H:%M:%SZ`) and build without a freeze.
+The prep stage prints the generated `cabal.project.freeze` to the build log.
+Save it next to the spec, add it as a source, and remove the <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> line.
+
+The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSpec} inline />, placed before <Code code={`License:`} lang={RPMSpec} inline />.
+<Code code={`License:`} lang={RPMSpec} inline /> SHOULD then start with <Code code={`%{sourcelicense} AND`} lang={RPMSpec} inline />, followed by the dependency licenses.
+
+Prep prints the `license:` field of every Hackage dependency.
+Convert legacy Cabal license names (`BSD3`, `GPL-3`, etc.) to SPDX before adding them to <Code code={`License:`} lang={RPMSpec} inline />.
+The GHC libraries linked into every executable (`base`, `ghc-internal`, `ghc-prim`, `ghc-bignum`, `rts`) aren't listed and are `BSD-3-Clause`.
+
+Example spec:
+
+```rpmspec
+Name:           foo
+Version:        1.2.0
+Release:        1%{?dist}
+Summary:        Example Haskell application
+SourceLicense:  MIT
+License:        %{sourcelicense} AND BSD-3-Clause
+URL:            https://hackage.haskell.org/package/foo
+Source0:        https://hackage.haskell.org/package/%{name}-%{version}/%{name}-%{version}.tar.gz
+Source1:        cabal.project.freeze
+Packager:       Your Name <you@example.com>
+
+BuildSystem:       terra_cabal
+BuildOption(prep): -f %{SOURCE1}
+
+BuildRequires:  anda-srpm-macros
+BuildRequires:  %{cabal_buildrequires}
+
+%description
+Example Haskell application.
+
+%files
+%license LICENSE
+%{_bindir}/foo
+
+%changelog
+* Sat Nov 21 2026 Your Name <you@example.com>
+- Initial package
+```
+
+The `terra_cabal` build system has no <Code code={`%check`} lang={RPMSpec} inline />.
+Running tests would add test dependencies to the build plan, and those aren't in the freeze.
+
+# Libraries
+
+`ghc-*` library packages MUST follow the [Fedora Haskell Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/Haskell/).
+If you use `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](/contributing/guidelines#changelog), and you MUST add the `Packager:` line.
+You MAY use a `sed` script to drop dependency versions instead of `cabal-tweak-dep-ver` or `cabal-tweak-drop-dep`.
+
+Library packages SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
+
+Library packages SHOULD have a `%check` section.
+When using `cabal-rpm spec`, if your spec is generated with a header `# testsuite missing deps:`, then you need to install these dependencies locally and regenerate the spec.
+If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency in a separate pull request (to ensure all packages build).

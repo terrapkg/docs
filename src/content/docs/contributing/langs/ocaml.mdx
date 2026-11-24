@@ -1,0 +1,75 @@
+---
+title: OCaml Guidelines
+description: "Guidelines for packaging software written in OCaml."
+---
+
+import { Aside, Card, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "astro:components";
+import RPMSpec from "@/components/spec.json";
+
+<Aside>
+  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+  NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+  "OPTIONAL" in this document are to be interpreted as described in
+  [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and
+  [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174).
+</Aside>
+
+<Aside title="Macro Argument Syntax" type="tip">
+  All macro flags followed by `<…>` REQUIRE an argument passed to them.<br />
+  All macro flags followed by `[…]` MAY have an argument passed to them.<br />
+  All macro flags with `<#>` or `[#]` take only numbers as arguments.<br />
+  Additionally, if there is no space between the flag `<…>`/`<#>` or `[…]`/`[#]`, you MUST NOT have a space between the flag and the argument passed to it.<br />
+  Conversely, if there *is* a space you SHOULD assume the flag needs a space between them.
+</Aside>
+
+OCaml packages in Terra MUST follow the [Fedora OCaml Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/OCaml/), except when it comes to the spec format if using the [`dune`](https://dune.build/) build system.
+If this is the case, we recommend you use `BuildSystem: dune`. For more information, see our [Declarative Builds](/contributing/guidelines#declarative-builds) guideline below. This creates cleaner specs, and ensures no steps are forgotten.
+
+Example OCaml dune spec using `BuildSystem: dune`:
+
+```rpmspec
+Name:           ocaml-ppx-disable-unused-warnings
+Version:        0.17.0
+Release:        1%{?dist}
+Summary:        disables the many OCaml compiler warnings having to do with something being used
+
+License:        MIT
+URL:            https://github.com/janestreet/ppx_disable_unused_warnings
+Source:         %{url}/archive/v%{version}/ppx_disable_unused_warnings-%{version}.tar.gz
+
+BuildSystem:    dune
+BuildRequires:  ocaml
+BuildRequires:  ocaml-dune
+BuildRequires:  ocaml-ppxlib-devel
+BuildRequires:  ocaml-base-devel
+
+Packager:       Owen Zimmerman <owen@fyralabs.com>
+
+%description
+The @disable_unused_warnings annotation disables the many
+OCaml compiler warnings having to do with something being
+used (variable, constructor, declaration, open, rec keyword, etc.).
+
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{evr}
+
+%description    devel
+The %{name}-devel package contains libraries and signature files for
+developing applications that use %{name}.
+
+%prep
+%autosetup -C
+
+%files -f .ofiles
+%license LICENSE.md
+
+%files devel -f .ofiles-devel
+
+%changelog
+* Tue Sep 22 2026 Owen Zimmerman <owen@fyralabs.com> - 0.17.0-1
+- Initial commit
+```
+
+ocaml-* OCaml packages SHOULD be placed in anda/langs/ocaml, with the folder and spec named with ocaml-*.
