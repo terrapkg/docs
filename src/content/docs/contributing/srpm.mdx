@@ -124,6 +124,12 @@ Expands to: <Code code={'/usr/share/fish/vendor_functions.d'} lang={RPMSpec} inl
 
 Expands to: <Code code={`%{_datadir}/gnome-shell/extensions%{?uuid:/%{uuid}}`} lang={RPMSpec} inline />
 
+<Aside>
+`%{uuid}` is usually defined in gnome-shell-extension packages. if the macro is defined in your spec file (`%global uuid PKG-UUID`), it will be appended to the path upon expansion as: `%{_datadir}/gnome-shell/extensions/%{uuid}`.<br />
+Otherwise, it will expand without `%{uuid}`, as: `%{_datadir}/gnome-shell/extensions`.<br />
+Note that you SHOULD then need to add the extension's UUID after this macro.
+</Aside>
+
 <SearchTerra macroname="_gnomeextensionsdir" />
 
 ### %_xdg_autostartdir
@@ -149,12 +155,6 @@ Expands to: <Code code ={`%_bootdir/grub2`} lang={RPMSpec} inline />
 Expands to: <Code code ={`%_grubdir/themes`} lang={RPMSpec} inline />
 
 <SearchTerra macroname="_grubthemedir" />
-
-<Aside>
-`%{uuid}` is usually defined in gnome-shell-extension packages. if the macro is defined in your spec file (`%global uuid PKG-UUID`), it will be appended to the path upon expansion as: `%{_datadir}/gnome-shell/extensions/%{uuid}`.<br />
-Otherwise, it will expand without `%{uuid}`, as: `%{_datadir}/gnome-shell/extensions`.<br />
-Note that you SHOULD then need to add the extension's UUID after this macro.
-</Aside>
 
 ### %_hicolordir
 
