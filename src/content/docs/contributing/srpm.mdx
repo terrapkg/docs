@@ -1912,6 +1912,46 @@ Conflicts:		%realname-devel
 
 <SearchTerra macroname="evr" />
 
+### %submodule_setup
+
+Places the files from a submodule's source into the provided path. Useful for projects with Git submodules. A path for the submodule MUST be passed to this macro.
+A source number MAY be passed to this macro following `-s`. This macro matches the path with the source of a submodule using its defined variable, where the variable MUST be named
+`submodule_` followed by the submodule's path, with every character that isn't a letter or digit replaced by an underscore (`lib/expected-lite` becomes `submodule_lib_expected_lite`). Example usage in a spec:
+
+```rpmspec
+%global submodule_lib_libcommuni 9dc0de7c91d362abc431f680dd94e81eadf41622
+%global submodule_lib_signals    d5fdf0e823a6cd3153e5982ec9aa40f737f59b21
+---
+Source0:  %{url}/archive/v%{version}/chatterino7-%{version}.tar.gz
+Source1:  https://github.com/Chatterino/libcommuni/archive/%{submodule_lib_libcommuni}.tar.gz
+Source2:  https://github.com/pajlada/signals/archive/%{submodule_lib_signals}.tar.gz
+---
+%prep
+%autosetup -n chatterino7-%{version}
+%submodule_setup lib/libcommuni
+%submodule_setup lib/signals
+```
+
+Example using `-s`:
+
+```rpmspec
+Source0:  %{url}/archive/v%{version}/chatterino7-%{version}.tar.gz
+Source1:  https://github.com/Chatterino/libcommuni/archive/%{submodule_lib_libcommuni}.tar.gz
+Source2:  https://github.com/pajlada/signals/archive/%{submodule_lib_signals}.tar.gz
+Source3:  https://github.com/example/foo/releases/download/v1.2.0/foo-1.2.0.tar.gz
+---
+%prep
+%autosetup -n chatterino7-%{version}
+%submodule_setup lib/libcommuni
+%submodule_setup lib/signals
+%submodule_setup -s 3 third_party/foo
+```
+
+As a note, this macro only handles tarballs (such as `.tar.gz`, `.tar.xz` and `.tar.zst`), not `.zip` files. Additionally, if you need to apply a patch that touches files in a submodule, you MUST use <Code code={`%autosetup -N`} lang={RPMSpec} inline />,
+then run <Code code={`%submodule_setup`} lang={RPMSpec} inline /> for each submodule, then run <Code code={`%autopatch`} lang={RPMSpec} inline />.
+
+<SearchTerra macroname="submodule_setup" />
+
 ### %git_clone
 
 Downloads the source code via `git clone`, and passes useful (in this situation) flags such as`--depth 1`, `-q`, `--recursive-submodules`, and `-j${RPM_BUILD_NCPUS}`.
@@ -1938,7 +1978,7 @@ URL:           https://github.com/ad-oliviero/uwufetch
 %git_clone %{url} %{commit}
 ```
 
-`%git_clone` SHOULD only be used when the source tarballs provided by upstream does not include all required sources in the repository (e.g., if the build process expects a Git environment or the tarball doesn't contain submodules).
+`%git_clone` SHOULD only be used when the upstream project expects a Git environment (e.g., if the build process uses the current checkout's HEAD as the commit hash).
 
 It is RECOMMENDED to still fetch and include a source tarball via the spec sources even if it is not used so that the source RPM is not empty.
 
