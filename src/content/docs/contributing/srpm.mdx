@@ -434,13 +434,13 @@ Without a freeze, prep generates one from <Code code={`%cabal_index_state`} lang
 Generated freezes replace pins on packages that ship with GHC (`base`, `rts`, etc.) with `installed`, so the same freeze works across GHC 9.12.x point releases.
 After the freeze is in place, prep sets `reject-unconstrained-dependencies: all`, so any dependency the freeze doesn't pin fails the build.
 
-It also disables LTO, Fedora's hardened linker specs, package notes, and annobin, and disables the debuginfo subpackage unless <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline /> is defined.
+It also disables LTO, Fedora's hardened linker specs (keeping `-Wl,-z,now`), package notes, and annobin, and disables the debuginfo subpackage unless <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline /> is defined.
 
 <SearchTerra macroname="cabal_prep_online" />
 
 ### %cabal_build_online
 
-Runs `cabal build` for <Code code={`%cabal_targets`} lang={RPMSpec} inline />.
+Runs `cabal build --offline` for <Code code={`%cabal_targets`} lang={RPMSpec} inline />, so anything prep didn't download fails the build.
 Any arguments are passed to `cabal build` before the targets.
 
 <SearchTerra macroname="cabal_build_online" />
@@ -537,16 +537,16 @@ Extra GHC options for every package in the build plan.
 Define to keep C debug flags and build a debuginfo subpackage.
 This makes the build non-deterministic.
 
-#### cabal_semaphore
+#### %cabal_semaphore
 
-A bcond, off by default. Turn it on with <Code code={`%bcond cabal_semaphore 1`} lang={RPMSpec} inline /> to add `semaphore: True` to `cabal.project.local`, so GHC builds the modules inside each package in parallel instead of one at a time.
-It needs cabal-install 3.12 or newer, and EPEL 10 only has 3.10, so you SHOULD turn it off on EL with <Code code={`%bcond cabal_semaphore %{undefined rhel}`} lang={RPMSpec} inline />.
-With an older cabal-install, the build prints a warning and goes on without it.
+Adds `semaphore: True` to `cabal.project.local`, so GHC builds the modules inside each package in parallel instead of one at a time. Default: `1`.
+Turn it off with <Code code={`%global cabal_semaphore 0`} lang={RPMSpec} inline />.
+It needs cabal-install 3.12 or newer. EPEL 10 only has 3.10, so on EL the build prints a warning and goes on without it.
 It hasn't been checked against <Code code={`-fobject-determinism`} lang={RPMSpec} inline /> yet, so it might make the build non-deterministic.
 
 #### %cabal_ghc_options
 
-The GHC options passed to every package: `-fobject-determinism`, Fedora's C and linker flags as `-optc`/`-optl`, `-optl-fuse-ld=lld` when <Code code={`%__terra_use_lld`} lang={RPMSpec} inline /> is on, and <Code code={`%cabal_extra_ghc_options`} lang={RPMSpec} inline />.
+The GHC options passed to every package: `-fobject-determinism`, Fedora's C and linker flags as `-optc`/`-optl`, `-optl-Wl,-z,now`, `-optl-fuse-ld=lld` when <Code code={`%__terra_use_lld`} lang={RPMSpec} inline /> is on, and <Code code={`%cabal_extra_ghc_options`} lang={RPMSpec} inline />.
 
 #### %cabal_home
 
