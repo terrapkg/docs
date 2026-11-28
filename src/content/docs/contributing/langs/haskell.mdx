@@ -52,6 +52,7 @@ Save it next to the spec, add it as a source, and remove the <Code code={`%cabal
 
 The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSpec} inline />, placed before <Code code={`License:`} lang={RPMSpec} inline />.
 <Code code={`License:`} lang={RPMSpec} inline /> SHOULD then start with <Code code={`%{sourcelicense} AND`} lang={RPMSpec} inline />, followed by the dependency licenses.
+If <Code code={`SourceLicense:`} lang={RPMSpec} inline /> has more than one license, group it in parentheses, like <Code code={`(%{sourcelicense}) AND`} lang={RPMSpec} inline />, the same way tavro groups each dependency's compound license.
 
 Prep runs [tavro](https://github.com/terrapkg/tavro) to print the licenses of every package linked into the executables, joined with `AND`, ready for <Code code={`License:`} lang={RPMSpec} inline />.
 This includes GHC's own libraries (`base`, `rts`, etc.), and legacy Cabal names like `BSD3` are already converted to SPDX.
