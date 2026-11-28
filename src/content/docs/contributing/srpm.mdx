@@ -434,7 +434,7 @@ Without a freeze, prep generates one from <Code code={`%cabal_index_state`} lang
 Generated freezes replace pins on packages that ship with GHC (`base`, `rts`, etc.) with `installed`, so the same freeze works across GHC 9.12.x point releases.
 After the freeze is in place, prep sets `reject-unconstrained-dependencies: all`, so any dependency the freeze doesn't pin fails the build.
 
-It also disables LTO, Fedora's hardened linker specs, package notes and annobin, and disables the debuginfo subpackage unless <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline /> is defined.
+It also disables LTO, Fedora's hardened linker specs, package notes, and annobin, and disables the debuginfo subpackage unless <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline /> is defined.
 
 <SearchTerra macroname="cabal_prep_online" />
 
@@ -461,7 +461,7 @@ Installs the named executables into <Code code={`%{_bindir}`} lang={RPMSpec} inl
 
 Prints the license of every package linked into the project's executables, one line per package, e.g. `BSD-3-Clause: aeson-2.3.3.0`.
 Runs [tavro](https://github.com/terrapkg/tavro), which reads the build plan in `dist-newstyle/cache/plan.json`, so it MUST come after [`%cabal_prep_online`](#cabal_prep_online).
-Build tools, setup scripts and test suites are left out, like Cargo's `--edges no-build,no-dev`. GHC's own libraries are included.
+Build tools, setup scripts, and test suites are left out, like Cargo's `--edges no-build,no-dev`. GHC's own libraries are included.
 
 Licenses are what each package declares, with legacy Cabal names like `BSD3` converted to SPDX.
 After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads each package's installed license files and warns on stderr when they disagree with the declared license.
@@ -498,7 +498,7 @@ Takes the same `-c` flag.
 
 ### %cabal_buildrequires
 
-Build dependencies needed by the Cabal macros: `cabal-install`, `ghc%{cabal_ghc_version}`, `jq` and `tavro`.
+Build dependencies needed by the Cabal macros: `cabal-install`, `ghc%{cabal_ghc_version}`, `jq`, and `tavro`.
 
 <SearchTerra macroname="cabal_buildrequires" />
 
@@ -521,7 +521,7 @@ GHC version to build with. Default: `9.12`.
 
 #### %cabal_targets
 
-Cabal targets to download, build and install. Default: `exes`.
+Cabal targets to download, build, and install. Default: `exes`.
 
 #### %cabal_project_extra
 
@@ -535,6 +535,13 @@ Extra GHC options for every package in the build plan.
 
 Define to keep C debug flags and build a debuginfo subpackage.
 This makes the build non-deterministic.
+
+#### cabal_semaphore
+
+A bcond, off by default. Turn it on with <Code code={`%bcond cabal_semaphore 1`} lang={RPMSpec} inline /> to add `semaphore: True` to `cabal.project.local`, so GHC builds the modules inside each package in parallel instead of one at a time.
+It needs cabal-install 3.12 or newer, and EPEL 10 only has 3.10, so you SHOULD turn it off on EL with <Code code={`%bcond cabal_semaphore %{undefined rhel}`} lang={RPMSpec} inline />.
+With an older cabal-install, the build prints a warning and goes on without it.
+It hasn't been checked against <Code code={`-fobject-determinism`} lang={RPMSpec} inline /> yet, so it might make the build non-deterministic.
 
 #### %cabal_ghc_options
 

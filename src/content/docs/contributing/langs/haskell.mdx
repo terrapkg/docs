@@ -37,6 +37,7 @@ Dependencies come from Hackage during <Code code={`%prep`} lang={RPMSpec} inline
 - You MUST ship a `cabal.project.freeze` as a <Code code={`Source:`} lang={RPMSpec} inline /> and pass it to the prep stage with <Code code={`BuildOption(prep): -f %{SOURCE1}`} lang={RPMSpec} inline />. The freeze pins every dependency version, the flags, and the Hackage index-state.
 - You SHOULD NOT set <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> once the spec ships a freeze. The freeze takes precedence and the build prints a warning.
 - You SHOULD NOT lower <Code code={`%cabal_ghc_version`} lang={RPMSpec} inline /> below 9.12, since older GHCs can't produce deterministic objects.
+- You SHOULD NOT enable the [`cabal_semaphore`](/contributing/srpm#cabal_semaphore) bcond unless the build takes too long, like when a big dependency such as `ghc-lib-parser` builds on one core. It might make the build non-deterministic. If you do enable it, use <Code code={`%bcond cabal_semaphore %{undefined rhel}`} lang={RPMSpec} inline />, since EL's cabal-install is too old for it.
 - You SHOULD NOT define <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline />. C debug info and annobin notes record GHC's randomly named temporary files, which makes the build-id differ between rebuilds.
 - If the project is published on Hackage, you SHOULD use the Hackage tarball as <Code code={`Source0:`} lang={RPMSpec} inline /> and track Hackage in `update.rhai` with `hackage()` instead of GitHub.
 - Packages that auto-update MUST regenerate the freeze in `update.rhai` with [`cabal::freeze`](/contributing/autoupdate#haskell-freeze-files).
@@ -50,7 +51,7 @@ The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSp
 
 Prep runs [tavro](https://github.com/terrapkg/tavro) to print the licenses of every package linked into the executables, joined with `AND`, ready for <Code code={`License:`} lang={RPMSpec} inline />.
 This includes GHC's own libraries (`base`, `rts`, etc.), and legacy Cabal names like `BSD3` are already converted to SPDX.
-Build tools, setup scripts and test suites aren't linked in, so they aren't listed.
+Build tools, setup scripts, and test suites aren't linked in, so they aren't listed.
 
 Licenses are what each package declares in its `.cabal` file.
 After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads the license files the packages installed, and warns on stderr when one doesn't match the declared license.
