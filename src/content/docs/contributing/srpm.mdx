@@ -457,17 +457,37 @@ Installs the named executables into <Code code={`%{_bindir}`} lang={RPMSpec} inl
 
 <SearchTerra macroname="cabal_install_bin_online" />
 
+### %cabal_license_online
+
+Prints the license of every package linked into the project's executables, one line per package, e.g. `BSD-3-Clause: aeson-2.3.3.0`.
+Runs [tavro](https://github.com/terrapkg/tavro), which reads the build plan in `dist-newstyle/cache/plan.json`, so it MUST come after [`%cabal_prep_online`](#cabal_prep_online).
+Build tools, setup scripts and test suites are left out, like Cargo's `--edges no-build,no-dev`. GHC's own libraries are included.
+
+Licenses are what each package declares, with legacy Cabal names like `BSD3` converted to SPDX.
+After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads each package's installed license files and warns on stderr when they disagree with the declared license.
+When a package declares something that isn't SPDX, like `OtherLicense`, its license file's text is used instead.
+
+- `-c <component>`: only look at one component, e.g. `exe:foo`, instead of every executable.
+
+<SearchTerra macroname="cabal_license_online" />
+
+### %cabal_license_preamble_online
+
+Like [`%cabal_license_online`](#cabal_license_online), but prints the licenses joined with `AND`, so they can be copied into the `License:` preamble directly.
+Takes the same `-c` flag.
+
+<SearchTerra macroname="cabal_license_preamble_online" />
+
 ### %cabal_license_summary_online
 
-Prints the `license:` field of every Hackage dependency in the build plan, deduplicated.
-Licenses are printed as written in the `.cabal` file, so legacy names like `BSD3` need converting to SPDX.
-GHC's bundled libraries aren't included.
+Like [`%cabal_license_online`](#cabal_license_online), but prints each license once, e.g. `# BSD-3-Clause`.
+Takes the same `-c` flag.
 
 <SearchTerra macroname="cabal_license_summary_online" />
 
 ### %cabal_buildrequires
 
-Build dependencies needed by the Cabal macros: `cabal-install`, `ghc%{cabal_ghc_version}`, `jq` and `tar`.
+Build dependencies needed by the Cabal macros: `cabal-install`, `ghc%{cabal_ghc_version}`, `jq` and `tavro`.
 
 <SearchTerra macroname="cabal_buildrequires" />
 
@@ -2161,7 +2181,7 @@ Expands to:
 %autosetup -C -p1 \
 %cabal_prep_online %{*} \
 echo "Printing license summary for License field..." \
-%cabal_license_summary_online
+%cabal_license_preamble_online
 ```
 
 ##### %buildsystem_terra_cabal_generate_buildrequires

@@ -48,9 +48,13 @@ Save it next to the spec, add it as a source, and remove the <Code code={`%cabal
 The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSpec} inline />, placed before <Code code={`License:`} lang={RPMSpec} inline />.
 <Code code={`License:`} lang={RPMSpec} inline /> SHOULD then start with <Code code={`%{sourcelicense} AND`} lang={RPMSpec} inline />, followed by the dependency licenses.
 
-Prep prints the `license:` field of every Hackage dependency.
-Convert legacy Cabal license names (`BSD3`, `GPL-3`, etc.) to SPDX before adding them to <Code code={`License:`} lang={RPMSpec} inline />.
-The GHC libraries linked into every executable (`base`, `ghc-internal`, `ghc-prim`, `ghc-bignum`, `rts`) aren't listed and are `BSD-3-Clause`.
+Prep runs [tavro](https://github.com/terrapkg/tavro) to print the licenses of every package linked into the executables, joined with `AND`, ready for <Code code={`License:`} lang={RPMSpec} inline />.
+This includes GHC's own libraries (`base`, `rts`, etc.), and legacy Cabal names like `BSD3` are already converted to SPDX.
+Build tools, setup scripts and test suites aren't linked in, so they aren't listed.
+
+Licenses are what each package declares in its `.cabal` file.
+After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads the license files the packages installed, and warns on stderr when one doesn't match the declared license.
+You SHOULD check those warnings by running [`%cabal_license_online`](/contributing/srpm#cabal_license_online) in a local build when packaging something new.
 
 # BuildSystem (terra_cabal)
 
@@ -93,7 +97,7 @@ Example Haskell application.
 ```
 
 `terra_cabal` section difference notes:
-  - <Code code={`%prep`} lang={RPMSpec} inline /> runs <Code code={`%autosetup -C -p1`} lang={RPMSpec} inline /> and [`%cabal_prep_online`](/contributing/srpm#cabal_prep_online), then prints the dependency licenses with [`%cabal_license_summary_online`](/contributing/srpm#cabal_license_summary_online) for you to populate the `License:` preamble tag.
+  - <Code code={`%prep`} lang={RPMSpec} inline /> runs <Code code={`%autosetup -C -p1`} lang={RPMSpec} inline /> and [`%cabal_prep_online`](/contributing/srpm#cabal_prep_online), then prints the dependency licenses with [`%cabal_license_preamble_online`](/contributing/srpm#cabal_license_preamble_online) for you to populate the `License:` preamble tag.
   - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> and <Code code={`%conf`} lang={RPMSpec} inline /> do nothing. Use <Code code={`BuildRequires: %{cabal_buildrequires}`} lang={RPMSpec} inline /> instead.
   - <Code code={`%build`} lang={RPMSpec} inline /> uses [`%cabal_build_online`](/contributing/srpm#cabal_build_online).
   - <Code code={`%install`} lang={RPMSpec} inline /> uses [`%cabal_install_bins_online`](/contributing/srpm#cabal_install_bins_online), which installs every built executable to <Code code={`%{_bindir}`} lang={RPMSpec} inline />.
