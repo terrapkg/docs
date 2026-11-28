@@ -300,7 +300,7 @@ getsubmodules https://github.com/SevenTV/chatterino7 v2.5.6
 If the spec already has more than one main source, pass `--start` with the number of the first submodule source, such as `--start 3` to start at <Code code={`Source3`} lang={RPMSpec} inline />. If no ref is given, `getsubmodules` uses the default branch.
 
 `getsubmodules` lists every submodule, including ones the build doesn't need (for example, Windows-only libraries or submodules for libraries packaged in Fedora). Remove those from the output and add their paths to the `ignore` list in your update script.
-For submodules on hosts other than GitHub, GitLab, Codeberg and gitea.com, it prints a placeholder that you MUST replace with the URL of a tarball of that commit.
+For submodules on hosts other than GitHub, GitLab, Codeberg, and gitea.com, it prints a placeholder that you MUST replace with the URL of a tarball of that commit.
 
 ### Defining submodule commits
 
