@@ -54,7 +54,9 @@ Build tools, setup scripts and test suites aren't linked in, so they aren't list
 
 Licenses are what each package declares in its `.cabal` file.
 After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads the license files the packages installed, and warns on stderr when one doesn't match the declared license.
-You SHOULD check those warnings by running [`%cabal_license_online`](/contributing/srpm#cabal_license_online) in a local build when packaging something new.
+
+You SHOULD package the dependency licenses by running <Code code={`%cabal_license_online > LICENSE.dependencies`} lang={RPMSpec} inline /> in <Code code={`%install`} lang={RPMSpec} inline /> and adding `LICENSE.dependencies` to <Code code={`%license`} lang={RPMSpec} inline />.
+You SHOULD check the build log for tavro's warnings when packaging something new.
 
 # BuildSystem (terra_cabal)
 
@@ -87,8 +89,11 @@ BuildRequires:  %{cabal_buildrequires}
 %description
 Example Haskell application.
 
+%install -a
+%cabal_license_online > LICENSE.dependencies
+
 %files
-%license LICENSE
+%license LICENSE LICENSE.dependencies
 %{_bindir}/foo
 
 %changelog

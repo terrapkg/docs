@@ -469,6 +469,17 @@ When a package declares something that isn't SPDX, like `OtherLicense`, its lice
 
 - `-c <component>`: only look at one component, e.g. `exe:foo`, instead of every executable.
 
+Use it in <Code code={`%install`} lang={RPMSpec} inline /> to write the dependency licenses to a file for <Code code={`%license`} lang={RPMSpec} inline />:
+
+```rpmspec
+%install
+%cabal_install_bins_online
+%cabal_license_online > LICENSE.dependencies
+
+%files
+%license LICENSE LICENSE.dependencies
+```
+
 <SearchTerra macroname="cabal_license_online" />
 
 ### %cabal_license_preamble_online
