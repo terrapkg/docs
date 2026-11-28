@@ -422,6 +422,144 @@ MAY be used to prep a Go package for online builds. Replaces <Code code={`%gopre
 
 <SearchTerra macroname="goprep_online" />
 
+## Haskell
+
+These macros build [Haskell](https://www.haskell.org) applications with Cabal by downloading dependencies from Hackage during <Code code={`%prep`} lang={RPMSpec} inline /> and linking them statically.
+Builds are deterministic. Dependencies are pinned by a `cabal.project.freeze` and objects are built with `-fobject-determinism`.
+See the [Haskell packaging guidelines](/contributing/langs/haskell) for when to use them.
+Most specs SHOULD use them through [`BuildSystem: terra_cabal`](/contributing/langs/haskell#buildsystem-terra_cabal) instead of calling them directly.
+
+### %cabal_prep_online
+
+Sets up an isolated Cabal home under <Code code={`%{rpmbuilddir}`} lang={RPMSpec} inline />, pins the Hackage index, writes `cabal.project.local`, and downloads every dependency.
+Creates a `cabal.project` containing `packages: .` if upstream doesn't ship one.
+
+- `-f <file>`: use `<file>` as `cabal.project.freeze`. Its `index-state` line pins the Hackage index.
+- `-u`: delete any existing freeze (including one shipped upstream) and generate a new one.
+
+`-f` and `-u` MUST NOT be used together.
+Without a freeze, prep generates one from <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> and prints it to the build log.
+Generated freezes replace pins on packages that ship with GHC (`base`, `rts`, etc.) with `installed`, so the same freeze works across GHC 9.12.x point releases.
+After the freeze is in place, prep sets `reject-unconstrained-dependencies: all`, so any dependency the freeze doesn't pin fails the build.
+
+It also disables LTO, Fedora's hardened linker specs (keeping `-Wl,-z,now`), package notes, and annobin, and disables the debuginfo subpackage unless <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline /> is defined.
+
+<SearchTerra macroname="cabal_prep_online" />
+
+### %cabal_build_online
+
+Runs `cabal build --offline` for <Code code={`%cabal_targets`} lang={RPMSpec} inline />, so anything prep didn't download fails the build.
+Any arguments are passed to `cabal build` before the targets.
+
+<SearchTerra macroname="cabal_build_online" />
+
+### %cabal_install_bins_online
+
+Installs every executable that was built from the local packages into <Code code={`%{_bindir}`} lang={RPMSpec} inline />, using `dist-newstyle/cache/plan.json`.
+
+<SearchTerra macroname="cabal_install_bins_online" />
+
+### %cabal_install_bin_online
+
+Installs the named executables into <Code code={`%{_bindir}`} lang={RPMSpec} inline />, e.g. <Code code={`%cabal_install_bin_online foo foo-server`} lang={RPMSpec} inline />.
+
+<SearchTerra macroname="cabal_install_bin_online" />
+
+### %cabal_license_online
+
+Prints the license of every package linked into the project's executables, one line per package, e.g. `BSD-3-Clause: aeson-2.3.3.0`.
+Runs [tavro](https://github.com/terrapkg/tavro), which reads the build plan in `dist-newstyle/cache/plan.json`, so it MUST come after [`%cabal_prep_online`](#cabal_prep_online).
+Build tools, setup scripts, and test suites are left out, like Cargo's `--edges no-build,no-dev`. GHC's own libraries are included.
+
+Licenses are what each package declares, with legacy Cabal names like `BSD3` converted to SPDX.
+After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads each package's installed license files and warns on stderr when they disagree with the declared license.
+When a package declares something that isn't SPDX, like `OtherLicense`, its license file's text is used instead.
+
+- `-c <component>`: only look at one component, e.g. `exe:foo`, instead of every executable.
+
+Use it in <Code code={`%install`} lang={RPMSpec} inline /> to write the dependency licenses to a file for <Code code={`%license`} lang={RPMSpec} inline />:
+
+```rpmspec
+%install
+%cabal_install_bins_online
+%cabal_license_online > LICENSE.dependencies
+
+%files
+%license LICENSE LICENSE.dependencies
+```
+
+<SearchTerra macroname="cabal_license_online" />
+
+### %cabal_license_preamble_online
+
+Like [`%cabal_license_online`](#cabal_license_online), but prints the licenses joined with `AND`, so they can be copied into the `License:` preamble directly.
+Takes the same `-c` flag.
+
+<SearchTerra macroname="cabal_license_preamble_online" />
+
+### %cabal_license_summary_online
+
+Like [`%cabal_license_online`](#cabal_license_online), but prints each license once, e.g. `# BSD-3-Clause`.
+Takes the same `-c` flag.
+
+<SearchTerra macroname="cabal_license_summary_online" />
+
+### %cabal_buildrequires
+
+Build dependencies needed by the Cabal macros: `cabal-install`, `ghc%{cabal_ghc_version}`, `jq`, and `tavro`.
+
+<SearchTerra macroname="cabal_buildrequires" />
+
+### Configurable Cabal Macros
+
+#### %cabal_index_state
+
+Hackage index timestamp (e.g. `2026-11-20T00:00:00Z`) used when there's no freeze yet.
+Ignored, with a warning, when the freeze has an `index-state`.
+If it's newer than Hackage's latest index entry, like when it's set to the current time, prep uses the latest index-state instead and prints a warning.
+
+#### %cabal_regenerate_freeze
+
+Ignore the shipped freeze and generate a new one at the given index-state, or `HEAD` for the latest Hackage index.
+Meant to be defined on the command line by [`cabal::freeze`](/contributing/autoupdate#haskell-freeze-files), not in specs.
+
+#### %cabal_ghc_version
+
+GHC version to build with. Default: `9.12`.
+`-fobject-determinism` is only passed for 9.12 and later.
+
+#### %cabal_targets
+
+Cabal targets to download, build, and install. Default: `exes`.
+
+#### %cabal_project_extra
+
+Extra lines appended to the top-level section of `cabal.project.local`, e.g. <Code code={`%global cabal_project_extra constraints: foo +bar`} lang={RPMSpec} inline />.
+
+#### %cabal_extra_ghc_options
+
+Extra GHC options for every package in the build plan.
+
+#### %cabal_debuginfo
+
+Define to keep C debug flags and build a debuginfo subpackage.
+This makes the build non-deterministic.
+
+#### %cabal_semaphore
+
+Adds `semaphore: True` to `cabal.project.local`, so GHC builds the modules inside each package in parallel instead of one at a time. Default: `1`.
+Turn it off with <Code code={`%global cabal_semaphore 0`} lang={RPMSpec} inline />.
+It needs cabal-install 3.12 or newer. EPEL 10 only has 3.10, so on EL the build prints a warning and goes on without it.
+It hasn't been checked against <Code code={`-fobject-determinism`} lang={RPMSpec} inline /> yet, so it might make the build non-deterministic.
+
+#### %cabal_ghc_options
+
+The GHC options passed to every package: `-fobject-determinism`, Fedora's C and linker flags as `-optc`/`-optl`, `-optl-Wl,-z,now`, `-optl-fuse-ld=lld` when <Code code={`%__terra_use_lld`} lang={RPMSpec} inline /> is on, and <Code code={`%cabal_extra_ghc_options`} lang={RPMSpec} inline />.
+
+#### %cabal_home
+
+Cabal's `CABAL_DIR`. Default: <Code code={`%{rpmbuilddir}/.cabal-home`} lang={RPMSpec} inline />.
+
 ## HolyC
 These macros are for building projects written in [HolyC](https://holyc-lang.com).
 
@@ -2058,6 +2196,59 @@ Expands to:
 
 ```rpmspec
 %{?with_check:%cargo_test %{*}} %{!?with_check:%{nil}}
+```
+
+#### terra_cabal
+
+##### %buildsystem_terra_cabal_prep
+
+Expands to:
+
+```rpmspec
+%autosetup -C -p1 \
+%cabal_prep_online %{*} \
+echo "Printing license summary for License field..." \
+%cabal_license_preamble_online
+```
+
+##### %buildsystem_terra_cabal_generate_buildrequires
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_terra_cabal_conf
+
+Expands to:
+
+```rpmspec
+%{nil}
+```
+
+##### %buildsystem_terra_cabal_build
+
+Expands to:
+
+```rpmspec
+%cabal_build_online %{*}
+```
+
+##### %buildsystem_terra_cabal_install
+
+Expands to:
+
+```rpmspec
+%cabal_install_bins_online %{*}
+```
+
+##### %buildsystem_terra_cabal_check
+
+Expands to:
+
+```rpmspec
+%{nil}
 ```
 
 #### nimble

@@ -23,16 +23,105 @@ import RPMSpec from "@/components/spec.json";
   Conversely, if there *is* a space you SHOULD assume the flag needs a space between them.
 </Aside>
 
-# General
+These are guidelines for packaging projects written in [Haskell](https://www.haskell.org).
 
-Haskell packages in Terra MUST follow the [Fedora Haskell Guidelines](https://docs.fedoraproject.org/my/packaging-guidelines/Haskell/), although if using `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](/contributing/guidelines#changelog), and you MUST add the `Packager:` line.
-You may also use a `sed` script to drop dependency versions instead of `cabal-tweak-dep-ver` or `cabal-tweak-drop-dep`, up to you.
+Terra prefers deterministic Haskell builds, where rebuilding the same SRPM in the same buildroot produces byte-identical binaries.
+Applications get this through the Cabal macros. Libraries still follow Fedora.
 
-`ghc-*` haskell packages (lib packages) SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
+# Applications
 
-# Package Tests
+Packages that ship executables SHOULD use [`BuildSystem: terra_cabal`](#buildsystem-terra_cabal), instead of packaging every dependency as a `ghc-*` library.
+Dependencies come from Hackage during <Code code={`%prep`} lang={RPMSpec} inline /> and link statically into the executable, which is built with GHC 9.12's `-fobject-determinism`.
 
-Haskell packages in Terra SHOULD have a `%check` section.
+- You MUST add <Code code={`BuildRequires: anda-srpm-macros`} lang={RPMSpec} inline /> and <Code code={`BuildRequires: %{cabal_buildrequires}`} lang={RPMSpec} inline /> to your spec.
+- You MUST ship a `cabal.project.freeze` as a <Code code={`Source:`} lang={RPMSpec} inline /> and pass it to the prep stage with <Code code={`BuildOption(prep): -f %{SOURCE1}`} lang={RPMSpec} inline />. The freeze pins every dependency version, the flags, and the Hackage index-state.
+- You SHOULD NOT set <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> once the spec ships a freeze. The freeze takes precedence and the build prints a warning.
+- You SHOULD NOT lower <Code code={`%cabal_ghc_version`} lang={RPMSpec} inline /> below 9.12, since older GHCs can't produce deterministic objects.
+- You MAY turn off [`%cabal_semaphore`](/contributing/srpm#cabal_semaphore) with <Code code={`%global cabal_semaphore 0`} lang={RPMSpec} inline /> if rebuilding the package doesn't produce byte-identical binaries, since parallel module builds haven't been checked against `-fobject-determinism` yet.
+- You SHOULD NOT define <Code code={`%cabal_debuginfo`} lang={RPMSpec} inline />. C debug info and annobin notes record GHC's randomly named temporary files, which makes the build-id differ between rebuilds.
+- If the project is published on Hackage, you SHOULD use the Hackage tarball as <Code code={`Source0:`} lang={RPMSpec} inline /> and track Hackage in `update.rhai` with `hackage()` instead of GitHub.
+- Packages that auto-update MUST regenerate the freeze in `update.rhai` with [`cabal::freeze`](/contributing/autoupdate#haskell-freeze-files).
 
+To make the first freeze, run [`cabalfreeze`](https://github.com/terrapkg/cli-tools/blob/main/cabalfreeze.sh) from `terra-cli-tools` in the package directory.
+It runs the spec's <Code code={`%prep`} lang={RPMSpec} inline /> against the latest Hackage index and saves `cabal.project.freeze` next to the spec. Then add it as a source.
+
+Without `cabalfreeze`, set <Code code={`%global cabal_index_state`} lang={RPMSpec} inline /> to the current UTC time (`date -u +%Y-%m-%dT%H:%M:%SZ`) and build without a freeze.
+The prep stage prints the generated `cabal.project.freeze` and its path to the build log.
+With rpmbuild, copy the file from that path. With mock, the chroot may be gone by the time the build ends, so copy the freeze out of `build.log` in the result directory instead.
+Save it next to the spec, add it as a source, and remove the <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> line.
+
+The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSpec} inline />, placed before <Code code={`License:`} lang={RPMSpec} inline />.
+<Code code={`License:`} lang={RPMSpec} inline /> SHOULD then start with <Code code={`%{sourcelicense} AND`} lang={RPMSpec} inline />, followed by the dependency licenses.
+If <Code code={`SourceLicense:`} lang={RPMSpec} inline /> has more than one license, group it in parentheses, like <Code code={`(%{sourcelicense}) AND`} lang={RPMSpec} inline />, the same way tavro groups each dependency's compound license.
+
+Prep runs [tavro](https://github.com/terrapkg/tavro) to print the licenses of every package linked into the executables, joined with `AND`, ready for <Code code={`License:`} lang={RPMSpec} inline />.
+This includes GHC's own libraries (`base`, `rts`, etc.), and legacy Cabal names like `BSD3` are already converted to SPDX.
+Build tools, setup scripts, and test suites aren't linked in, so they aren't listed.
+
+Licenses are what each package declares in its `.cabal` file.
+After <Code code={`%build`} lang={RPMSpec} inline />, tavro also reads the license files the packages installed, and warns on stderr when one doesn't match the declared license.
+
+You SHOULD package the dependency licenses by running <Code code={`%cabal_license_online > LICENSE.dependencies`} lang={RPMSpec} inline /> in <Code code={`%install`} lang={RPMSpec} inline /> and adding `LICENSE.dependencies` to <Code code={`%license`} lang={RPMSpec} inline />.
+You SHOULD check the build log for tavro's warnings when packaging something new.
+
+# BuildSystem (terra_cabal)
+
+The <Code code={`BuildSystem`} lang={RPMSpec} inline /> RPM feature allows for cleaner spec files and ensures no steps are forgotten or mishandled within a declarative build.
+To learn more about general <Code code={`BuildSystem`} lang={RPMSpec} inline /> usage in Terra, please see the [Declarative Builds](/contributing/guidelines#declarative-builds) guideline.
+
+To build Haskell applications in Terra, we have our own <Code code={`BuildSystem: terra_cabal`} lang={RPMSpec} inline />, which wraps the [Cabal macros](/contributing/srpm#haskell).
+Arguments from `BuildOption(<stage>):` are passed to that stage's macro.
+
+Example spec:
+
+```rpmspec
+Name:           foo
+Version:        1.2.0
+Release:        1%{?dist}
+Summary:        Example Haskell application
+SourceLicense:  MIT
+License:        %{sourcelicense} AND BSD-3-Clause
+URL:            https://hackage.haskell.org/package/foo
+Source0:        https://hackage.haskell.org/package/%{name}-%{version}/%{name}-%{version}.tar.gz
+Source1:        cabal.project.freeze
+Packager:       Your Name <you@example.com>
+
+BuildSystem:       terra_cabal
+BuildOption(prep): -f %{SOURCE1}
+
+BuildRequires:  anda-srpm-macros
+BuildRequires:  %{cabal_buildrequires}
+
+%description
+Example Haskell application.
+
+%install -a
+%cabal_license_online > LICENSE.dependencies
+
+%files
+%license LICENSE LICENSE.dependencies
+%{_bindir}/foo
+
+%changelog
+* Sat Nov 21 2026 Your Name <you@example.com>
+- Initial package
+```
+
+`terra_cabal` section difference notes:
+  - <Code code={`%prep`} lang={RPMSpec} inline /> runs <Code code={`%autosetup -C -p1`} lang={RPMSpec} inline /> and [`%cabal_prep_online`](/contributing/srpm#cabal_prep_online), then prints the dependency licenses with [`%cabal_license_preamble_online`](/contributing/srpm#cabal_license_preamble_online) for you to populate the `License:` preamble tag.
+  - <Code code={`%generate_buildrequires`} lang={RPMSpec} inline /> and <Code code={`%conf`} lang={RPMSpec} inline /> do nothing. Use <Code code={`BuildRequires: %{cabal_buildrequires}`} lang={RPMSpec} inline /> instead.
+  - <Code code={`%build`} lang={RPMSpec} inline /> uses [`%cabal_build_online`](/contributing/srpm#cabal_build_online).
+  - <Code code={`%install`} lang={RPMSpec} inline /> uses [`%cabal_install_bins_online`](/contributing/srpm#cabal_install_bins_online), which installs every built executable to <Code code={`%{_bindir}`} lang={RPMSpec} inline />.
+  - <Code code={`%check`} lang={RPMSpec} inline /> does nothing. Running tests would add test dependencies to the build plan, and those aren't in the freeze.
+
+# Libraries
+
+`ghc-*` library packages MUST follow the [Fedora Haskell Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/Haskell/).
+If you use `cabal-rpm`, you SHOULD edit the changelog entry in accordance with our [changelog policy](/contributing/guidelines#changelog), and you MUST add the `Packager:` line.
+You MAY use a `sed` script to drop dependency versions instead of `cabal-tweak-dep-ver` or `cabal-tweak-drop-dep`.
+
+Library packages SHOULD be placed in `anda/langs/haskell`, with the folder and spec named with `ghc-*`.
+
+Library packages SHOULD have a `%check` section.
 When using `cabal-rpm spec`, if your spec is generated with a header `# testsuite missing deps:`, then you need to install these dependencies locally and regenerate the spec.
-If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency, in a separate pull request (to ensure all packages build).
+If a test dependency is not packaged in Fedora or Terra, you SHOULD package this dependency in a separate pull request (to ensure all packages build).
