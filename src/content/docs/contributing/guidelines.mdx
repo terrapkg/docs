@@ -302,6 +302,17 @@ If the spec already has more than one main source, pass `--start` with the numbe
 `getsubmodules` lists every submodule, including ones the build doesn't need (for example, Windows-only libraries or submodules for libraries packaged in Fedora). Remove those from the output and add their paths to the `ignore` list in your update script.
 For submodules on hosts other than GitHub, GitLab, Codeberg, and gitea.com, it prints a placeholder that you MUST replace with the URL of a tarball of that commit.
 
+If [tavro](https://github.com/terrapkg/tavro) is installed, `getsubmodules` also checks out every submodule, including nested ones, and prints their licenses.
+This can take a while for large projects. Pass `--no-licenses` to skip it.
+Submodules that tavro can't identify a license for are printed as `NOASSERTION`, and you MUST check their license yourself.
+
+<Aside title="Submodule Licenses" type="caution">
+  Submodules ship in the source RPM as their own sources, so their licenses cover the sources as well as the binary.
+  If every submodule is built into the package, <Code code={`License:`} lang={RPMSpec} inline /> SHOULD list the project's own license and the license of every submodule, joined with `AND`, and you SHOULD NOT use <Code code={`SourceLicense:`} lang={RPMSpec} inline />.
+  If some submodules are only used during the build, those licenses SHOULD go in <Code code={`SourceLicense:`} lang={RPMSpec} inline /> along with the rest, and <Code code={`License:`} lang={RPMSpec} inline /> SHOULD only list the licenses of what's built into the package.
+  Submodules you removed from the output aren't sources, so their licenses don't go in either tag.
+</Aside>
+
 ### Defining submodule commits
 
 Define <Code code={`%global`} lang={RPMSpec} inline /> variables for each submodule. Each variable MUST be named `submodule_` followed by the submodule's path,
