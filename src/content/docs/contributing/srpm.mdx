@@ -508,6 +508,7 @@ Build dependencies needed by the Cabal macros: `cabal-install`, `ghc%{cabal_ghc_
 
 Hackage index timestamp (e.g. `2026-11-20T00:00:00Z`) used when there's no freeze yet.
 Ignored, with a warning, when the freeze has an `index-state`.
+If it's newer than Hackage's latest index entry, like when it's set to the current time, prep uses the latest index-state instead and prints a warning.
 
 #### %cabal_regenerate_freeze
 

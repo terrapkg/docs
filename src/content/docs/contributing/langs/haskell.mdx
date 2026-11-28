@@ -42,8 +42,12 @@ Dependencies come from Hackage during <Code code={`%prep`} lang={RPMSpec} inline
 - If the project is published on Hackage, you SHOULD use the Hackage tarball as <Code code={`Source0:`} lang={RPMSpec} inline /> and track Hackage in `update.rhai` with `hackage()` instead of GitHub.
 - Packages that auto-update MUST regenerate the freeze in `update.rhai` with [`cabal::freeze`](/contributing/autoupdate#haskell-freeze-files).
 
-To make the first freeze, set <Code code={`%global cabal_index_state`} lang={RPMSpec} inline /> to the current UTC time (`date -u +%Y-%m-%dT%H:%M:%SZ`) and build without a freeze.
-The prep stage prints the generated `cabal.project.freeze` to the build log.
+To make the first freeze, run [`cabalfreeze`](https://github.com/terrapkg/cli-tools/blob/main/cabalfreeze.sh) from `terra-cli-tools` in the package directory.
+It runs the spec's <Code code={`%prep`} lang={RPMSpec} inline /> against the latest Hackage index and saves `cabal.project.freeze` next to the spec. Then add it as a source.
+
+Without `cabalfreeze`, set <Code code={`%global cabal_index_state`} lang={RPMSpec} inline /> to the current UTC time (`date -u +%Y-%m-%dT%H:%M:%SZ`) and build without a freeze.
+The prep stage prints the generated `cabal.project.freeze` and its path to the build log.
+With rpmbuild, copy the file from that path. With mock, the chroot may be gone by the time the build ends, so copy the freeze out of `build.log` in the result directory instead.
 Save it next to the spec, add it as a source, and remove the <Code code={`%cabal_index_state`} lang={RPMSpec} inline /> line.
 
 The package's own license SHOULD go in <Code code={`SourceLicense:`} lang={RPMSpec} inline />, placed before <Code code={`License:`} lang={RPMSpec} inline />.

@@ -321,7 +321,7 @@ It copies the package directory and spec into a temporary directory, downloads t
 Only the new freeze is written back to the package directory.
 If regeneration fails, the function throws, the spec isn't saved, and the version bump doesn't land with an outdated freeze.
 
-The update runner needs `cabal-install`, `ghc9.12`, `jq`, `rpmdevtools` and `anda-srpm-macros` installed.
+The update runner needs `cabal-install`, `ghc9.12`, `jq`, `tavro`, `rpmdevtools`, and `anda-srpm-macros` installed, since `BuildSystem: terra_cabal` runs tavro during prep.
 
 ## Guidelines
 
