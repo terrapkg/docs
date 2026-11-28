@@ -317,11 +317,11 @@ if rpm.changed() {
 - `spec`: the spec content. Pass `rpm.f`, which already has this run's edits. The spec on disk isn't written until the script finishes.
 - `script_path`: pass `__script_path`, the path of the running `update.rhai`. The package directory is taken from it, and imported modules can't read the caller's variables, so it has to be passed in.
 
-It copies the package directory and spec into a temporary directory, downloads the sources with `spectool`, and runs `rpmbuild -bp` with `%cabal_regenerate_freeze HEAD` so prep resolves against the latest Hackage index.
+It copies the package directory and spec into a temporary directory and runs [`cabalfreeze`](https://github.com/terrapkg/cli-tools/blob/main/cabalfreeze.sh) on it, which runs the spec's prep against the latest Hackage index.
 Only the new freeze is written back to the package directory.
 If regeneration fails, the function throws, the spec isn't saved, and the version bump doesn't land with an outdated freeze.
 
-The update runner needs `cabal-install`, `ghc9.12`, `jq`, `tavro`, `rpmdevtools`, and `anda-srpm-macros` installed, since `BuildSystem: terra_cabal` runs tavro during prep.
+The update runner needs `terra-cli-tools`, `cabal-install`, `ghc9.12`, `jq`, `rpmdevtools`, and `anda-srpm-macros` installed.
 
 ## Guidelines
 
